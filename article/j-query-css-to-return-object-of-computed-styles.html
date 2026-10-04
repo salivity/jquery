@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery .css() to Return Object of Computed Styles - jquery</title>
+    <meta name="description" content="This article explains how to retrieve multiple computed CSS properties as a single JavaScript object using jQuery's .css() method. By passing an array of property names to .css(), developers can efficiently extract and interact with computed styles forma">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-css-to-return-object-of-computed-styles">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery .css() to Return Object of Computed Styles - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-css-to-return-object-of-computed-styles" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how to retrieve multiple computed CSS properties as a single JavaScript object using jQuery's .css() method. By passing an array of property names to .css(), developers can efficiently extract and interact with computed styles forma" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-css-to-return-object-of-computed-styles">jQuery .css() to
+Return Object of Computed Styles</h1>
+<p>This article explains how to retrieve multiple computed CSS
+properties as a single JavaScript object using jQuery's
+<code>.css()</code> method. By passing an array of property names to
+<code>.css()</code>, developers can efficiently extract and interact
+with computed styles formatted as key-value pairs.</p>
+<h2 id="the-array-syntax">The Array Syntax</h2>
+<p>To get an object of computed styles, pass an array of style property
+strings to the jQuery <code>.css()</code> method:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> styles <span class="op">=</span> <span class="fu">$</span>(<span class="st">&quot;#elementId&quot;</span>)<span class="op">.</span><span class="fu">css</span>([<span class="st">&quot;width&quot;</span><span class="op">,</span> <span class="st">&quot;height&quot;</span><span class="op">,</span> <span class="st">&quot;color&quot;</span><span class="op">,</span> <span class="st">&quot;background-color&quot;</span>])<span class="op">;</span></span></code></pre></div>
+<p>When you pass a single string (e.g.,
+<code>$("#elementId").css("width")</code>), jQuery returns a single
+string value. When you pass an array of strings, jQuery returns a plain
+JavaScript object containing the specified properties and their resolved
+values.</p>
+<h2 id="example-output">Example Output</h2>
+<p>Given a standard <code>div</code> element:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> computedStyles <span class="op">=</span> <span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)<span class="op">.</span><span class="fu">css</span>([</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;width&quot;</span><span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;height&quot;</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;display&quot;</span><span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;backgroundColor&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>])<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(computedStyles)<span class="op">;</span></span></code></pre></div>
+<p>The returned object will resemble the following structure:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;width&quot;</span><span class="fu">:</span> <span class="st">&quot;300px&quot;</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;height&quot;</span><span class="fu">:</span> <span class="st">&quot;150px&quot;</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;display&quot;</span><span class="fu">:</span> <span class="st">&quot;block&quot;</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;backgroundColor&quot;</span><span class="fu">:</span> <span class="st">&quot;rgb(255, 0, 0)&quot;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="important-considerations">Important Considerations</h2>
+<ul>
+<li><strong>Property Naming:</strong> You can use either camelCase
+(e.g., <code>"backgroundColor"</code>) or kebab-case (e.g.,
+<code>"background-color"</code>). The returned object's keys will match
+the casing you provided in the input array.</li>
+<li><strong>Computed Values:</strong> The returned values are computed
+by the browser, meaning relative measurements like percentages or
+<code>em</code> units are typically converted to absolute pixel values,
+and named colors are converted to <code>rgb()</code> or
+<code>rgba()</code> notation.</li>
+<li><strong>Target Elements:</strong> If the selector matches multiple
+elements, <code>.css()</code> only retrieves the computed styles for the
+first element in the matched set.</li>
+<li><strong>jQuery Version Support:</strong> The array argument syntax
+for <code>.css()</code> was introduced in jQuery 1.9.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

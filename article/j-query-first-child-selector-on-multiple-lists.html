@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery first-child Selector on Multiple Lists - jquery</title>
+    <meta name="description" content="When applied to a class shared by multiple lists, the jQuery :first-child selector returns the first child element of each individual list, rather than a single element from the entire document. This article explains how the :first-child selector evaluat">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-first-child-selector-on-multiple-lists">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery first-child Selector on Multiple Lists - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-first-child-selector-on-multiple-lists" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When applied to a class shared by multiple lists, the jQuery :first-child selector returns the first child element of each individual list, rather than a single element from the entire document. This article explains how the :first-child selector evaluat" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-first-child-selector-on-multiple-lists">jQuery
+first-child Selector on Multiple Lists</h1>
+<p>When applied to a class shared by multiple lists, the jQuery
+<code>:first-child</code> selector returns the first child element of
+<strong>each</strong> individual list, rather than a single element from
+the entire document. This article explains how the
+<code>:first-child</code> selector evaluates elements based on their
+immediate parent hierarchy, contrasts it with jQuery's
+<code>:first</code> selector, and provides clear examples of the
+returned results.</p>
+<h3 id="how-first-child-evaluates-elements">How
+<code>:first-child</code> Evaluates Elements</h3>
+<p>The <code>:first-child</code> pseudo-class is a structural selector
+defined by CSS specifications and implemented within jQuery. Rather than
+filtering a matched set of elements as a single flat array, it evaluates
+each element's position relative to its direct parent.</p>
+<p>If multiple lists (such as <code>&lt;ul&gt;</code> or
+<code>&lt;ol&gt;</code>) share the same class name, applying a selector
+targeting their children—such as
+<code>$('.my-list &gt; li:first-child')</code>—will cause jQuery to
+inspect each list container independently. For every matching list,
+jQuery identifies the element that is the first child of that parent and
+adds it to the returned jQuery collection. Consequently, if there are
+three lists sharing that class, the selector returns a collection
+containing three elements.</p>
+<h3 id="code-example">Code Example</h3>
+<p>Consider the following HTML markup with two separate lists sharing
+the class <code>.menu</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;menu&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Coffee<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Tea<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;menu&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Bagel<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Muffin<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>If you execute the following jQuery code:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.menu li:first-child&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>The resulting jQuery object contains:</p>
+<ol type="1">
+<li><code>&lt;li&gt;Coffee&lt;/li&gt;</code> (the first child of the
+first <code>.menu</code> list)</li>
+<li><code>&lt;li&gt;Bagel&lt;/li&gt;</code> (the first child of the
+second <code>.menu</code> list)</li>
+</ol>
+<h3 id="direct-application-on-the-class-itself">Direct Application on
+the Class Itself</h3>
+<p>If the selector is applied directly to the class without targeting
+descendants (e.g., <code>$('.menu:first-child')</code>), jQuery looks
+for elements with the class <code>.menu</code> that are themselves the
+first child of their own parent container. If both <code>.menu</code>
+lists happen to be the first child of distinct parent wrappers, both
+will be returned. If only one is the first child of its parent, only
+that single list is returned.</p>
+<h3 id="difference-between-first-child-and-first">Difference Between
+<code>:first-child</code> and <code>:first</code></h3>
+<p>It is common to confuse <code>:first-child</code> with jQuery's
+proprietary <code>:first</code> selector:</p>
+<ul>
+<li><strong><code>:first-child</code></strong>: Returns the first child
+of <em>each</em> parent container. It can return multiple elements
+across a page.</li>
+<li><strong><code>:first</code></strong>: Returns only the single,
+absolute first element matched in the entire DOM, ignoring parent-child
+boundaries.</li>
+</ul>
+<p>In the previous HTML example, <code>$('.menu li:first')</code>
+returns only <code>&lt;li&gt;Coffee&lt;/li&gt;</code>, whereas
+<code>$('.menu li:first-child')</code> returns both
+<code>&lt;li&gt;Coffee&lt;/li&gt;</code> and
+<code>&lt;li&gt;Bagel&lt;/li&gt;</code>.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

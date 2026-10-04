@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does the Dollar Sign Mean in jQuery? - jquery</title>
+    <meta name="description" content="The dollar sign ($) in jQuery functions as an alias and shorthand reference for the core jQuery object, serving as the primary entry point to the entire library's functionality. This article explores the mechanical role of the $ symbol in DOM selection a">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-does-the-dollar-sign-mean-in-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does the Dollar Sign Mean in jQuery? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-does-the-dollar-sign-mean-in-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The dollar sign ($) in jQuery functions as an alias and shorthand reference for the core jQuery object, serving as the primary entry point to the entire library's functionality. This article explores the mechanical role of the $ symbol in DOM selection a" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-does-the-dollar-sign-mean-in-jquery">What Does the Dollar
+Sign Mean in jQuery?</h1>
+<p>The dollar sign (<code>$</code>) in jQuery functions as an alias and
+shorthand reference for the core <code>jQuery</code> object, serving as
+the primary entry point to the entire library's functionality. This
+article explores the mechanical role of the <code>$</code> symbol in DOM
+selection and manipulation, how it streamlines JavaScript syntax, and
+the methods developers use to resolve namespace conflicts when multiple
+libraries share the same identifier.</p>
+<h3 id="an-alias-for-the-jquery-object">An Alias for the jQuery
+Object</h3>
+<p>In JavaScript, the <code>$</code> character is a valid identifier
+character, meaning it can be used as a variable or function name. jQuery
+leverages this feature by assigning its primary object to both
+<code>window.jQuery</code> and <code>window.$</code>. Consequently,
+executing <code>$('selector')</code> is completely identical to
+executing <code>jQuery('selector')</code>. The alias was introduced
+purely for developer convenience, dramatically reducing typing and
+keeping code compact and readable.</p>
+<h3 id="the-jquery-factory-function">The jQuery Factory Function</h3>
+<p>When invoked, <code>$</code> operates as a factory function that
+returns a collection of DOM elements wrapped in jQuery's utility
+methods. Depending on the arguments passed, the <code>$</code> function
+serves multiple distinct purposes:</p>
+<ul>
+<li><strong>Element Selection:</strong> Passing a CSS selector string
+(e.g., <code>$('.menu-item')</code>) queries the DOM and wraps the
+matching elements in a jQuery object.</li>
+<li><strong>DOM Creation:</strong> Passing an HTML string (e.g.,
+<code>$('&lt;div class="box"&gt;&lt;/div&gt;')</code>) instantiates new
+DOM elements in memory.</li>
+<li><strong>Ready Event Handling:</strong> Passing a function (e.g.,
+<code>$(function() { ... })</code>) registers a callback to execute as
+soon as the DOM is fully loaded and ready to be manipulated.</li>
+<li><strong>Element Wrapping:</strong> Passing an existing DOM node or
+the <code>this</code> keyword (e.g., <code>$(this)</code>) upgrades a
+native JavaScript node to access jQuery's built-in methods.</li>
+</ul>
+<h3 id="handling-conflicts-with-noconflict">Handling Conflicts with
+<code>noConflict()</code></h3>
+<p>Because <code>$</code> is a common identifier, other JavaScript
+libraries—such as Prototype, MooTools, or custom legacy scripts—often
+utilize it as well. When multiple scripts attempt to bind to
+<code>window.$</code>, the last script loaded overwrites previous
+assignments, leading to runtime errors.</p>
+<p>To solve this, jQuery provides the <code>noConflict()</code>
+method:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>jQuery<span class="op">.</span><span class="fu">noConflict</span>()<span class="op">;</span></span></code></pre></div>
+<p>Executing <code>jQuery.noConflict()</code> relinquishes jQuery’s
+control of the <code>$</code> global variable, restoring it to whatever
+library defined it first. Developers can then access jQuery exclusively
+through the full <code>jQuery</code> keyword.</p>
+<h3 id="safe-scoping-in-modern-code">Safe Scoping in Modern Code</h3>
+<p>To maintain the concise <code>$</code> syntax without causing global
+namespace collisions, developers frequently wrap their code in an
+Immediately Invoked Function Expression (IIFE):</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">function</span>($) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// $ refers strictly to jQuery within this scope</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;.button&#39;</span>)<span class="op">.</span><span class="fu">click</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">hide</span>()<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>})(jQuery)<span class="op">;</span></span></code></pre></div>
+<p>By passing <code>jQuery</code> as an argument mapped to the parameter
+<code>$</code>, the dollar sign can be safely used inside the function
+block regardless of what library controls <code>$</code> in the global
+scope.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

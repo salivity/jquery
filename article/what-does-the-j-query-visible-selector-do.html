@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does the jQuery :visible Selector Do? - jquery</title>
+    <meta name="description" content="The jQuery :visible selector targets and selects all HTML elements that are currently visible within the DOM layout. This article explains how jQuery determines an element's visibility, clarifies the distinction between visual rendering and layout space,">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-does-the-j-query-visible-selector-do">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does the jQuery :visible Selector Do? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-does-the-j-query-visible-selector-do" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery :visible selector targets and selects all HTML elements that are currently visible within the DOM layout. This article explains how jQuery determines an element's visibility, clarifies the distinction between visual rendering and layout space," />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-does-the-jquery-visible-selector-do">What Does the jQuery
+:visible Selector Do?</h1>
+<p>The jQuery <code>:visible</code> selector targets and selects all
+HTML elements that are currently visible within the DOM layout. This
+article explains how jQuery determines an element's visibility,
+clarifies the distinction between visual rendering and layout space,
+highlights important exceptions like <code>visibility: hidden</code>,
+and provides straightforward usage examples.</p>
+<h2 id="how-jquery-defines-visibility">How jQuery Defines
+Visibility</h2>
+<p>In jQuery, an element is considered visible if it consumes physical
+space in the document. An element qualifies as visible if its layout
+width or height is greater than zero, or if it has child elements that
+occupy layout space.</p>
+<p>An element is treated as hidden (and therefore excluded by
+<code>:visible</code>) if:</p>
+<ul>
+<li>It has a CSS <code>display</code> value of <code>none</code>.</li>
+<li>It is a child of an element with <code>display: none</code>.</li>
+<li>It is an <code>&lt;input&gt;</code> element with
+<code>type="hidden"</code>.</li>
+<li>Its computed <code>width</code> and <code>height</code> are both
+explicitly set to <code>0</code>.</li>
+<li>It has not been appended to the DOM (it is detached).</li>
+</ul>
+<h2 id="the-visibility-hidden-and-opacity-0-exception">The
+<code>visibility: hidden</code> and <code>opacity: 0</code>
+Exception</h2>
+<p>A common point of confusion is how jQuery treats
+<code>visibility: hidden</code> and <code>opacity: 0</code>.</p>
+<p>Even though elements styled with <code>visibility: hidden</code> or
+<code>opacity: 0</code> are invisible to the human eye, they still
+consume space and affect the flow of the document layout. Because they
+have a measurable height and width, the <code>:visible</code> selector
+considers them <strong>visible</strong>.</p>
+<p>If you need to check whether an element has
+<code>visibility: hidden</code>, you must inspect its computed CSS style
+directly using <code>.css('visibility') === 'hidden'</code> rather than
+relying on <code>:visible</code>.</p>
+<h2 id="syntax-and-basic-usage">Syntax and Basic Usage</h2>
+<p>The <code>:visible</code> selector can be appended to any valid
+jQuery selector.</p>
+<p>To select all visible <code>&lt;div&gt;</code> tags on a page:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;div:visible&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>To check if a specific element is currently visible:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">$</span>(<span class="st">&quot;#myElement&quot;</span>)<span class="op">.</span><span class="fu">is</span>(<span class="st">&quot;:visible&quot;</span>)) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Action to take if the element is visible</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>To find all visible table rows inside a specific table:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#dataTable tr:visible&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<h2 id="performance-considerations">Performance Considerations</h2>
+<p>Because <code>:visible</code> is a custom jQuery extension and not
+part of the standard CSS specification, browsers cannot use the native
+<code>querySelectorAll()</code> method to evaluate it. Querying the
+entire DOM with <code>$(':visible')</code> requires jQuery to iterate
+through elements and calculate their layout dimensions, which can
+trigger browser reflows and degrade performance.</p>
+<p>For optimal performance, always scope the selector by prefixing it
+with an ID, class, or tag name (e.g.,
+<code>$('.menu-item:visible')</code>), or filter an existing jQuery
+collection using <code>.filter(':visible')</code>.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

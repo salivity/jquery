@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using the jQuery is() Method to Evaluate Elements - jquery</title>
+    <meta name="description" content="The jQuery is() method provides a quick, boolean-based way to check if selected elements match a selector, element, or jQuery object. This guide covers how is() works, its fundamental syntax, and common real-world use cases such as verifying CSS classes,">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/using-the-j-query-is-method-to-evaluate-elements">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Using the jQuery is() Method to Evaluate Elements - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/using-the-j-query-is-method-to-evaluate-elements" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery is() method provides a quick, boolean-based way to check if selected elements match a selector, element, or jQuery object. This guide covers how is() works, its fundamental syntax, and common real-world use cases such as verifying CSS classes," />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="using-the-jquery-is-method-to-evaluate-elements">Using the
+jQuery is() Method to Evaluate Elements</h1>
+<p>The jQuery <code>is()</code> method provides a quick, boolean-based
+way to check if selected elements match a selector, element, or jQuery
+object. This guide covers how <code>is()</code> works, its fundamental
+syntax, and common real-world use cases such as verifying CSS classes,
+checking element visibility, evaluating form input states, and using
+callback functions for custom conditional logic.</p>
+<h2 id="understanding-the-syntax">Understanding the Syntax</h2>
+<p>The <code>.is()</code> method checks the current matched set of
+elements against a selector, element, or jQuery object and returns
+<code>true</code> if at least one of these elements matches the given
+arguments. If no elements match, it returns <code>false</code>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(selector)<span class="op">.</span><span class="fu">is</span>(matchingCriteria)<span class="op">;</span></span></code></pre></div>
+<p>The <code>matchingCriteria</code> can be:</p>
+<ul>
+<li>A CSS selector string</li>
+<li>A jQuery object or DOM element</li>
+<li>A callback function that returns <code>true</code> or
+<code>false</code></li>
+</ul>
+<p>Unlike methods like <code>.filter()</code>, which return a new jQuery
+object containing the matched elements, <code>.is()</code> strictly
+returns a boolean value (<code>true</code> or <code>false</code>),
+making it ideal for <code>if</code> statements.</p>
+<h2 id="checking-for-classes-and-attributes">Checking for Classes and
+Attributes</h2>
+<p>You can determine whether an element contains a specific class or
+attribute without parsing the DOM tree manually.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">$</span>(<span class="st">&#39;#status-box&#39;</span>)<span class="op">.</span><span class="fu">is</span>(<span class="st">&#39;.active&#39;</span>)) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;The element has the &quot;active&quot; class.&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>You can also check for multiple selectors at once. If the element
+matches any of the comma-separated classes, it returns
+<code>true</code>:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">$</span>(<span class="st">&#39;#status-box&#39;</span>)<span class="op">.</span><span class="fu">is</span>(<span class="st">&#39;.active, .highlighted&#39;</span>)) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;The element has either the active or highlighted class.&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="evaluating-element-visibility">Evaluating Element
+Visibility</h2>
+<p>A frequent use case for <code>.is()</code> is checking whether an
+element is currently hidden or visible on the page using jQuery
+pseudo-selectors:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Check if an element is visible</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">$</span>(<span class="st">&#39;#dropdown-menu&#39;</span>)<span class="op">.</span><span class="fu">is</span>(<span class="st">&#39;:visible&#39;</span>)) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;#dropdown-menu&#39;</span>)<span class="op">.</span><span class="fu">hide</span>()<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;#dropdown-menu&#39;</span>)<span class="op">.</span><span class="fu">show</span>()<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">// Check if an element is hidden</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">$</span>(<span class="st">&#39;#modal&#39;</span>)<span class="op">.</span><span class="fu">is</span>(<span class="st">&#39;:hidden&#39;</span>)) {</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Modal is currently hidden.&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="checking-form-input-states">Checking Form Input States</h2>
+<p>Form inputs often require validation against states like
+<code>:checked</code>, <code>:disabled</code>, or <code>:focus</code>.
+The <code>.is()</code> method simplifies this evaluation:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Check a checkbox or radio button</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">$</span>(<span class="st">&#39;#terms-checkbox&#39;</span>)<span class="op">.</span><span class="fu">is</span>(<span class="st">&#39;:checked&#39;</span>)) {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;#submit-button&#39;</span>)<span class="op">.</span><span class="fu">prop</span>(<span class="st">&#39;disabled&#39;</span><span class="op">,</span> <span class="kw">false</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Check if an input field currently has focus</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">$</span>(<span class="st">&#39;input[name=&quot;username&quot;]&#39;</span>)<span class="op">.</span><span class="fu">is</span>(<span class="st">&#39;:focus&#39;</span>)) {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;The user is typing in the username field.&#39;</span>)<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">// Check if a field is disabled</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">$</span>(<span class="st">&#39;#submit-button&#39;</span>)<span class="op">.</span><span class="fu">is</span>(<span class="st">&#39;:disabled&#39;</span>)) {</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Button cannot be clicked.&#39;</span>)<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="comparing-elements">Comparing Elements</h2>
+<p>You can pass a DOM element or another jQuery object into
+<code>.is()</code> to see if two references point to the exact same DOM
+node:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;li&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Check if the clicked item is the first list item</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">is</span>(<span class="st">&#39;:first-child&#39;</span>)) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;First item clicked.&#39;</span>)<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Compare directly against a specific DOM element</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> targetNode <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;special-item&#39;</span>)<span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">is</span>(targetNode)) {</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Special item clicked.&#39;</span>)<span class="op">;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="using-a-function-for-custom-evaluation">Using a Function for
+Custom Evaluation</h2>
+<p>When standard selectors are not enough, pass a function into
+<code>.is()</code>. The function evaluates each element in the
+collection; <code>this</code> refers to the current DOM element.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> hasWideDiv <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;div&#39;</span>)<span class="op">.</span><span class="fu">is</span>(<span class="kw">function</span>(index) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">width</span>() <span class="op">&gt;</span> <span class="dv">500</span><span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (hasWideDiv) {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;At least one div is wider than 500 pixels.&#39;</span>)<span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>If the function returns <code>true</code> for at least one element in
+the selection, the <code>.is()</code> method resolves to
+<code>true</code>.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the jQuery innerHeight Method? - jquery</title>
+    <meta name="description" content="This article provides an overview of the jQuery innerHeight() method, explaining its core function, syntax, and role in DOM dimension calculations. You will learn how it measures elements based on the CSS box model, how it differs from related methods li">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-is-the-j-query-inner-height-method">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the jQuery innerHeight Method? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-is-the-j-query-inner-height-method" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of the jQuery innerHeight() method, explaining its core function, syntax, and role in DOM dimension calculations. You will learn how it measures elements based on the CSS box model, how it differs from related methods li" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-is-the-jquery-innerheight-method">What Is the jQuery
+innerHeight Method?</h1>
+<p>This article provides an overview of the jQuery
+<code>innerHeight()</code> method, explaining its core function, syntax,
+and role in DOM dimension calculations. You will learn how it measures
+elements based on the CSS box model, how it differs from related methods
+like <code>height()</code> and <code>outerHeight()</code>, and how to
+use it to both retrieve and set element dimensions in dynamic web
+layouts.</p>
+<p>The primary purpose of the jQuery <code>innerHeight()</code> method
+is to calculate the internal height of an element, which includes the
+element's content area plus its top and bottom padding. It explicitly
+excludes the height of borders, margins, and horizontal scrollbars.</p>
+<h3 id="how-it-works-within-the-box-model">How It Works within the Box
+Model</h3>
+<p>To understand <code>innerHeight()</code>, it helps to see where it
+sits relative to jQuery's other dimension methods:</p>
+<ul>
+<li><strong><code>height()</code></strong>: Measures only the content
+area (excluding padding, border, and margin).</li>
+<li><strong><code>innerHeight()</code></strong>: Measures the content
+area + top and bottom padding.</li>
+<li><strong><code>outerHeight()</code></strong>: Measures the content
+area + padding + border (and optionally margins if <code>true</code> is
+passed as an argument).</li>
+</ul>
+<p>For example, if a <code>&lt;div&gt;</code> has a CSS height of 200px,
+top and bottom padding of 20px each, and a 5px border:</p>
+<ul>
+<li><code>$(div).height()</code> returns <code>200</code></li>
+<li><code>$(div).innerHeight()</code> returns <code>240</code> (200 + 20
++ 20)</li>
+<li><code>$(div).outerHeight()</code> returns <code>250</code> (200 + 20
++ 20 + 5 + 5)</li>
+</ul>
+<h3 id="syntax-and-usage">Syntax and Usage</h3>
+<p>The method functions as both a getter and a setter (as of jQuery
+version 1.8).</p>
+<h4 id="1-getting-the-inner-height">1. Getting the Inner Height</h4>
+<p>When called without parameters on a selection, it returns the inner
+height of the first matched element as an integer:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> contentBoxHeight <span class="op">=</span> <span class="fu">$</span>(<span class="st">&quot;#container&quot;</span>)<span class="op">.</span><span class="fu">innerHeight</span>()<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Inner Height: &quot;</span> <span class="op">+</span> contentBoxHeight <span class="op">+</span> <span class="st">&quot;px&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>If used on an empty set or on the <code>window</code> or
+<code>document</code> objects, it returns <code>null</code> or the
+viewport/document height respectively.</p>
+<h4 id="2-setting-the-inner-height">2. Setting the Inner Height</h4>
+<p>When passed a value, it sets the inner height for every matched
+element:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Set using a number (defaults to pixels)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#container&quot;</span>)<span class="op">.</span><span class="fu">innerHeight</span>(<span class="dv">300</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Set using a specific unit string</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#container&quot;</span>)<span class="op">.</span><span class="fu">innerHeight</span>(<span class="st">&quot;25em&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>When setting dimensions via <code>innerHeight(value)</code>, jQuery
+adjusts the element's CSS <code>height</code> property so that the sum
+of the CSS height and padding equals the targeted value.</p>
+<h3 id="common-use-cases">Common Use Cases</h3>
+<ul>
+<li><strong>Centering Elements:</strong> Calculating accurate scroll
+offsets or modal placements where padding visually constitutes the body
+of the container.</li>
+<li><strong>Equal-Height Layouts:</strong> Dynamically standardizing
+container heights across a grid where elements have matching padding but
+variable content.</li>
+<li><strong>Scroll Position Logic:</strong> Determining when a user has
+scrolled to the bottom of a padded container by comparing
+<code>scrollTop()</code> with <code>innerHeight()</code>.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

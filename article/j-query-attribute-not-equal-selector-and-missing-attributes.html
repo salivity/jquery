@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Attribute Not Equal Selector and Missing Attributes - jquery</title>
+    <meta name="description" content="This article explains how jQuery’s attribute not equal selector ([attribute!='value']) processes HTML elements that lack the specified attribute entirely. In jQuery, this selector matches both elements where the attribute exists with a different value">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-attribute-not-equal-selector-and-missing-attributes">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery Attribute Not Equal Selector and Missing Attributes - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-attribute-not-equal-selector-and-missing-attributes" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how jQuery’s attribute not equal selector ([attribute!='value']) processes HTML elements that lack the specified attribute entirely. In jQuery, this selector matches both elements where the attribute exists with a different value" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1
+id="jquery-attribute-not-equal-selector-and-missing-attributes">jQuery
+Attribute Not Equal Selector and Missing Attributes</h1>
+<p>This article explains how jQuery’s attribute not equal selector
+(<code>[attribute!='value']</code>) processes HTML elements that lack
+the specified attribute entirely. In jQuery, this selector matches both
+elements where the attribute exists with a different value and elements
+that do not have the attribute defined at all. Below, you will find a
+breakdown of why this behavior occurs, how it differs from standard
+expectation, and the syntax required to exclude elements that are
+missing the attribute.</p>
+<h2 id="the-default-behavior">The Default Behavior</h2>
+<p>In jQuery, using the attribute not equal selector—such as
+<code>$('input[name!="newsletter"]')</code>—evaluates all elements
+against the condition of whether their attribute value does not equal
+the provided string.</p>
+<p>Because an element without the attribute does not have the value
+<code>"newsletter"</code>, jQuery considers the condition to be true.
+Consequently, elements missing the attribute entirely are included in
+the selection.</p>
+<p>Consider the following HTML markup:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">input</span><span class="ot"> type</span><span class="op">=</span><span class="st">&quot;text&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;input1&quot;</span><span class="ot"> name</span><span class="op">=</span><span class="st">&quot;newsletter&quot;</span><span class="ot"> </span><span class="dt">/&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">input</span><span class="ot"> type</span><span class="op">=</span><span class="st">&quot;text&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;input2&quot;</span><span class="ot"> name</span><span class="op">=</span><span class="st">&quot;username&quot;</span><span class="ot"> </span><span class="dt">/&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">input</span><span class="ot"> type</span><span class="op">=</span><span class="st">&quot;text&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;input3&quot;</span><span class="ot"> </span><span class="dt">/&gt;</span></span></code></pre></div>
+<p>If you run the following selector:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;input[name!=&quot;newsletter&quot;]&#39;</span>)</span></code></pre></div>
+<p>The resulting jQuery collection will contain both
+<code>#input2</code> (where <code>name</code> is
+<code>"username"</code>) and <code>#input3</code> (which has no
+<code>name</code> attribute at all).</p>
+<h2 id="why-jquery-behaves-this-way">Why jQuery Behaves This Way</h2>
+<p>jQuery models the <code>[attribute!='value']</code> selector as an
+equivalent to the CSS negation pseudo-class
+<code>:not([attribute='value'])</code>.</p>
+<p>From a logical perspective, the negation checks whether an element
+matches <code>[attribute='value']</code>. Since an element lacking the
+attribute cannot match <code>[attribute='value']</code>, applying
+<code>:not()</code> to it yields <code>true</code>.</p>
+<h2 id="how-to-exclude-elements-missing-the-attribute">How to Exclude
+Elements Missing the Attribute</h2>
+<p>If your goal is to select only elements that explicitly possess the
+attribute with a non-matching value, you must combine the has-attribute
+selector with the attribute not equal selector.</p>
+<p>To restrict the search to elements that actually define the
+attribute, chain the selectors together:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;input[name][name!=&quot;newsletter&quot;]&#39;</span>)</span></code></pre></div>
+<h3 id="breakdown-of-the-compound-selector">Breakdown of the Compound
+Selector:</h3>
+<ol type="1">
+<li><code>[name]</code>: Ensures the element explicitly has the
+<code>name</code> attribute.</li>
+<li><code>[name!="newsletter"]</code>: Ensures the attribute’s value is
+not <code>"newsletter"</code>.</li>
+</ol>
+<p>Using this combined selector on the previous HTML example will return
+only <code>#input2</code>, successfully ignoring
+<code>#input3</code>.</p>
+<h2 id="alternative-approach-using-filter">Alternative Approach: Using
+<code>.filter()</code></h2>
+<p>For more complex logic or improved readability in larger codebases,
+you can achieve the same result using jQuery's <code>.filter()</code>
+method:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;input&#39;</span>)<span class="op">.</span><span class="fu">filter</span>(<span class="kw">function</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">hasAttribute</span>(<span class="st">&#39;name&#39;</span>) <span class="op">&amp;&amp;</span> <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">&#39;name&#39;</span>) <span class="op">!==</span> <span class="st">&#39;newsletter&#39;</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>This approach explicitly checks for the DOM attribute via
+JavaScript's native <code>hasAttribute()</code> method before evaluating
+the string value, providing strict control over missing attributes.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

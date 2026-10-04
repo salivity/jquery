@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How jQuery addBack Method Works in Chain Traversal - jquery</title>
+    <meta name="description" content="The jQuery addBack() method allows developers to include the previous set of matched elements from the internal jQuery stack into the current set during chained DOM traversal. Introduced in jQuery 1.8 to replace the deprecated andSelf() method, it simpli">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-j-query-add-back-method-works-in-chain-traversal">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How jQuery addBack Method Works in Chain Traversal - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-j-query-add-back-method-works-in-chain-traversal" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery addBack() method allows developers to include the previous set of matched elements from the internal jQuery stack into the current set during chained DOM traversal. Introduced in jQuery 1.8 to replace the deprecated andSelf() method, it simpli" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-jquery-addback-method-works-in-chain-traversal">How jQuery
+addBack Method Works in Chain Traversal</h1>
+<p>The jQuery <code>addBack()</code> method allows developers to include
+the previous set of matched elements from the internal jQuery stack into
+the current set during chained DOM traversal. Introduced in jQuery 1.8
+to replace the deprecated <code>andSelf()</code> method, it simplifies
+multi-level element manipulation by preventing the need to break chains
+or re-select ancestral or sibling elements. This guide explains how the
+jQuery internal stack manages elements, how <code>addBack()</code>
+manipulates this chain, and how to use it effectively with optional
+selector filters.</p>
+<h3 id="understanding-the-jquery-stack">Understanding the jQuery
+Stack</h3>
+<p>When chaining traversal methods in jQuery, such as
+<code>.find()</code>, <code>.children()</code>, or
+<code>.parent()</code>, jQuery pushes each newly targeted set of
+elements onto an internal stack. By default, subsequent operations only
+affect the most recent set of elements at the top of that stack,
+effectively leaving behind the elements targeted in previous steps of
+the chain.</p>
+<p>The <code>addBack()</code> method tells jQuery to reach one level
+down into the stack, retrieve the previous set of matched elements, and
+combine them with the current set.</p>
+<h3 id="basic-syntax-and-functionality">Basic Syntax and
+Functionality</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">addBack</span>([selector])</span></code></pre></div>
+<ul>
+<li><strong>selector</strong> (optional): A string containing a selector
+expression to filter which elements from the previous set are added to
+the current selection.</li>
+</ul>
+<p>Without arguments, <code>addBack()</code> combines the entirety of
+the previous selection with the current selection. If an optional
+selector is provided, only elements from the previous selection that
+match the selector will be merged into the current group.</p>
+<h3 id="how-it-works-in-practice">How It Works in Practice</h3>
+<p>Consider the following HTML structure:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;card&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">h2</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;title&quot;</span><span class="dt">&gt;</span>Product 1<span class="dt">&lt;/</span><span class="kw">h2</span><span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;description&quot;</span><span class="dt">&gt;</span>Item details go here.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>If you want to apply a border to both the container
+(<code>.card</code>) and its contents, you might traverse into the
+children:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Without addBack():</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.card&#39;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">children</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;highlight&#39;</span>)<span class="op">;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Only &lt;h2 class=&quot;title&quot;&gt; and &lt;p class=&quot;description&quot;&gt; receive the class.</span></span></code></pre></div>
+<p>By inserting <code>.addBack()</code>, the parent <code>.card</code>
+is restored into the current selection alongside its children:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// With addBack():</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.card&#39;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">children</span>()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">addBack</span>()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;highlight&#39;</span>)<span class="op">;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">// The &lt;div class=&quot;card&quot;&gt;, &lt;h2&gt;, and &lt;p&gt; elements all receive the class.</span></span></code></pre></div>
+<h3 id="filtering-with-a-selector">Filtering with a Selector</h3>
+<p>The optional selector allows you to selectively restore elements from
+the previous state rather than combining all of them.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;menu primary&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;item&quot;</span><span class="dt">&gt;</span>Home<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;item&quot;</span><span class="dt">&gt;</span>About<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;menu secondary&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;item&quot;</span><span class="dt">&gt;</span>Privacy<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;ul&#39;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">find</span>(<span class="st">&#39;.item&#39;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">addBack</span>(<span class="st">&#39;.primary&#39;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>In this case:</p>
+<ol type="1">
+<li><code>$('ul')</code> selects both unordered lists.</li>
+<li><code>.find('.item')</code> narrows the selection to all three
+<code>li</code> elements.</li>
+<li><code>.addBack('.primary')</code> checks the previous stack
+(<code>ul</code> elements), matches only <code>ul.primary</code>, and
+combines it with the current <code>.item</code> selection.</li>
+<li><code>.active</code> is applied to all three <code>li</code> items
+and <code>ul.primary</code>, while <code>ul.secondary</code> is
+excluded.</li>
+</ol>
+<h3 id="contrast-with-end">Contrast with end()</h3>
+<p>While <code>addBack()</code> merges the previous and current sets
+together, the related <code>end()</code> method completely discards the
+current set and rolls back to the previous set. Understanding the
+difference is crucial for effective chain traversal:</p>
+<ul>
+<li><strong><code>.addBack()</code></strong>: Combines current elements
++ previous elements.</li>
+<li><strong><code>.end()</code></strong>: Discards current elements and
+reverts entirely to previous elements.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

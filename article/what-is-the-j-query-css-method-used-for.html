@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the jQuery css() Method Used For? - jquery</title>
+    <meta name="description" content="This article explains the purpose, syntax, and primary applications of the jQuery css() method. You will learn how to retrieve computed CSS styles from HTML elements, set single style properties, and apply multiple styles simultaneously using straightfor">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-is-the-j-query-css-method-used-for">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the jQuery css() Method Used For? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-is-the-j-query-css-method-used-for" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the purpose, syntax, and primary applications of the jQuery css() method. You will learn how to retrieve computed CSS styles from HTML elements, set single style properties, and apply multiple styles simultaneously using straightfor" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-is-the-jquery-css-method-used-for">What Is the jQuery css()
+Method Used For?</h1>
+<p>This article explains the purpose, syntax, and primary applications
+of the jQuery <code>css()</code> method. You will learn how to retrieve
+computed CSS styles from HTML elements, set single style properties, and
+apply multiple styles simultaneously using straightforward code
+examples.</p>
+<p>The jQuery <code>css()</code> method is an essential DOM manipulation
+tool used to read or modify the style properties of selected elements.
+It acts as both a getter and a setter depending on the parameters passed
+to the function. When reading styles, it retrieves the computed style of
+the first matched element; when setting styles, it applies inline CSS
+styles to all matched elements in the selection.</p>
+<h3 id="getting-a-css-property-value">Getting a CSS Property Value</h3>
+<p>To retrieve the current computed value of a style property, pass the
+property name as a single string argument.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Returns the background color of the first matched paragraph</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> bgColor <span class="op">=</span> <span class="fu">$</span>(<span class="st">&quot;p&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;background-color&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This returns the actual computed value as a string (such as
+<code>"rgb(255, 255, 0)"</code>), regardless of whether the style was
+applied via an external stylesheet, an internal
+<code>&lt;style&gt;</code> block, or an inline attribute.</p>
+<h3 id="setting-a-single-css-property">Setting a Single CSS
+Property</h3>
+<p>To set or change a single style rule, provide both the property name
+and the new value as separate string arguments.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Sets the text color of all matched elements to red</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;p&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;color&quot;</span><span class="op">,</span> <span class="st">&quot;red&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This directly injects the style into the element's <code>style</code>
+attribute (e.g., <code>&lt;p style="color: red;"&gt;</code>).</p>
+<h3 id="setting-multiple-css-properties">Setting Multiple CSS
+Properties</h3>
+<p>To apply several CSS rules at once, pass a JavaScript object
+containing key-value pairs representing the CSS properties and their
+respective values.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Applies multiple styles simultaneously</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;p&quot;</span>)<span class="op">.</span><span class="fu">css</span>({</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;background-color&quot;</span><span class="op">:</span> <span class="st">&quot;#f4f4f4&quot;</span><span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;font-size&quot;</span><span class="op">:</span> <span class="st">&quot;16px&quot;</span><span class="op">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;padding&quot;</span><span class="op">:</span> <span class="st">&quot;10px&quot;</span><span class="op">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;border&quot;</span><span class="op">:</span> <span class="st">&quot;1px solid #ccc&quot;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Property names can be written either within quotes using standard CSS
+hyphenated syntax (e.g., <code>"background-color"</code>) or without
+quotes using camelCase notation (e.g.,
+<code>backgroundColor</code>).</p>
+<h3 id="common-use-cases">Common Use Cases</h3>
+<ul>
+<li><strong>Dynamic Resizing:</strong> Adjusting widths, heights, or
+margins in response to window resize events or user input.</li>
+<li><strong>Toggling Visibility:</strong> Changing properties like
+<code>display</code> or <code>opacity</code> to create custom animations
+or interface states.</li>
+<li><strong>Relative Adjustments:</strong> Using relative values such as
+<code>+=50px</code> or <code>-=20px</code> to adjust existing dimensions
+programmatically.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

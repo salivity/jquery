@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Decouple jQuery Logic from HTML Markup - jquery</title>
+    <meta name="description" content="Decoupling jQuery logic from HTML markup is essential for building scalable, maintainable, and bug-resistant web applications. By establishing a strict separation of concerns, frontend developers can alter site styles and document structures without inad">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-decouple-j-query-logic-from-html-markup">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Decouple jQuery Logic from HTML Markup - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-decouple-j-query-logic-from-html-markup" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Decoupling jQuery logic from HTML markup is essential for building scalable, maintainable, and bug-resistant web applications. By establishing a strict separation of concerns, frontend developers can alter site styles and document structures without inad" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-decouple-jquery-logic-from-html-markup">How to Decouple
+jQuery Logic from HTML Markup</h1>
+<p>Decoupling jQuery logic from HTML markup is essential for building
+scalable, maintainable, and bug-resistant web applications. By
+establishing a strict separation of concerns, frontend developers can
+alter site styles and document structures without inadvertently breaking
+JavaScript behavior. This guide outlines the core best practices for
+achieving a clean separation between DOM structures and jQuery scripts,
+focusing on dedicated behavioral selectors, data attributes for
+configuration, event delegation, and modular design.</p>
+<h3 id="1-eliminate-inline-javascript-handlers">1. Eliminate Inline
+JavaScript Handlers</h3>
+<p>The most fundamental step is removing all inline event attributes
+such as <code>onclick</code>, <code>onchange</code>, or
+<code>onsubmit</code> from HTML elements. All behavior should be defined
+entirely within external JavaScript files. Inline handlers mix
+application logic directly into the presentation layer, making debugging
+difficult and preventing centralized script management. Instead, attach
+events using jQuery’s <code>.on()</code> method within your external
+scripts.</p>
+<h3 id="2-use-dedicated-javascript-hooks-for-selectors">2. Use Dedicated
+JavaScript Hooks for Selectors</h3>
+<p>Do not bind jQuery events or DOM queries to presentation CSS classes
+or structural element types. When styling changes occur, classes often
+change, which silently breaks the underlying JavaScript logic.</p>
+<p>Instead, adopt a naming convention specifically reserved for
+scripts:</p>
+<ul>
+<li><strong>Prefix classes with <code>js-</code></strong>: Use classes
+like <code>.js-modal-trigger</code> or <code>.js-cart-item</code>
+exclusively for JavaScript targeting.</li>
+<li><strong>Rule of thumb</strong>: Never apply CSS styles to
+<code>.js-</code> prefixed classes, and never bind jQuery selectors to
+styling classes (like <code>.btn-primary</code> or
+<code>.grid-col-4</code>).</li>
+</ul>
+<h3 id="3-pass-configuration-via-html5-data-attributes">3. Pass
+Configuration via HTML5 Data Attributes</h3>
+<p>Avoid hardcoding element-specific parameters, configuration states,
+or API endpoints inside jQuery files. Hardcoded values bind your
+JavaScript to specific markup instances.</p>
+<p>Use HTML5 <code>data-*</code> attributes to store dynamic values in
+the markup, then read them using jQuery’s <code>.data()</code>
+method:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- HTML --&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;js-fetch-user&quot;</span><span class="ot"> data-user-id</span><span class="op">=</span><span class="st">&quot;42&quot;</span><span class="ot"> data-endpoint</span><span class="op">=</span><span class="st">&quot;/api/users&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  View Profile</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// jQuery</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.js-fetch-user&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>(e) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  e<span class="op">.</span><span class="fu">preventDefault</span>()<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> $button <span class="op">=</span> <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> userId <span class="op">=</span> $button<span class="op">.</span><span class="fu">data</span>(<span class="st">&#39;user-id&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> endpoint <span class="op">=</span> $button<span class="op">.</span><span class="fu">data</span>(<span class="st">&#39;endpoint&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Logic executes independently of the element&#39;s position or styling</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fetchUserData</span>(endpoint<span class="op">,</span> userId)<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>This approach allows backend templates to inject IDs, paths, and
+metadata into the DOM without generating inline
+<code>&lt;script&gt;</code> blocks.</p>
+<h3 id="4-implement-event-delegation">4. Implement Event Delegation</h3>
+<p>Binding event listeners directly to static child elements tightly
+couples your script to the initial page load state. Use event delegation
+to attach listeners to stable container elements or the document
+itself:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Delegating to a static container</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#main-container&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="st">&#39;.js-delete-item&#39;</span><span class="op">,</span> <span class="kw">function</span>(e) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Handles clicks even for items injected dynamically via AJAX</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Delegation ensures that elements can be freely added, removed, or
+reordered dynamically without needing manual re-binding of event
+listeners.</p>
+<h3 id="5-structure-logic-into-reusable-modules">5. Structure Logic into
+Reusable Modules</h3>
+<p>Rather than writing procedural scripts spanning hundreds of lines,
+organize jQuery functionality into modular components or lightweight
+plugins using the module pattern. Each component should initialize on a
+target container, read its internal configuration, and manage its own
+scope.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> DropdownComponent <span class="op">=</span> (<span class="kw">function</span>($) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">init</span>($container) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> $trigger <span class="op">=</span> $container<span class="op">.</span><span class="fu">find</span>(<span class="st">&#39;.js-dropdown-trigger&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> $menu <span class="op">=</span> $container<span class="op">.</span><span class="fu">find</span>(<span class="st">&#39;.js-dropdown-menu&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    $trigger<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      $menu<span class="op">.</span><span class="fu">toggleClass</span>(<span class="st">&#39;is-open&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> { <span class="dt">init</span><span class="op">:</span> init }<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>})(jQuery)<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">// Initialize per instance</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.js-dropdown&#39;</span>)<span class="op">.</span><span class="fu">each</span>(<span class="kw">function</span>() {</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  DropdownComponent<span class="op">.</span><span class="fu">init</span>(<span class="fu">$</span>(<span class="kw">this</span>))<span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>This pattern ensures that DOM structures can be duplicated or
+rearranged across different pages without logic conflicts.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

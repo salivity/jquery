@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Elements by Child Tag Using jQuery :has() - jquery</title>
+    <meta name="description" content="The jQuery :has() selector allows developers to filter and select parent elements based on whether they contain specific descendant HTML tags. This guide explains the core syntax of the :has() selector, demonstrates practical code examples for selecting">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/select-elements-by-child-tag-using-j-query-has">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Select Elements by Child Tag Using jQuery :has() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/select-elements-by-child-tag-using-j-query-has" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery :has() selector allows developers to filter and select parent elements based on whether they contain specific descendant HTML tags. This guide explains the core syntax of the :has() selector, demonstrates practical code examples for selecting" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="select-elements-by-child-tag-using-jquery-has">Select Elements
+by Child Tag Using jQuery :has()</h1>
+<p>The jQuery <code>:has()</code> selector allows developers to filter
+and select parent elements based on whether they contain specific
+descendant HTML tags. This guide explains the core syntax of the
+<code>:has()</code> selector, demonstrates practical code examples for
+selecting parent containers, and highlights the difference between the
+<code>:has()</code> pseudo-class selector and the <code>.has()</code>
+traversal method.</p>
+<h2 id="understanding-the-has-selector-syntax">Understanding the
+<code>:has()</code> Selector Syntax</h2>
+<p>The <code>:has()</code> selector targets elements that contain at
+least one element matching the selector provided inside the
+parentheses.</p>
+<p>The basic syntax is:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;parentElement:has(childSelector)&quot;</span>)</span></code></pre></div>
+<ul>
+<li><strong><code>parentElement</code></strong>: The element or elements
+you want to select.</li>
+<li><strong><code>childSelector</code></strong>: The tag, class, ID, or
+attribute that must be nested inside the parent element.</li>
+</ul>
+<h2 id="basic-example-selecting-containers-with-a-specific-tag">Basic
+Example: Selecting Containers with a Specific Tag</h2>
+<p>Suppose you have multiple <code>&lt;div&gt;</code> elements, but you
+only want to style or manipulate the ones containing an
+<code>&lt;a&gt;</code> (anchor) tag.</p>
+<h3 id="html-structure">HTML Structure</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;box&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>This box only has text.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;box&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>This box has a <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;#&quot;</span><span class="dt">&gt;</span>link<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span>.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;box&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="dt">&gt;</span>No links here either.<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="jquery-implementation">jQuery Implementation</h3>
+<p>To target only the <code>.box</code> that contains an
+<code>&lt;a&gt;</code> tag, use:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;.box:has(a)&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;border&quot;</span><span class="op">,</span> <span class="st">&quot;2px solid green&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This code searches all elements with the class <code>.box</code>,
+checks for any nested <code>&lt;a&gt;</code> elements at any depth, and
+applies the green border only to the matching parent
+<code>&lt;div&gt;</code>.</p>
+<h2 id="selecting-by-multiple-or-nested-descendant-tags">Selecting by
+Multiple or Nested Descendant Tags</h2>
+<p>You can use standard CSS selector rules inside the
+<code>:has()</code> parameter:</p>
+<ul>
+<li><strong>Direct Child Tag:</strong> To ensure the tag is an immediate
+child rather than deeply nested, use the child combinator
+(<code>&gt;</code>):
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;ul:has(&gt; li.active)&quot;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&quot;highlight&quot;</span>)<span class="op">;</span></span></code></pre></div></li>
+<li><strong>Multiple Tag Options:</strong> To select elements containing
+either an <code>&lt;h1&gt;</code> or an <code>&lt;h2&gt;</code> tag:
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;section:has(h1, h2)&quot;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&quot;has-heading&quot;</span>)<span class="op">;</span></span></code></pre></div></li>
+</ul>
+<h2 id="the-has-selector-vs-the-has-method">The <code>:has()</code>
+Selector vs. the <code>.has()</code> Method</h2>
+<p>jQuery provides two ways to achieve this functionality: the
+<code>:has()</code> selector and the <code>.has()</code> filtering
+method.</p>
+<h3 id="1-pseudo-class-selector">1. Pseudo-Class Selector</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;div:has(p)&quot;</span>)<span class="op">.</span><span class="fu">hide</span>()<span class="op">;</span></span></code></pre></div>
+<h3 id="2-method-chaining">2. Method Chaining</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;div&quot;</span>)<span class="op">.</span><span class="fu">has</span>(<span class="st">&quot;p&quot;</span>)<span class="op">.</span><span class="fu">hide</span>()<span class="op">;</span></span></code></pre></div>
+<p>While both yield the exact same result, using the <code>.has()</code>
+method is generally faster in performance because it allows the initial
+selector (<code>$("div")</code>) to leverage native browser
+<code>querySelectorAll</code> implementation before jQuery applies the
+filter.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

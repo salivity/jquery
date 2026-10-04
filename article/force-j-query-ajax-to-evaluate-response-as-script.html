@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force jQuery AJAX to Evaluate Response as Script - jquery</title>
+    <meta name="description" content="This article explains how to force jQuery AJAX requests to treat and execute server responses as JavaScript code. By default, jQuery automatically detects response types based on MIME headers, but server misconfigurations or specific architecture needs m">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/force-j-query-ajax-to-evaluate-response-as-script">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Force jQuery AJAX to Evaluate Response as Script - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/force-j-query-ajax-to-evaluate-response-as-script" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how to force jQuery AJAX requests to treat and execute server responses as JavaScript code. By default, jQuery automatically detects response types based on MIME headers, but server misconfigurations or specific architecture needs m" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="force-jquery-ajax-to-evaluate-response-as-script">Force jQuery
+AJAX to Evaluate Response as Script</h1>
+<p>This article explains how to force jQuery AJAX requests to treat and
+execute server responses as JavaScript code. By default, jQuery
+automatically detects response types based on MIME headers, but server
+misconfigurations or specific architecture needs may require explicit
+execution. You will learn how to configure the <code>dataType</code>
+parameter in standard AJAX calls, use the dedicated shorthand method,
+and manually execute returned code globally when dealing with
+non-standard MIME types.</p>
+<h3 id="use-the-datatype-setting">Use the <code>dataType</code>
+Setting</h3>
+<p>The primary and cleanest method to force script execution is defining
+the <code>dataType</code> parameter as <code>"script"</code> within the
+<code>$.ajax()</code> configuration object. This forces jQuery to
+execute the response text in the global context as soon as it arrives,
+regardless of the <code>Content-Type</code> header sent by the
+server.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">url</span><span class="op">:</span> <span class="st">&quot;https://example.com/api/script-endpoint&quot;</span><span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">dataType</span><span class="op">:</span> <span class="st">&quot;script&quot;</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">success</span><span class="op">:</span> <span class="kw">function</span>(data<span class="op">,</span> textStatus<span class="op">,</span> jqXHR) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Script loaded and executed successfully.&quot;</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">error</span><span class="op">:</span> <span class="kw">function</span>(jqXHR<span class="op">,</span> textStatus<span class="op">,</span> errorThrown) {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Failed to load or execute script:&quot;</span><span class="op">,</span> errorThrown)<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>When <code>dataType: "script"</code> is set, jQuery automatically
+inserts a dynamic <code>&lt;script&gt;</code> tag into the document head
+for cross-domain requests, or evaluates the response content via
+<code>$.globalEval()</code> for same-domain requests.</p>
+<h3 id="use-the-getscript-shorthand">Use the <code>$.getScript()</code>
+Shorthand</h3>
+<p>If you are performing a <code>GET</code> request, jQuery provides a
+built-in helper function called <code>$.getScript()</code>. This method
+acts as an alias for a <code>GET</code> AJAX call configured with
+<code>dataType: "script"</code>.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">getScript</span>(<span class="st">&quot;https://example.com/dynamic-code.js&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">done</span>(<span class="kw">function</span>(script<span class="op">,</span> textStatus) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Script executed automatically.&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">fail</span>(<span class="kw">function</span>(jqXHR<span class="op">,</span> settings<span class="op">,</span> exception) {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Execution failed:&quot;</span><span class="op">,</span> exception)<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span></code></pre></div>
+<p>By default, <code>$.getScript()</code> sets the <code>cache</code>
+option to <code>false</code>, appending a timestamp query string to the
+URL to prevent browser caching.</p>
+<h3 id="manually-execute-responses-with-globaleval">Manually Execute
+Responses with <code>$.globalEval()</code></h3>
+<p>When a server returns JavaScript with an incorrect MIME type (such as
+<code>text/plain</code> or <code>application/octet-stream</code>) and
+modifying the <code>dataType</code> causes processing issues, you can
+accept the response as plain text and force execution using
+<code>$.globalEval()</code>.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">url</span><span class="op">:</span> <span class="st">&quot;https://example.com/custom-script&quot;</span><span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">dataType</span><span class="op">:</span> <span class="st">&quot;text&quot;</span><span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">success</span><span class="op">:</span> <span class="kw">function</span>(response) {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Runs the code globally, equivalent to native script execution</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        $<span class="op">.</span><span class="fu">globalEval</span>(response)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Using <code>$.globalEval()</code> is safer and more reliable than
+standard JavaScript <code>eval()</code>, as it guarantees the script
+executes within the window's global scope rather than inside the local
+function scope of the AJAX callback.</p>
+<h3 id="security-considerations">Security Considerations</h3>
+<p>Forcing script evaluation directly from HTTP responses poses security
+risks, primarily Cross-Site Scripting (XSS). Only evaluate responses
+from strictly trusted endpoints, validate that the connection uses HTTPS
+to avoid man-in-the-middle attacks, and avoid using user-controlled
+parameters to construct the target script URL.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

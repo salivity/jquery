@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Select the First Paragraph Using jQuery - jquery</title>
+    <meta name="description" content="Selecting the first paragraph element on a web page using jQuery can be accomplished in several ways depending on your preferred syntax and performance requirements. This guide covers the most common and efficient jQuery methods and selectors to target t">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-select-the-first-paragraph-using-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Select the First Paragraph Using jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-select-the-first-paragraph-using-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Selecting the first paragraph element on a web page using jQuery can be accomplished in several ways depending on your preferred syntax and performance requirements. This guide covers the most common and efficient jQuery methods and selectors to target t" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-select-the-first-paragraph-using-jquery">How to Select
+the First Paragraph Using jQuery</h1>
+<p>Selecting the first paragraph element on a web page using jQuery can
+be accomplished in several ways depending on your preferred syntax and
+performance requirements. This guide covers the most common and
+efficient jQuery methods and selectors to target the initial
+<code>&lt;p&gt;</code> element, including the <code>.first()</code>
+traversal method, the <code>:first</code> pseudo-selector, and
+index-based selection with <code>.eq()</code>.</p>
+<h3 id="method-1-using-the-first-method">Method 1: Using the
+<code>.first()</code> Method</h3>
+<p>The <code>.first()</code> method is the most recommended approach
+because it provides clear readability and better execution performance
+compared to custom pseudo-selectors.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Selects the first &lt;p&gt; element on the page</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> $firstParagraph <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;p&#39;</span>)<span class="op">.</span><span class="fu">first</span>()<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Example: Change its text color to red</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>$firstParagraph<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;color&#39;</span><span class="op">,</span> <span class="st">&#39;red&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This method first collects all paragraph elements into a jQuery
+object and then reduces the set to the very first element found in the
+DOM.</p>
+<hr />
+<h3 id="method-2-using-the-first-selector">Method 2: Using the
+<code>:first</code> Selector</h3>
+<p>jQuery includes a custom pseudo-class selector, <code>:first</code>,
+which allows you to target the first matching element directly within
+the selector string.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Selects the first &lt;p&gt; element directly</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;p:first&#39;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;color&#39;</span><span class="op">,</span> <span class="st">&#39;red&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>While concise, custom selectors like <code>:first</code> cannot
+leverage the browser's native <code>querySelectorAll()</code> engine,
+making them slightly slower than the <code>.first()</code> method on
+large DOM trees.</p>
+<hr />
+<h3 id="method-3-using-the-eq-method">Method 3: Using the
+<code>.eq()</code> Method</h3>
+<p>If you need zero-based index targeting, the <code>.eq(0)</code>
+method achieves the same result as <code>.first()</code>.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Selects the element at index 0 (the first one)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;p&#39;</span>)<span class="op">.</span><span class="fu">eq</span>(<span class="dv">0</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;color&#39;</span><span class="op">,</span> <span class="st">&#39;red&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>Alternatively, the <code>:eq()</code> selector string can be
+used:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;p:eq(0)&#39;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;color&#39;</span><span class="op">,</span> <span class="st">&#39;red&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>Like the <code>:first</code> selector, the string-based
+<code>:eq(0)</code> is slower than the chainable <code>.eq(0)</code>
+method.</p>
+<hr />
+<h3 id="method-4-using-css-standard-selectors-first-of-type">Method 4:
+Using CSS Standard Selectors (<code>:first-of-type</code>)</h3>
+<p>If you want your code to use native CSS selectors that match browser
+specifications, you can combine jQuery with
+<code>:first-of-type</code>:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Selects the first paragraph within its parent container</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;p:first-of-type&#39;</span>)<span class="op">.</span><span class="fu">first</span>()<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;color&#39;</span><span class="op">,</span> <span class="st">&#39;red&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>Note that <code>:first-of-type</code> selects the first paragraph
+relative to each parent container on the page, so appending
+<code>.first()</code> ensures only the very first one across the entire
+document is selected.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

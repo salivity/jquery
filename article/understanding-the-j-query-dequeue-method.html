@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the jQuery dequeue Method - jquery</title>
+    <meta name="description" content="This article explains the purpose and functionality of the jQuery .dequeue() method, detailing how it interacts with jQuery's internal queue system. Readers will learn how .dequeue() controls execution flow in animation sequences, why it is necessary whe">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/understanding-the-j-query-dequeue-method">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding the jQuery dequeue Method - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/understanding-the-j-query-dequeue-method" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the purpose and functionality of the jQuery .dequeue() method, detailing how it interacts with jQuery's internal queue system. Readers will learn how .dequeue() controls execution flow in animation sequences, why it is necessary whe" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="understanding-the-jquery-dequeue-method">Understanding the
+jQuery dequeue Method</h1>
+<p>This article explains the purpose and functionality of the jQuery
+<code>.dequeue()</code> method, detailing how it interacts with jQuery's
+internal queue system. Readers will learn how <code>.dequeue()</code>
+controls execution flow in animation sequences, why it is necessary when
+working with custom queue functions, and how to implement it effectively
+to prevent animations from stalling.</p>
+<p>In jQuery, animations and custom processes are managed using an
+internal queue, with the default animation queue named <code>fx</code>.
+When functions are added to this queue—often via the
+<code>.queue()</code> method—they are set to execute sequentially. The
+<code>.dequeue()</code> method accomplishes the critical task of
+removing the next function from the front of the queue and executing it
+immediately.</p>
+<p>When a custom function is introduced into a jQuery queue, the
+execution chain pauses by default. jQuery does not automatically know
+when custom code completes. Without an explicit signal to proceed, any
+subsequent animations or queued functions attached to that element
+remain halted indefinitely. The <code>.dequeue()</code> method acts as
+this signal, ensuring that the next item in line is retrieved and
+executed.</p>
+<p>The basic syntax for the method is:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(selector)<span class="op">.</span><span class="fu">dequeue</span>([queueName])<span class="op">;</span></span></code></pre></div>
+<p>The <code>queueName</code> argument is optional. If omitted, it
+defaults to <code>fx</code>, which handles standard animation
+queues.</p>
+<p>A common use case involves adding custom CSS or logic directly into
+an animation chain:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">slideUp</span>(<span class="dv">1000</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">queue</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Custom logic</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&quot;highlight&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Resume queue execution</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">dequeue</span>()<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">slideDown</span>(<span class="dv">1000</span>)<span class="op">;</span></span></code></pre></div>
+<p>In modern versions of jQuery, the queued function receives a
+<code>next</code> callback argument, which serves as a convenient
+wrapper around <code>.dequeue()</code>. Calling <code>next()</code>
+achieves the same result as <code>$(this).dequeue()</code>. However,
+calling <code>.dequeue()</code> directly remains useful when you need to
+trigger the continuation of a queue from outside the queued function's
+scope, manipulate non-standard named queues, or manually advance an
+element's action sequence.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

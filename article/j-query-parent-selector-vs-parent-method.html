@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery :parent Selector vs .parent() Method - jquery</title>
+    <meta name="description" content="While the jQuery :parent pseudo-class selector and the .parent() traversal method share almost identical names, they serve entirely different functions within jQuery. The :parent pseudo-class is a content filter used to select elements that contain at le">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-parent-selector-vs-parent-method">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery :parent Selector vs .parent() Method - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-parent-selector-vs-parent-method" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="While the jQuery :parent pseudo-class selector and the .parent() traversal method share almost identical names, they serve entirely different functions within jQuery. The :parent pseudo-class is a content filter used to select elements that contain at le" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-parent-selector-vs-parent-method">jQuery :parent Selector
+vs .parent() Method</h1>
+<p>While the jQuery <code>:parent</code> pseudo-class selector and the
+<code>.parent()</code> traversal method share almost identical names,
+they serve entirely different functions within jQuery. The
+<code>:parent</code> pseudo-class is a content filter used to select
+elements that contain at least one child node, acting as the exact
+opposite of <code>:empty</code>. Conversely, the <code>.parent()</code>
+method is a tree-traversal function designed to navigate upward in the
+Document Object Model (DOM) to target the immediate ancestor of an
+already-selected element.</p>
+<h2 id="the-parent-pseudo-class-selector">The <code>:parent</code>
+Pseudo-Class Selector</h2>
+<p>The <code>:parent</code> pseudo-class is used inside a selector
+string to filter elements based on their internal contents. An element
+matches <code>:parent</code> if it contains child elements, text nodes,
+or even whitespace.</p>
+<ul>
+<li><strong>Purpose:</strong> Identifies non-empty elements.</li>
+<li><strong>Opposite of:</strong> <code>:empty</code></li>
+<li><strong>Syntax:</strong> <code>$('element:parent')</code></li>
+</ul>
+<h3 id="example">Example:</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Selects all &lt;td&gt; elements that contain text or child tags</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;td:parent&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;has-content&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>In this example, jQuery does not travel up the DOM tree. Instead, it
+inspects every <code>&lt;td&gt;</code> element on the page and selects
+only those that are not empty.</p>
+<h2 id="the-parent-traversal-method">The <code>.parent()</code>
+Traversal Method</h2>
+<p>The <code>.parent()</code> method is used on an existing jQuery
+collection to travel one level up the DOM hierarchy. It locates and
+returns the direct parent container of the selected element.</p>
+<ul>
+<li><strong>Purpose:</strong> Traverses upward to the immediate
+enclosing ancestor.</li>
+<li><strong>Opposite of:</strong> <code>.children()</code></li>
+<li><strong>Syntax:</strong>
+<code>$('element').parent(filter)</code></li>
+</ul>
+<h3 id="example-1">Example:</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Selects the immediate parent element of each &lt;span class=&quot;highlight&quot;&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;span.highlight&#39;</span>)<span class="op">.</span><span class="fu">parent</span>()<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;highlight-wrapper&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>In this case, jQuery finds the <code>&lt;span&gt;</code> elements and
+moves up the DOM tree to manipulate the elements that directly wrap
+them.</p>
+<h2 id="key-differences">Key Differences</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>:parent</code> (Pseudo-Class)</th>
+<th style="text-align: left;"><code>.parent()</code> (Traversal
+Method)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Category</strong></td>
+<td style="text-align: left;">Filtering selector</td>
+<td style="text-align: left;">DOM traversal method</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Direction</strong></td>
+<td style="text-align: left;">Inspects internal children</td>
+<td style="text-align: left;">Moves upward to the ancestor</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>What It Checks</strong></td>
+<td style="text-align: left;">Whether the element contains content</td>
+<td style="text-align: left;">What container encloses the element</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Returned Element</strong></td>
+<td style="text-align: left;">The matched element itself</td>
+<td style="text-align: left;">The direct parent container</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Optional Filter</strong></td>
+<td style="text-align: left;">Applied within selector (e.g.,
+<code>div:parent</code>)</td>
+<td style="text-align: left;">Accepts a selector argument (e.g.,
+<code>.parent('.active')</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="summary">Summary</h2>
+<p>Use the <code>:parent</code> pseudo-class when you need to find
+elements that are not empty. Use the <code>.parent()</code> method when
+you have an element and need to access or modify the container holding
+it.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

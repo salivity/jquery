@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Interaction Widgets in jQuery UI - jquery</title>
+    <meta name="description" content="This article provides an overview of the primary interaction components and interactive widgets available in the jQuery UI library. jQuery UI categorizes dynamic behaviors into core interactions—such as dragging, dropping, and resizing—and visual wid">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/main-interaction-widgets-in-j-query-ui">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Main Interaction Widgets in jQuery UI - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/main-interaction-widgets-in-j-query-ui" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of the primary interaction components and interactive widgets available in the jQuery UI library. jQuery UI categorizes dynamic behaviors into core interactions—such as dragging, dropping, and resizing—and visual wid" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="main-interaction-widgets-in-jquery-ui">Main Interaction Widgets
+in jQuery UI</h1>
+<p>This article provides an overview of the primary interaction
+components and interactive widgets available in the jQuery UI library.
+jQuery UI categorizes dynamic behaviors into core interactions—such as
+dragging, dropping, and resizing—and visual widgets that facilitate
+direct user engagement. Understanding these tools allows developers to
+build responsive, desktop-like interfaces on the web with minimal
+code.</p>
+<h2 id="core-interactions">Core Interactions</h2>
+<p>jQuery UI includes a specialized set of interaction behaviors
+designed to add mouse-based manipulations to any DOM element:</p>
+<ul>
+<li><strong>Draggable:</strong> Enables any HTML element to be moved
+across the screen using mouse click-and-drag mechanics. It supports axis
+constraints, grid snapping, and containment boundaries.</li>
+<li><strong>Droppable:</strong> Designates specific elements as drop
+targets for draggable objects. It detects when a draggable element
+hovers over, enters, or is dropped onto the target, triggering custom
+event handlers.</li>
+<li><strong>Resizable:</strong> Adds interactive handles to DOM
+elements, enabling users to adjust height and width by dragging borders
+or corners. Developers can define minimum/maximum sizes and maintain
+aspect ratios.</li>
+<li><strong>Selectable:</strong> Allows users to select single or
+multiple elements using mouse clicks or by dragging a selection marquee
+box over a group of items.</li>
+<li><strong>Sortable:</strong> Organizes a list or grid of items into a
+reorderable sequence. Users can drag elements to new positions, with
+built-in support for moving items between connected lists.</li>
+</ul>
+<h2 id="primary-interactive-widgets">Primary Interactive Widgets</h2>
+<p>Beyond basic mouse interactions, jQuery UI provides pre-built,
+feature-complete widgets designed for direct user control and data
+manipulation:</p>
+<ul>
+<li><strong>Accordion:</strong> Displays collapsible content panels to
+present information in a compact, organized structure, expanding one
+panel while collapsing others upon interaction.</li>
+<li><strong>Autocomplete:</strong> Enhances text input fields with
+real-time suggestion lists fetched from local arrays or remote data
+sources as the user types.</li>
+<li><strong>Datepicker:</strong> Renders an interactive calendar popup
+or inline view, allowing users to navigate months, select single dates,
+or define date ranges.</li>
+<li><strong>Dialog:</strong> Generates floating modal or non-modal
+overlay windows for alerts, confirmations, or complex data entry,
+featuring integrated title bars, close controls, and resizable
+borders.</li>
+<li><strong>Slider:</strong> Provides horizontal or vertical tracks with
+draggable handles for selecting numeric values or ranges, commonly used
+for volume controls, price filters, and quantity inputs.</li>
+<li><strong>Tabs:</strong> Breaks down content into distinct sections
+accessible via tabbed navigation, supporting both static HTML panels and
+dynamic content loaded via Ajax.</li>
+<li><strong>Progressbar:</strong> Visually conveys the completion status
+of a deterministic or indeterminate process, updating dynamically to
+reflect task progress.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

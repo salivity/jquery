@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixing jQuery with React or Angular: Common Pitfalls - jquery</title>
+    <meta name="description" content="Combining legacy libraries like jQuery with modern component-based frameworks such as React or Angular frequently introduces architectural conflicts, performance bottlenecks, and unpredictable bugs. While developers sometimes rely on jQuery to reuse lega">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/mixing-j-query-with-react-or-angular-common-pitfalls">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Mixing jQuery with React or Angular: Common Pitfalls - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/mixing-j-query-with-react-or-angular-common-pitfalls" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Combining legacy libraries like jQuery with modern component-based frameworks such as React or Angular frequently introduces architectural conflicts, performance bottlenecks, and unpredictable bugs. While developers sometimes rely on jQuery to reuse lega" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="mixing-jquery-with-react-or-angular-common-pitfalls">Mixing
+jQuery with React or Angular: Common Pitfalls</h1>
+<p>Combining legacy libraries like jQuery with modern component-based
+frameworks such as React or Angular frequently introduces architectural
+conflicts, performance bottlenecks, and unpredictable bugs. While
+developers sometimes rely on jQuery to reuse legacy plugins or simplify
+DOM operations, doing so fundamentally undermines the reactive paradigms
+that modern frameworks rely on. This article outlines the primary
+pitfalls encountered when mixing jQuery with React or Angular, detailing
+issues related to DOM manipulation, state synchronization, component
+lifecycles, and memory management.</p>
+<h3 id="dom-desynchronization">DOM Desynchronization</h3>
+<p>React utilizes a Virtual DOM, while Angular employs an Incremental
+DOM coupled with its internal Change Detection engine. Both frameworks
+operate under the assumption that they have exclusive control over the
+document tree. When jQuery directly manipulates the real DOM—such as
+inserting nodes, changing attributes, or removing elements—it operates
+completely outside the awareness of React or Angular.</p>
+<p>This mismatch leads to desynchronization. For example, if jQuery
+removes an element that React expects to control, React will crash with
+runtime errors during its reconciliation phase. Conversely, when React
+or Angular re-renders a component, the framework will overwrite any
+direct DOM modifications made by jQuery, erasing user interactions or
+plugin states.</p>
+<h3 id="state-and-event-handling-conflicts">State and Event Handling
+Conflicts</h3>
+<p>React and Angular follow predictable, unidirectional data flows or
+reactive state patterns. In contrast, jQuery relies on the DOM itself as
+the source of truth, reading and writing state directly to HTML
+attributes and node values.</p>
+<p>When you mix these patterns, synchronization fails. If an event is
+triggered by a jQuery plugin, Angular’s Zone.js may fail to detect the
+change, preventing the framework from updating the view unless
+developers explicitly wrap calls in <code>NgZone.run()</code>.
+Similarly, React uses a Synthetic Event system that delegates events at
+the root level; jQuery’s native event listeners can interfere with event
+bubbling and propagation, leading to unpredictable handler
+execution.</p>
+<h3 id="lifecycle-and-timing-issues">Lifecycle and Timing Issues</h3>
+<p>Modern frameworks dynamically create, render, and destroy components
+based on application state. jQuery code, however, assumes that target
+elements are statically present in the DOM when a script executes.</p>
+<p>Targeting an element with a jQuery selector before a React component
+mounts or after an Angular template conditional (<code>*ngIf</code>)
+evaluates to false results in silent failures. Developers often resort
+to fragile workarounds, such as using <code>setTimeout</code> or polling
+the DOM, to ensure elements exist before initializing jQuery plugins,
+which leads to race conditions and brittle code.</p>
+<h3 id="memory-leaks-and-cleanup-failures">Memory Leaks and Cleanup
+Failures</h3>
+<p>Single-page applications (SPAs) dynamically mount and unmount
+components without full page reloads. When a jQuery plugin or event
+listener is attached to an element inside a component, the framework
+does not automatically clean up those jQuery bindings when the component
+is destroyed.</p>
+<p>Unless developers manually unbind every jQuery event listener and
+call plugin destruction methods inside React’s <code>useEffect</code>
+cleanup return function or Angular’s <code>ngOnDestroy</code> hook, the
+detached DOM nodes and their associated closures remain in memory. Over
+time, these dangling references cause severe memory leaks and degrade
+browser performance.</p>
+<h3 id="bundle-size-and-architectural-bloat">Bundle Size and
+Architectural Bloat</h3>
+<p>Modern JavaScript (ES6+) and modern frameworks already provide native
+solutions for every capability jQuery offers, including element
+querying, asynchronous requests (<code>fetch</code>), class toggling,
+and animations. Bundling jQuery alongside React or Angular adds
+unnecessary payload to the application bundle, slowing initial load
+times without offering unique functionality. Maintaining a hybrid
+codebase also forces development teams to juggle conflicting paradigms,
+increasing technical debt and the cost of ongoing maintenance.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

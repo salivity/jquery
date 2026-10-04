@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding event.stopPropagation() in jQuery - jquery</title>
+    <meta name="description" content="This guide explains the core purpose and practical usage of the event.stopPropagation() method in jQuery. You will learn how event bubbling functions in the Document Object Model (DOM), how this method prevents an event from triggering handlers on parent">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/understanding-event-stop-propagation-in-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding event.stopPropagation() in jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/understanding-event-stop-propagation-in-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This guide explains the core purpose and practical usage of the event.stopPropagation() method in jQuery. You will learn how event bubbling functions in the Document Object Model (DOM), how this method prevents an event from triggering handlers on parent" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="understanding-eventstoppropagation-in-jquery">Understanding
+event.stopPropagation() in jQuery</h1>
+<p>This guide explains the core purpose and practical usage of the
+<code>event.stopPropagation()</code> method in jQuery. You will learn
+how event bubbling functions in the Document Object Model (DOM), how
+this method prevents an event from triggering handlers on parent
+elements, how it differs from other event-handling functions like
+<code>event.preventDefault()</code>, and the common scenarios where
+implementing it is necessary for maintaining clean user interface
+behavior.</p>
+<h2 id="what-is-event-bubbling">What Is Event Bubbling?</h2>
+<p>To understand <code>event.stopPropagation()</code>, you must first
+understand DOM event propagation, commonly known as "bubbling." When a
+user interacts with an HTML element—such as clicking a nested
+<code>&lt;button&gt;</code> inside a <code>&lt;div&gt;</code>—the event
+does not execute solely on that button.</p>
+<p>Instead, the event executes on the clicked element first and then
+bubbles upward through each parent element in the DOM tree all the way
+to the <code>document</code> object. If any ancestor elements have their
+own event listeners attached for the same event type, those listeners
+will trigger automatically in sequence.</p>
+<h2 id="the-purpose-of-eventstoppropagation">The Purpose of
+event.stopPropagation()</h2>
+<p>The primary purpose of <code>event.stopPropagation()</code> in jQuery
+is to stop an event from continuing its journey up the DOM tree. When
+you call this method inside an event handler, the event stops
+immediately at the current element, preventing any ancestor elements
+from detecting or reacting to that specific event occurrence.</p>
+<h3 id="basic-code-example">Basic Code Example</h3>
+<p>Consider a nested structure where a button resides inside a clickable
+card container:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;card&quot;</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;padding: 20px; background-color: #eee;&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">h3</span><span class="dt">&gt;</span>Card Title<span class="dt">&lt;/</span><span class="kw">h3</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;deleteBtn&quot;</span><span class="dt">&gt;</span>Delete Item<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>Without <code>stopPropagation()</code>, clicking the button would
+trigger both the button's click handler and the card's click
+handler:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Parent click handler</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#card&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Card clicked: opening details view.&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Child click handler with stopPropagation</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#deleteBtn&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>(<span class="bu">event</span>) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">event</span><span class="op">.</span><span class="fu">stopPropagation</span>()<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Delete button clicked: item removed.&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Because <code>event.stopPropagation()</code> is invoked inside the
+<code>#deleteBtn</code> handler, clicking the button only outputs the
+delete message. The <code>#card</code> click event is blocked
+entirely.</p>
+<h2 id="stoppropagation-vs-preventdefault">stopPropagation() vs.
+preventDefault()</h2>
+<p>It is common to confuse <code>event.stopPropagation()</code> with
+<code>event.preventDefault()</code>, but they serve two distinct
+functions:</p>
+<ul>
+<li><strong><code>event.stopPropagation()</code></strong>: Halts the
+upward travel of an event through the DOM hierarchy. It does not stop
+the browser's default behavior for the target element (such as following
+a link or submitting a form).</li>
+<li><strong><code>event.preventDefault()</code></strong>: Cancels the
+browser's native default behavior for that element (such as preventing a
+link <code>&lt;a&gt;</code> from navigating to a URL or a
+<code>&lt;form&gt;</code> from reloading the page). It does not stop the
+event from bubbling up to parent containers.</li>
+</ul>
+<p>If you need to stop both the native browser action and the bubbling
+behavior, you must call both methods, or <code>return false</code>
+within a jQuery-specific event handler.</p>
+<h2 id="stoppropagation-vs-stopimmediatepropagation">stopPropagation()
+vs. stopImmediatePropagation()</h2>
+<p>jQuery also provides <code>event.stopImmediatePropagation()</code>.
+While <code>stopPropagation()</code> prevents the event from reaching
+parent elements, other listeners attached to the <em>same</em> element
+will still execute. <code>event.stopImmediatePropagation()</code> takes
+control a step further by stopping the event from bubbling to parent
+elements <em>and</em> blocking any subsequent handlers attached to the
+exact same element from executing.</p>
+<h2 id="common-use-cases">Common Use Cases</h2>
+<ul>
+<li><strong>Modal Dialogs and Overlays:</strong> Preventing a click on
+the modal's content window from propagating to the dark background
+overlay, which is typically configured to close the modal when
+clicked.</li>
+<li><strong>Dropdown Menus:</strong> Allowing users to click inside a
+dropdown panel (such as selecting options or typing in a filter field)
+without triggering document-level listeners that automatically collapse
+the menu.</li>
+<li><strong>Nested Interactive Controls:</strong> Managing buttons,
+checkboxes, or links embedded within larger clickable list items,
+tables, or cards.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

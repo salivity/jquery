@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the jQuery Document Ready Function - jquery</title>
+    <meta name="description" content="The jQuery document.ready function is a fundamental method used to ensure that JavaScript code executes only after the browser has fully loaded the HTML Document Object Model (DOM). By preventing scripts from running prematurely, it safeguards against er">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/understanding-the-j-query-document-ready-function">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding the jQuery Document Ready Function - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/understanding-the-j-query-document-ready-function" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery document.ready function is a fundamental method used to ensure that JavaScript code executes only after the browser has fully loaded the HTML Document Object Model (DOM). By preventing scripts from running prematurely, it safeguards against er" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="understanding-the-jquery-document-ready-function">Understanding
+the jQuery Document Ready Function</h1>
+<p>The jQuery <code>document.ready</code> function is a fundamental
+method used to ensure that JavaScript code executes only after the
+browser has fully loaded the HTML Document Object Model (DOM). By
+preventing scripts from running prematurely, it safeguards against
+errors caused by trying to access or manipulate elements that do not yet
+exist on the page. This article explains the technical purpose of
+<code>$(document).ready()</code>, how it differs from traditional window
+load events, and its role in reliable web development.</p>
+<h3 id="the-purpose-of-documentready">The Purpose of
+<code>$(document).ready()</code></h3>
+<p>Browsers read and parse HTML from top to bottom. If a script executes
+before the browser reaches the targeted HTML markup, JavaScript attempts
+to interact with non-existent elements, resulting in errors or silent
+failures.</p>
+<p>The <code>$(document).ready()</code> method solves this issue by
+pausing execution until the DOM hierarchy is completely constructed.
+Once the tree is ready, jQuery executes the enclosed code safely.</p>
+<p>Standard syntax:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">ready</span>(<span class="kw">function</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// DOM is ready, safe to manipulate elements</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;button&quot;</span>)<span class="op">.</span><span class="fu">click</span>(<span class="kw">function</span>() {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="st">&quot;p&quot;</span>)<span class="op">.</span><span class="fu">hide</span>()<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Shorthand syntax:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Equivalent to $(document).ready()</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="documentready-vs-windowonload"><code>document.ready</code> vs.
+<code>window.onload</code></h3>
+<p>While both mechanisms wait for the page to load, they trigger at
+different stages:</p>
+<ul>
+<li><strong><code>$(document).ready()</code></strong>: Fires as soon as
+the HTML structure is parsed and the DOM is fully constructed. It does
+not wait for external resources like images, stylesheets, or iframes to
+finish downloading. This makes it significantly faster and ideal for UI
+initialization.</li>
+<li><strong><code>window.onload</code></strong>: Fires only after the
+entire page—including the DOM, images, CSS, and third-party scripts—has
+completely finished loading. Using <code>onload</code> for simple DOM
+manipulations introduces unnecessary delays, especially on media-heavy
+pages.</li>
+</ul>
+<h3 id="key-benefits">Key Benefits</h3>
+<ul>
+<li><strong>Error Prevention</strong>: Eliminates "cannot read
+properties of null/undefined" errors by ensuring elements exist before
+listeners or styles are applied.</li>
+<li><strong>Placement Flexibility</strong>: Enables developers to place
+script tags anywhere in the document—including inside the
+<code>&lt;head&gt;</code>—without breaking functionality.</li>
+<li><strong>Faster Interactivity</strong>: Because it does not wait for
+heavy assets to download, interactive elements become responsive much
+sooner for the user.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

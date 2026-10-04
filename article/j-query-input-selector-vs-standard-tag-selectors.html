@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery :input Selector vs Standard Tag Selectors - jquery</title>
+    <meta name="description" content="This article explains the core differences between the jQuery :input pseudo-class and standard HTML tag selectors like input. While standard CSS and DOM tag selectors only match elements with a specific HTML tag name, jQuery's :input selector functions a">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-input-selector-vs-standard-tag-selectors">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery :input Selector vs Standard Tag Selectors - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-input-selector-vs-standard-tag-selectors" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the core differences between the jQuery :input pseudo-class and standard HTML tag selectors like input. While standard CSS and DOM tag selectors only match elements with a specific HTML tag name, jQuery's :input selector functions a" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-input-selector-vs-standard-tag-selectors">jQuery :input
+Selector vs Standard Tag Selectors</h1>
+<p>This article explains the core differences between the jQuery
+<code>:input</code> pseudo-class and standard HTML tag selectors like
+<code>input</code>. While standard CSS and DOM tag selectors only match
+elements with a specific HTML tag name, jQuery's <code>:input</code>
+selector functions as a comprehensive shorthand that targets all
+interactive form elements, regardless of their specific tag.
+Understanding this distinction is essential for properly traversing
+forms, serializing data, and managing DOM performance.</p>
+<h3 id="the-scope-of-element-selection">The Scope of Element
+Selection</h3>
+<p>The fundamental difference lies in the breadth of elements each
+selector captures:</p>
+<ul>
+<li><strong>Standard Tag Selector (<code>$("input")</code>):</strong>
+This targets only native <code>&lt;input&gt;</code> elements. It will
+match types such as <code>text</code>, <code>password</code>,
+<code>checkbox</code>, <code>radio</code>, <code>hidden</code>, and
+<code>submit</code>. However, it completely ignores other standard form
+controls like <code>&lt;textarea&gt;</code>,
+<code>&lt;select&gt;</code>, and <code>&lt;button&gt;</code>.</li>
+<li><strong>jQuery Pseudo-Class (<code>$(":input")</code>):</strong>
+This is a custom jQuery selector designed to capture all form controls
+under a single umbrella. Selecting <code>$(":input")</code> matches
+<code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code>,
+<code>&lt;select&gt;</code>, and <code>&lt;button&gt;</code> elements
+simultaneously.</li>
+</ul>
+<h3 id="native-css-support-vs-jquery-extensions">Native CSS Support vs.
+jQuery Extensions</h3>
+<p>A standard tag selector corresponds directly to the W3C CSS
+specification. Because it is standard CSS, the browser can execute
+<code>$("input")</code> using native browser methods like
+<code>document.querySelectorAll()</code> or
+<code>document.getElementsByTagName()</code>, which are highly optimized
+at the engine level.</p>
+<p>In contrast, <code>:input</code> is not part of the standard CSS
+specification. Modern browser query engines do not recognize it
+natively. Consequently, jQuery must handle the selection via its
+internal engine (such as Sizzle) by querying candidate elements and
+filtering them by tag name.</p>
+<h3 id="performance-considerations">Performance Considerations</h3>
+<p>Because the <code>:input</code> pseudo-class cannot leverage pure
+native selector engines:</p>
+<ol type="1">
+<li><strong>Execution Speed:</strong> Querying with bare
+<code>$(":input")</code> across a large DOM can be significantly slower
+than querying a standard tag.</li>
+<li><strong>Optimization:</strong> To optimize queries using
+<code>:input</code>, it is best practice to qualify the selector with a
+standard tag or an ID context, such as <code>$("#myForm :input")</code>,
+which limits the search space before jQuery applies its filtering
+logic.</li>
+</ol>
+<h3 id="practical-use-cases">Practical Use Cases</h3>
+<ul>
+<li><strong>Use <code>$("input")</code></strong> when applying styles,
+events, or attribute changes specifically meant for single-line text
+inputs, checkboxes, or specific input types.</li>
+<li><strong>Use <code>$(":input")</code></strong> when you need to
+perform global operations on an entire form, such as disabling all
+interactive controls during an AJAX submission, resetting values, or
+gathering full form state.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

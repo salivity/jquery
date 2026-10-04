@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use the jQuery :only-of-type Selector - jquery</title>
+    <meta name="description" content="The jQuery :only-of-type selector targets every element that has no siblings of the same element tag name within its parent container. This article covers the fundamental mechanics of how :only-of-type evaluates the Document Object Model (DOM), how it di">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-use-the-j-query-only-of-type-selector">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Use the jQuery :only-of-type Selector - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-use-the-j-query-only-of-type-selector" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery :only-of-type selector targets every element that has no siblings of the same element tag name within its parent container. This article covers the fundamental mechanics of how :only-of-type evaluates the Document Object Model (DOM), how it di" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-use-the-jquery-only-of-type-selector">How to Use the
+jQuery :only-of-type Selector</h1>
+<p>The jQuery <code>:only-of-type</code> selector targets every element
+that has no siblings of the same element tag name within its parent
+container. This article covers the fundamental mechanics of how
+<code>:only-of-type</code> evaluates the Document Object Model (DOM),
+how it differs from similar structural pseudo-class selectors like
+<code>:only-child</code>, and practical examples of isolating unique
+tags inside dynamic container layouts.</p>
+<h3 id="how-the-selector-works">How the Selector Works</h3>
+<p>The <code>:only-of-type</code> pseudo-class operates by scanning the
+direct child nodes of a parent element. When a selector such as
+<code>$('p:only-of-type')</code> is executed, the DOM traversal engine
+evaluates each <code>&lt;p&gt;</code> tag in the document and inspects
+all siblings within its immediate parent.</p>
+<p>If the parent contains only that single <code>&lt;p&gt;</code> tag,
+the element is selected. If the parent contains two or more
+<code>&lt;p&gt;</code> elements, none of them match the selector.
+Crucially, the presence of other distinct tag types—such as
+<code>&lt;h1&gt;</code>, <code>&lt;div&gt;</code>, or
+<code>&lt;span&gt;</code>—does not prevent a match, provided no other
+sibling shares the exact same HTML tag name.</p>
+<h3 id="difference-between-only-of-type-and-only-child">Difference
+Between :only-of-type and :only-child</h3>
+<p>Understanding the distinction between <code>:only-of-type</code> and
+<code>:only-child</code> is critical for precise DOM targeting:</p>
+<ul>
+<li><strong><code>:only-child</code></strong>: Matches an element only
+if it is the absolute sole child of its parent. If a parent contains a
+<code>&lt;h1&gt;</code> and a <code>&lt;p&gt;</code>, neither element
+matches <code>:only-child</code> because there are two children in
+total.</li>
+<li><strong><code>:only-of-type</code></strong>: Restricts its
+uniqueness check strictly to the element's tag name. In a parent
+containing one <code>&lt;h1&gt;</code> and one <code>&lt;p&gt;</code>,
+both elements are considered "only of type" within that container and
+can be isolated accordingly.</li>
+</ul>
+<h3 id="practical-html-example">Practical HTML Example</h3>
+<p>Consider the following HTML snippet:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;container&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">h1</span><span class="dt">&gt;</span>Page Title<span class="dt">&lt;/</span><span class="kw">h1</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>First paragraph.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>Second paragraph.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">span</span><span class="dt">&gt;</span>Unique note<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>If you execute:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.container span:only-of-type&#39;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;color&#39;</span><span class="op">,</span> <span class="st">&#39;red&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>The <code>&lt;span&gt;</code> element turns red because it is the
+only <code>&lt;span&gt;</code> inside <code>.container</code>, even
+though it shares the container with an <code>&lt;h1&gt;</code> and two
+<code>&lt;p&gt;</code> tags.</p>
+<p>Conversely, running:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.container p:only-of-type&#39;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;color&#39;</span><span class="op">,</span> <span class="st">&#39;blue&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This will match nothing, because the parent container holds two
+sibling <code>&lt;p&gt;</code> elements, invalidating the condition.</p>
+<h3 id="combining-with-classes-and-other-selectors">Combining with
+Classes and Other Selectors</h3>
+<p>While <code>:only-of-type</code> filters by the HTML tag type, it can
+be combined with class selectors, attribute selectors, or contextual
+methods:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Targets an image only if it is the sole &lt;img&gt; in the card and has the &#39;featured&#39; class</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.card img.featured:only-of-type&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;highlight&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>When combining classes with <code>:only-of-type</code>, remember that
+the "type" check still evaluates the HTML element tag
+(<code>img</code>), not the class name. The element must first be the
+only <code>&lt;img&gt;</code> among its siblings, and only then does
+jQuery verify whether it also possesses the <code>.featured</code>
+class.</p>
+<h3 id="common-use-cases">Common Use Cases</h3>
+<ul>
+<li><strong>Dynamic Layouts:</strong> Formatting a standalone media
+element (such as a single <code>&lt;img&gt;</code> or
+<code>&lt;video&gt;</code>) differently when extra media items are
+absent.</li>
+<li><strong>Semantic Typography:</strong> Removing bottom margins from a
+single solitary <code>&lt;p&gt;</code> or
+<code>&lt;blockquote&gt;</code> inside a sidebar widget without altering
+standard text blocks.</li>
+<li><strong>Form Validation:</strong> Identifying standalone helper text
+elements like <code>&lt;small&gt;</code> or <code>&lt;span&gt;</code>
+beneath input containers for targeted error messaging.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

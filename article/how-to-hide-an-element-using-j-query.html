@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Hide an Element Using jQuery - jquery</title>
+    <meta name="description" content="Hiding elements dynamically improves user experience and interface flexibility, and jQuery offers several built-in methods to accomplish this effortlessly. This guide covers the most effective jQuery techniques for hiding elements, including the core .hi">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-hide-an-element-using-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Hide an Element Using jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-hide-an-element-using-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Hiding elements dynamically improves user experience and interface flexibility, and jQuery offers several built-in methods to accomplish this effortlessly. This guide covers the most effective jQuery techniques for hiding elements, including the core .hi" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-hide-an-element-using-jquery">How to Hide an Element
+Using jQuery</h1>
+<p>Hiding elements dynamically improves user experience and interface
+flexibility, and jQuery offers several built-in methods to accomplish
+this effortlessly. This guide covers the most effective jQuery
+techniques for hiding elements, including the core <code>.hide()</code>
+method, animated alternatives like <code>.fadeOut()</code> and
+<code>.slideUp()</code>, and direct CSS manipulation.</p>
+<h3 id="the-basic-hide-method">The Basic <code>.hide()</code>
+Method</h3>
+<p>The most direct way to hide an element is using jQuery’s built-in
+<code>.hide()</code> method. Under the hood, this sets the element's
+inline CSS style to <code>display: none;</code>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Hide an element by ID</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#myElement&#39;</span>)<span class="op">.</span><span class="fu">hide</span>()<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Hide all elements with a specific class</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.hide-me&#39;</span>)<span class="op">.</span><span class="fu">hide</span>()<span class="op">;</span></span></code></pre></div>
+<p>You can also pass duration parameters (such as <code>'slow'</code>,
+<code>'fast'</code>, or milliseconds) to animate the hiding process:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Hide slowly over 1000 milliseconds (1 second)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#myElement&#39;</span>)<span class="op">.</span><span class="fu">hide</span>(<span class="dv">1000</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="animated-hiding-methods">Animated Hiding Methods</h3>
+<p>If you want smooth visual transitions rather than an instant
+disappearance, jQuery provides dedicated animation methods:</p>
+<ul>
+<li><strong><code>.fadeOut()</code></strong>: Gradually decreases the
+element's opacity until it reaches <code>display: none;</code>.
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#myElement&#39;</span>)<span class="op">.</span><span class="fu">fadeOut</span>(<span class="st">&#39;fast&#39;</span>)<span class="op">;</span></span></code></pre></div></li>
+<li><strong><code>.slideUp()</code></strong>: Animates the height of the
+element upward until it disappears.
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#myElement&#39;</span>)<span class="op">.</span><span class="fu">slideUp</span>(<span class="dv">400</span>)<span class="op">;</span></span></code></pre></div></li>
+</ul>
+<h3 id="toggling-visibility-with-toggle">Toggling Visibility with
+<code>.toggle()</code></h3>
+<p>If you need to switch an element's visibility back and forth based on
+its current state, use <code>.toggle()</code>. It automatically hides
+visible elements and shows hidden ones.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#toggleButton&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;#myElement&#39;</span>)<span class="op">.</span><span class="fu">toggle</span>()<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Similar animated toggles include <code>.fadeToggle()</code> and
+<code>.slideToggle()</code>.</p>
+<h3 id="using-the-css-method">Using the <code>.css()</code> Method</h3>
+<p>You can also hide elements by directly manipulating their CSS
+properties through jQuery. This gives you control over whether the
+element simply disappears or still takes up space in the layout.</p>
+<ul>
+<li><strong>Remove from layout (<code>display: none</code>)</strong>:
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#myElement&#39;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;display&#39;</span><span class="op">,</span> <span class="st">&#39;none&#39;</span>)<span class="op">;</span></span></code></pre></div></li>
+<li><strong>Hide but preserve layout space
+(<code>visibility: hidden</code>)</strong>:
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#myElement&#39;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;visibility&#39;</span><span class="op">,</span> <span class="st">&#39;hidden&#39;</span>)<span class="op">;</span></span></code></pre></div></li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

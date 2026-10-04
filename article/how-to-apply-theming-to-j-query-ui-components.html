@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Apply Theming to jQuery UI Components - jquery</title>
+    <meta name="description" content="Applying themes to jQuery UI components allows you to maintain a consistent visual style across widgets like datepickers, dialogs, accordions, and buttons. This article outlines the primary methods for styling jQuery UI components, including linking pre-">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-apply-theming-to-j-query-ui-components">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Apply Theming to jQuery UI Components - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-apply-theming-to-j-query-ui-components" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Applying themes to jQuery UI components allows you to maintain a consistent visual style across widgets like datepickers, dialogs, accordions, and buttons. This article outlines the primary methods for styling jQuery UI components, including linking pre-" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-apply-theming-to-jquery-ui-components">How to Apply
+Theming to jQuery UI Components</h1>
+<p>Applying themes to jQuery UI components allows you to maintain a
+consistent visual style across widgets like datepickers, dialogs,
+accordions, and buttons. This article outlines the primary methods for
+styling jQuery UI components, including linking pre-built themes from a
+CDN, creating custom themes with ThemeRoller, and overriding specific
+CSS framework classes directly.</p>
+<h2 id="1-using-pre-built-themes-via-cdn">1. Using Pre-Built Themes via
+CDN</h2>
+<p>The fastest way to style jQuery UI components is to link to an
+official pre-built theme hosted on a Content Delivery Network (CDN).</p>
+<p>Include the theme's CSS file in the <code>&lt;head&gt;</code> of your
+HTML document before initializing any widgets:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Base jQuery and jQuery UI scripts --&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;https://code.jquery.com/jquery-3.6.0.min.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;https://code.jquery.com/ui/1.13.2/jquery-ui.min.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Pre-built Theme: Smoothness --&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css&quot;</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>Other official themes can be swapped into the URL path, including
+<code>ui-lightness</code>, <code>ui-darkness</code>,
+<code>redmond</code>, <code>sunny</code>, <code>blitzer</code>, and
+<code>cupertino</code>.</p>
+<h2 id="2-generating-custom-themes-with-themeroller">2. Generating
+Custom Themes with ThemeRoller</h2>
+<p>If the pre-built themes do not fit your brand, use jQuery UI's
+<strong>ThemeRoller</strong> web application.</p>
+<ol type="1">
+<li>Navigate to the ThemeRoller tool on the official jQuery UI
+website.</li>
+<li>Adjust design tokens in the left sidebar, such as corner radiuses,
+font families, base font sizes, background colors, and state
+interactions (hover, active, focus).</li>
+<li>Preview your changes on interactive widgets in real time.</li>
+<li>Click <strong>Download theme</strong> to generate an archive
+containing the compiled <code>jquery-ui.css</code>, a minified version,
+and an <code>images/</code> folder containing icons and background
+textures.</li>
+<li>Extract the files into your project and reference the custom
+CSS:</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;path/to/custom-theme/jquery-ui.min.css&quot;</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>Ensure the <code>images/</code> directory stays in the same relative
+path as the CSS file so all referenced assets load correctly.</p>
+<h2 id="3-overriding-theme-classes-with-custom-css">3. Overriding Theme
+Classes with Custom CSS</h2>
+<p>jQuery UI uses a standard set of semantic CSS classes across all
+widgets. You can override these classes in your own stylesheet to tweak
+specific elements without re-generating an entire theme:</p>
+<ul>
+<li><strong>Containers:</strong> <code>.ui-widget</code>,
+<code>.ui-widget-content</code>, <code>.ui-widget-header</code></li>
+<li><strong>Interaction states:</strong> <code>.ui-state-default</code>,
+<code>.ui-state-hover</code>, <code>.ui-state-active</code>,
+<code>.ui-state-focus</code></li>
+<li><strong>Interaction cues:</strong> <code>.ui-state-highlight</code>,
+<code>.ui-state-error</code>, <code>.ui-priority-primary</code></li>
+<li><strong>Icons:</strong> <code>.ui-icon</code></li>
+</ul>
+<p>To override a default component property, place your custom
+stylesheet after the jQuery UI theme link:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;jquery-ui.css&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;custom-overrides.css&quot;</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* custom-overrides.css */</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">/* Change the primary widget header color */</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">.ui-widget-header</span> {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">background</span><span class="ch">:</span> <span class="cn">#0055aa</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">color</span><span class="ch">:</span> <span class="cn">#ffffff</span><span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">border</span><span class="ch">:</span> <span class="dv">1</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#004488</span><span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">/* Adjust button corners */</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">.ui-corner-all</span> {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">border-radius</span><span class="ch">:</span> <span class="dv">8</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="4-applying-scoped-themes">4. Applying Scoped Themes</h2>
+<p>To use different themes on different sections of the same page,
+download your theme using the <strong>ThemeRoller Scope/CSS
+Scope</strong> setting.</p>
+<ol type="1">
+<li>In ThemeRoller, provide a CSS selector (e.g.,
+<code>.admin-theme</code>) in the "Advanced Settings" scope input.</li>
+<li>The downloaded CSS file will prepend your selector to all framework
+rules.</li>
+<li>Wrap your target components in a container matching that
+selector:</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;admin-theme&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Components inside this container will render using the scoped theme --&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;datepicker&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

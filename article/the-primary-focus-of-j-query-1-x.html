@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Primary Focus of jQuery 1.x - jquery</title>
+    <meta name="description" content="The jQuery 1.x branch was developed with a primary focus on maximizing cross-browser compatibility, specifically by maintaining comprehensive support for legacy web browsers like Microsoft Internet Explorer 6, 7, and 8. During an era characterized by fra">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/the-primary-focus-of-j-query-1-x">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="The Primary Focus of jQuery 1.x - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/the-primary-focus-of-j-query-1-x" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery 1.x branch was developed with a primary focus on maximizing cross-browser compatibility, specifically by maintaining comprehensive support for legacy web browsers like Microsoft Internet Explorer 6, 7, and 8. During an era characterized by fra" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="the-primary-focus-of-jquery-1x">The Primary Focus of jQuery
+1.x</h1>
+<p>The jQuery 1.x branch was developed with a primary focus on
+maximizing cross-browser compatibility, specifically by maintaining
+comprehensive support for legacy web browsers like Microsoft Internet
+Explorer 6, 7, and 8. During an era characterized by fragmented web
+standards and inconsistent browser rendering engines, jQuery 1.x
+provided web developers with a unified API that abstracted away
+platform-specific quirks, polyfilled missing features, and normalized
+the Document Object Model (DOM).</p>
+<h2 id="universal-browser-compatibility-and-legacy-support">Universal
+Browser Compatibility and Legacy Support</h2>
+<p>During the late 2000s and early 2010s, Internet Explorer held a
+massive share of the browser market, yet it deviated significantly from
+emerging W3C web standards. The primary objective of the jQuery 1.x
+branch was to ensure that JavaScript code written by developers behaved
+consistently across all major browsers without requiring custom,
+browser-specific conditionals or hacks.</p>
+<p>To achieve this, the 1.x codebase included extensive internal
+fallbacks and patches for:</p>
+<ul>
+<li><strong>Event Handling:</strong> Normalizing differences between the
+standard W3C event model (<code>addEventListener</code>) and Internet
+Explorer's proprietary model (<code>attachEvent</code>), including event
+propagation and event object properties.</li>
+<li><strong>DOM Manipulation and Traversal:</strong> Providing uniform
+methods for selecting and manipulating elements, overcoming lack of
+support for native methods like <code>querySelector</code> and
+<code>querySelectorAll</code> in early IE versions.</li>
+<li><strong>CSS and Styling Inconsistencies:</strong> Handling
+proprietary style properties, such as IE's
+<code>filter: alpha(opacity=...)</code> syntax, seamlessly alongside
+standard W3C <code>opacity</code>.</li>
+<li><strong>Ajax Normalization:</strong> Abstracting the underlying
+transport mechanisms, managing the differences between native
+<code>XMLHttpRequest</code> and Microsoft's <code>ActiveXObject</code>
+implementations.</li>
+</ul>
+<h2 id="the-dual-release-strategy-with-jquery-2x">The Dual-Release
+Strategy with jQuery 2.x</h2>
+<p>The dedicated focus of jQuery 1.x became most apparent in 2013 with
+the release of jQuery 2.0. Rather than abandoning legacy support
+entirely, the jQuery team introduced a dual-branch strategy:</p>
+<ul>
+<li><strong>jQuery 2.x</strong> dropped support for Internet Explorer 6,
+7, and 8, allowing the library to be smaller, faster, and more aligned
+with modern standards.</li>
+<li><strong>jQuery 1.x</strong> (continued through versions 1.9 to 1.12)
+remained actively maintained with feature parity to 2.x, but retained
+all the polyfills and workarounds necessary to support older
+browsers.</li>
+</ul>
+<p>This approach allowed enterprise environments, government websites,
+and public-facing platforms that were bound by legacy client
+requirements to continue receiving security updates and modern library
+features without breaking older machines. The 1.x branch remained the
+most widely deployed version of jQuery until older versions of Internet
+Explorer reached their official end-of-life support.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

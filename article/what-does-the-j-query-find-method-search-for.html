@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does the jQuery find() Method Search For? - jquery</title>
+    <meta name="description" content="The jQuery find() method is a DOM traversal function used to search through the descendants of selected elements down through multiple levels of the HTML tree. This article explains precisely what elements find() targets, how it navigates the Document Ob">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-does-the-j-query-find-method-search-for">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does the jQuery find() Method Search For? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-does-the-j-query-find-method-search-for" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery find() method is a DOM traversal function used to search through the descendants of selected elements down through multiple levels of the HTML tree. This article explains precisely what elements find() targets, how it navigates the Document Ob" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-does-the-jquery-find-method-search-for">What Does the
+jQuery find() Method Search For?</h1>
+<p>The jQuery <code>find()</code> method is a DOM traversal function
+used to search through the descendants of selected elements down through
+multiple levels of the HTML tree. This article explains precisely what
+elements <code>find()</code> targets, how it navigates the Document
+Object Model (DOM), the parameters it accepts, and how it differs from
+other traversal methods like <code>children()</code>.</p>
+<h2 id="descendant-traversal-explained">Descendant Traversal
+Explained</h2>
+<p>The <code>find()</code> method searches for <strong>all descendant
+elements</strong> that match a specified selector, jQuery collection, or
+element object. A descendant is any element nested inside the target
+element, regardless of how deep it resides in the hierarchy. This
+includes:</p>
+<ul>
+<li>Direct child elements (one level down)</li>
+<li>Grandchild elements (two levels down)</li>
+<li>Great-grandchildren and all subsequent nested tags</li>
+</ul>
+<p>Unlike top-level selection (such as <code>$('span')</code>),
+<code>find()</code> limits the search scope strictly to the subtree
+rooted at the elements in the current jQuery selection.</p>
+<h2 id="syntax-and-parameters">Syntax and Parameters</h2>
+<p>The basic syntax for the method is:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(selector)<span class="op">.</span><span class="fu">find</span>(filter)</span></code></pre></div>
+<ul>
+<li><strong><code>filter</code> (Required):</strong> A string containing
+a selector expression (such as a tag name, class, ID, or attribute), an
+element, or a jQuery object.</li>
+</ul>
+<p>Unlike many other jQuery filtering methods, passing a selector
+parameter to <code>find()</code> is mandatory. Calling
+<code>.find()</code> without an argument returns an empty jQuery
+object.</p>
+<h2 id="find-vs-children"><code>find()</code> vs.
+<code>children()</code></h2>
+<p>A common point of confusion is the difference between
+<code>find()</code> and <code>children()</code>:</p>
+<ul>
+<li><strong><code>children()</code></strong> traverses only a single
+level down the DOM tree. It inspects direct child elements only.</li>
+<li><strong><code>find()</code></strong> traverses all levels down the
+DOM tree, searching through every layer of nested descendants until it
+reaches the end of the branch.</li>
+</ul>
+<h3 id="practical-example">Practical Example</h3>
+<p>Consider the following HTML markup:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;card&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;card-body&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>Card description with a <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;highlight&quot;</span><span class="dt">&gt;</span>highlighted<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span> word.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>If you execute:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Returns empty: &lt;span&gt; is two levels down, not a direct child of .card</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.card&#39;</span>)<span class="op">.</span><span class="fu">children</span>(<span class="st">&#39;span&#39;</span>)<span class="op">;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Successfully selects &lt;span class=&quot;highlight&quot;&gt;: searches all descendant levels</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.card&#39;</span>)<span class="op">.</span><span class="fu">find</span>(<span class="st">&#39;span&#39;</span>)<span class="op">;</span> </span></code></pre></div>
+<h2 id="special-usage-the-universal-selector">Special Usage: The
+Universal Selector</h2>
+<p>To retrieve all descendants of an element regardless of their tag
+name or class, pass the universal selector (<code>"*"</code>) into the
+method:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.card&#39;</span>)<span class="op">.</span><span class="fu">find</span>(<span class="st">&#39;*&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This returns every element nested inside <code>.card</code>,
+including <code>.card-body</code>, <code>&lt;p&gt;</code>, and
+<code>&lt;span&gt;</code>.</p>
+<h2 id="summary">Summary</h2>
+<p>The jQuery <code>find()</code> method searches downwards through
+every level of descendant elements inside the selected container to find
+elements that match a specified filter. It is the primary tool in jQuery
+for scoped, deep DOM tree searching.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

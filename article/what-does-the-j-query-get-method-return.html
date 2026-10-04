@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does the jQuery .get() Method Return? - jquery</title>
+    <meta name="description" content="The return value of the jQuery .get() method depends entirely on whether it is called on a jQuery selection object ($(selector).get()) or directly from the jQuery global object as an AJAX shorthand ($.get()). In DOM manipulation, .get() extracts and retu">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-does-the-j-query-get-method-return">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does the jQuery .get() Method Return? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-does-the-j-query-get-method-return" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The return value of the jQuery .get() method depends entirely on whether it is called on a jQuery selection object ($(selector).get()) or directly from the jQuery global object as an AJAX shorthand ($.get()). In DOM manipulation, .get() extracts and retu" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-does-the-jquery-get-method-return">What Does the jQuery
+.get() Method Return?</h1>
+<p>The return value of the jQuery <code>.get()</code> method depends
+entirely on whether it is called on a jQuery selection object
+(<code>$(selector).get()</code>) or directly from the jQuery global
+object as an AJAX shorthand (<code>$.get()</code>). In DOM manipulation,
+<code>.get()</code> extracts and returns native DOM elements instead of
+jQuery wrappers. When used for asynchronous HTTP requests,
+<code>$.get()</code> returns a specialized <code>jqXHR</code> object
+that functions as a Promise.</p>
+<h3 id="1-the-dom-traversal-method-selectorget">1. The DOM Traversal
+Method: <code>$(selector).get()</code></h3>
+<p>When called on a jQuery selection, <code>.get()</code> converts the
+jQuery-wrapped elements into standard, native JavaScript DOM nodes.</p>
+<ul>
+<li><strong>Without arguments (<code>.get()</code>):</strong> Returns a
+standard JavaScript <code>Array</code> containing all of the native DOM
+elements matched by the selector. For example, <code>$('p').get()</code>
+returns an array such as
+<code>[&lt;p&gt;, &lt;p&gt;, &lt;p&gt;]</code>.</li>
+<li><strong>With a positive index (<code>.get(index)</code>):</strong>
+Returns a single native <code>HTMLElement</code> located at that
+zero-based index. For example, <code>$('p').get(0)</code> returns the
+first <code>&lt;p&gt;</code> element directly, equivalent to
+<code>$('p')[0]</code>.</li>
+<li><strong>With a negative index (<code>.get(-index)</code>):</strong>
+Counts backward from the end of the selection. For example,
+<code>$('p').get(-1)</code> returns the last native element in the
+matched set.</li>
+<li><strong>Out of bounds:</strong> If the specified index does not
+exist, the method returns <code>undefined</code>.</li>
+</ul>
+<h3 id="2-the-ajax-utility-method-get">2. The AJAX Utility Method:
+<code>$.get()</code></h3>
+<p>When used as a standalone utility function
+(<code>jQuery.get()</code>), it initiates an asynchronous HTTP GET
+request and returns a <code>jqXHR</code> (jQuery XMLHttpRequest)
+object.</p>
+<ul>
+<li><strong>The <code>jqXHR</code> Object:</strong> This object is a
+superset of the browser's native <code>XMLHttpRequest</code>. It
+contains properties such as <code>status</code>,
+<code>statusText</code>, and <code>responseText</code>.</li>
+<li><strong>Promise Interface:</strong> The returned <code>jqXHR</code>
+object implements the Promise interface via jQuery's Deferred object.
+This allows you to chain callback handlers directly to the call, such as
+<code>.done()</code>, <code>.fail()</code>, <code>.always()</code>, and
+<code>.then()</code>.</li>
+</ul>
+<h3 id="key-differences-summary">Key Differences Summary</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method Call</th>
+<th style="text-align: left;">Primary Purpose</th>
+<th style="text-align: left;">Return Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>$('div').get()</code></td>
+<td style="text-align: left;">Retrieve all matched DOM elements</td>
+<td style="text-align: left;">Standard <code>Array</code> of
+<code>HTMLElement</code> nodes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>$('div').get(0)</code></td>
+<td style="text-align: left;">Retrieve a specific DOM element</td>
+<td style="text-align: left;">Single <code>HTMLElement</code> (or
+<code>undefined</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>$.get(url)</code></td>
+<td style="text-align: left;">Perform an asynchronous HTTP GET
+request</td>
+<td style="text-align: left;"><code>jqXHR</code> object
+(Promise-compatible)</td>
+</tr>
+</tbody>
+</table></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

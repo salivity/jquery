@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is jQuery $.sub() and Why Was It Deprecated? - jquery</title>
+    <meta name="description" content="The $.sub() method in jQuery was designed to create a new, isolated copy of the jQuery object, allowing developers to override or extend methods and plugins without altering the global jQuery namespace. Introduced in jQuery 1.5, the feature aimed to solv">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-is-j-query-sub-and-why-was-it-deprecated">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is jQuery $.sub() and Why Was It Deprecated? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-is-j-query-sub-and-why-was-it-deprecated" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The $.sub() method in jQuery was designed to create a new, isolated copy of the jQuery object, allowing developers to override or extend methods and plugins without altering the global jQuery namespace. Introduced in jQuery 1.5, the feature aimed to solv" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-is-jquery-sub-and-why-was-it-deprecated">What Is jQuery
+$.sub() and Why Was It Deprecated?</h1>
+<p>The <code>$.sub()</code> method in jQuery was designed to create a
+new, isolated copy of the jQuery object, allowing developers to override
+or extend methods and plugins without altering the global jQuery
+namespace. Introduced in jQuery 1.5, the feature aimed to solve
+namespace collision issues, but it was quickly deprecated in jQuery 1.7
+and removed from the core library in jQuery 1.9 due to incomplete
+isolation, low developer adoption, and the rise of superior JavaScript
+modularity patterns.</p>
+<h3 id="what-jquery-sub-did">What jQuery $.sub() Did</h3>
+<p>When called, <code>jQuery.sub()</code> returned a fresh copy of the
+jQuery constructor. Any modifications made to this new copy—such as
+adding plugins or overriding native jQuery functions—applied only to
+that specific instance and did not pollute the global <code>$</code> or
+<code>jQuery</code> objects.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Create an isolated jQuery copy</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> sub$ <span class="op">=</span> $<span class="op">.</span><span class="fu">sub</span>()<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Override a method on the copy</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sub$<span class="op">.</span><span class="at">fn</span><span class="op">.</span><span class="at">myCustomMethod</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&quot;This exists only on sub$&quot;</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Available on the sub-instance</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">sub$</span>(<span class="st">&quot;div&quot;</span>)<span class="op">.</span><span class="fu">myCustomMethod</span>()<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Undefined on the original jQuery instance</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">typeof</span> <span class="fu">$</span>(<span class="st">&quot;div&quot;</span>)<span class="op">.</span><span class="at">myCustomMethod</span><span class="op">;</span> <span class="co">// &quot;undefined&quot;</span></span></code></pre></div>
+<p>The primary use case was to allow developers to build specialized
+versions of jQuery for specific components or plugins, ensuring that
+destructive overrides or experimental helper functions would not break
+other code running on the same page.</p>
+<h3 id="why-sub-was-deprecated">Why $.sub() Was Deprecated</h3>
+<p>Despite its intended utility, <code>$.sub()</code> proved problematic
+in real-world applications and was deprecated shortly after its release
+for several distinct reasons:</p>
+<h4 id="1-incomplete-sandboxing">1. Incomplete Sandboxing</h4>
+<p>While <code>$.sub()</code> isolated the jQuery function prototypes
+(<code>$.fn</code>), it did not offer true sandboxing. State-dependent
+features—such as event handling, data storage (<code>$.data()</code>),
+and animations—still interacted with the exact same underlying DOM
+elements. Because the DOM itself is global, conflicts could still occur
+when different jQuery copies attempted to manipulate the same elements
+simultaneously.</p>
+<h4 id="2-added-overhead-and-code-complexity">2. Added Overhead and Code
+Complexity</h4>
+<p>Maintaining <code>$.sub()</code> introduced noticeable complexity
+into the jQuery core codebase. Each internal jQuery method had to
+account for whether it was operating within the primary jQuery instance
+or a cloned copy. This added weight to the library's file size and
+imposed a performance cost without delivering substantial benefits to
+the vast majority of users.</p>
+<h4 id="3-low-adoption">3. Low Adoption</h4>
+<p>Very few developers actively used <code>$.sub()</code>. Most jQuery
+plugins were intentionally designed to integrate directly into the
+global jQuery object so they could be reused across an entire
+application. Building isolated sub-instances proved to be an edge case
+that rarely justified its place in the core distribution.</p>
+<h4 id="4-evolution-of-javascript-module-patterns">4. Evolution of
+JavaScript Module Patterns</h4>
+<p>Around the time <code>$.sub()</code> was introduced, the JavaScript
+ecosystem was rapidly shifting toward formal module patterns such as
+Asynchronous Module Definition (AMD), CommonJS, and immediately invoked
+function expressions (IIFEs). These patterns allowed developers to
+manage scope, inject dependencies, and avoid global namespace collisions
+at the application architecture level, rendering jQuery's internal
+cloning mechanism redundant.</p>
+<h3 id="current-status">Current Status</h3>
+<p>In jQuery 1.7, <code>$.sub()</code> was officially deprecated, and in
+jQuery 1.9, it was completely removed from the core library. To maintain
+backward compatibility for legacy applications, the functionality was
+extracted into the official jQuery Migrate plugin, where it remains
+available for projects that still rely on it.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

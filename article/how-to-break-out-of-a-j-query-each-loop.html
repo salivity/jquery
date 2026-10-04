@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Break Out of a jQuery $.each Loop - jquery</title>
+    <meta name="description" content="To break out of a jQuery $.each() loop early, you must explicitly return false inside the callback function. Because $.each() relies on a callback function to handle each iteration, standard loop control statements like break will trigger a JavaScript sy">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-break-out-of-a-j-query-each-loop">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Break Out of a jQuery $.each Loop - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-break-out-of-a-j-query-each-loop" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="To break out of a jQuery $.each() loop early, you must explicitly return false inside the callback function. Because $.each() relies on a callback function to handle each iteration, standard loop control statements like break will trigger a JavaScript sy" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-break-out-of-a-jquery-each-loop">How to Break Out of a
+jQuery $.each Loop</h1>
+<p>To break out of a jQuery <code>$.each()</code> loop early, you must
+explicitly return <code>false</code> inside the callback function.
+Because <code>$.each()</code> relies on a callback function to handle
+each iteration, standard loop control statements like <code>break</code>
+will trigger a JavaScript syntax error. Returning <code>false</code>
+terminates the entire loop immediately, while returning
+<code>true</code> acts as a <code>continue</code> statement to skip to
+the next iteration.</p>
+<h3 id="the-solution-returning-false">The Solution: Returning
+<code>false</code></h3>
+<p>When jQuery executes the callback in a <code>$.each()</code> loop, it
+checks the return value of that callback. If the function returns
+<code>false</code>, jQuery halts the execution and exits the loop
+immediately.</p>
+<p>Here is an example demonstrating how to stop iterating when a
+specific condition is met:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> numbers <span class="op">=</span> [<span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">each</span>(numbers<span class="op">,</span> <span class="kw">function</span>(index<span class="op">,</span> value) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (value <span class="op">===</span> <span class="dv">30</span>) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Target found: &#39;</span> <span class="op">+</span> value <span class="op">+</span> <span class="st">&#39;. Exiting loop.&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span> <span class="co">// Breaks out of the $.each loop</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Processing: &#39;</span> <span class="op">+</span> value)<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">// Output:</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Processing: 10</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">// Processing: 20</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">// Target found: 30. Exiting loop.</span></span></code></pre></div>
+<h3 id="why-native-break-does-not-work">Why Native <code>break</code>
+Does Not Work</h3>
+<p>In standard JavaScript loops (like <code>for</code>,
+<code>while</code>, or <code>for...of</code>), the <code>break</code>
+statement instructs the JavaScript engine to exit the loop block.
+However, <code>$.each()</code> is an abstraction where each iteration
+executes a separate function scope.</p>
+<p>Writing <code>break;</code> inside this callback function will cause
+an <code>Uncaught SyntaxError: Illegal break statement</code> because a
+<code>break</code> keyword cannot exist outside an actual loop
+block.</p>
+<h3 id="skipping-an-iteration-the-equivalent-of-continue">Skipping an
+Iteration (The Equivalent of <code>continue</code>)</h3>
+<p>If your goal is to skip the current iteration and move to the next
+item without stopping the entire loop, return <code>true</code> or use a
+standard <code>return</code> statement:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> items <span class="op">=</span> [<span class="st">&#39;apple&#39;</span><span class="op">,</span> <span class="st">&#39;skip_me&#39;</span><span class="op">,</span> <span class="st">&#39;banana&#39;</span><span class="op">,</span> <span class="st">&#39;orange&#39;</span>]<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">each</span>(items<span class="op">,</span> <span class="kw">function</span>(index<span class="op">,</span> item) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (item <span class="op">===</span> <span class="st">&#39;skip_me&#39;</span>) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span> <span class="co">// Continues to the next iteration</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(item)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">// Output:</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">// apple</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">// banana</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">// orange</span></span></code></pre></div>
+<h3 id="modern-javascript-alternatives">Modern JavaScript
+Alternatives</h3>
+<p>If you are working in a modern environment and want to avoid
+callback-based iteration control entirely, you can convert the
+collection into an array and use the native <code>for...of</code> loop,
+where the standard <code>break</code> statement works as expected:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> elements <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;div&#39;</span>)<span class="op">.</span><span class="fu">toArray</span>()<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> el <span class="kw">of</span> elements) {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (el<span class="op">.</span><span class="at">id</span> <span class="op">===</span> <span class="st">&#39;stop-here&#39;</span>) {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span><span class="op">;</span> <span class="co">// Standard JavaScript break</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(el)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

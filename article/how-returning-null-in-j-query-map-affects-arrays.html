@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Returning Null in jQuery .map() Affects Arrays - jquery</title>
+    <meta name="description" content="When working with jQuery's .map() method, returning null inside the callback function completely removes that element from the final resulting array or jQuery collection. Unlike native JavaScript array mapping, jQuery treats null and undefined as signals">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-returning-null-in-j-query-map-affects-arrays">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Returning Null in jQuery .map() Affects Arrays - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-returning-null-in-j-query-map-affects-arrays" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When working with jQuery's .map() method, returning null inside the callback function completely removes that element from the final resulting array or jQuery collection. Unlike native JavaScript array mapping, jQuery treats null and undefined as signals" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-returning-null-in-jquery-map-affects-arrays">How Returning
+Null in jQuery .map() Affects Arrays</h1>
+<p>When working with jQuery's <code>.map()</code> method, returning
+<code>null</code> inside the callback function completely removes that
+element from the final resulting array or jQuery collection. Unlike
+native JavaScript array mapping, jQuery treats <code>null</code> and
+<code>undefined</code> as signals to omit an item entirely. This
+behavior allows developers to transform and filter data simultaneously
+within a single pass, preventing empty or placeholder slots from
+appearing in the output.</p>
+<h3 id="how-jquery-handles-null">How jQuery Handles
+<code>null</code></h3>
+<p>In both the static <code>$.map(array, callback)</code> utility and
+the collection-based <code>$(selector).map(callback)</code> method, the
+callback processes each element sequentially. If the callback returns a
+value, that value is pushed into the resulting collection. However, if
+the function returns <code>null</code> (or <code>undefined</code>),
+jQuery discards the item entirely instead of adding a <code>null</code>
+entry.</p>
+<p>Here is a practical example using <code>$.map()</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> numbers <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> evensOnly <span class="op">=</span> $<span class="op">.</span><span class="fu">map</span>(numbers<span class="op">,</span> <span class="kw">function</span>(num) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (num <span class="op">%</span> <span class="dv">2</span> <span class="op">===</span> <span class="dv">0</span>) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> num<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span> <span class="co">// Odd numbers are removed</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(evensOnly)<span class="op">;</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">// Output: [2, 4]</span></span></code></pre></div>
+<p>In this case, the odd numbers return <code>null</code>, so they are
+omitted from the <code>evensOnly</code> array rather than yielding
+<code>[null, 2, null, 4, null]</code>.</p>
+<h3 id="difference-from-native-javascript-arrayprototypemap">Difference
+from Native JavaScript <code>Array.prototype.map()</code></h3>
+<p>The behavior of jQuery's <code>.map()</code> diverges significantly
+from standard ECMAScript array methods:</p>
+<ul>
+<li><strong>Vanilla JavaScript
+(<code>Array.prototype.map</code>)</strong>: Preserves array length.
+Returning <code>null</code> explicitly assigns <code>null</code> to that
+index.</li>
+<li><strong>jQuery (<code>$.map</code> and
+<code>$(selector).map</code>)</strong>: Automatically flattens arrays
+and eliminates <code>null</code> or <code>undefined</code> values,
+altering the length of the resulting collection.</li>
+</ul>
+<p>To achieve the equivalent of jQuery's behavior in standard modern
+JavaScript, you would need to chain <code>.filter()</code> with
+<code>.map()</code>, or use <code>.flatMap()</code> returning an empty
+array <code>[]</code> for unwanted items.</p>
+<h3 id="usage-with-dom-elements">Usage with DOM Elements</h3>
+<p>When using <code>$(selector).map()</code>, returning
+<code>null</code> excludes selected DOM elements from the wrapped
+set.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> textValues <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;input&#39;</span>)<span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> val <span class="op">=</span> <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">val</span>()<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> val <span class="op">===</span> <span class="st">&#39;&#39;</span> <span class="op">?</span> <span class="kw">null</span> <span class="op">:</span> val<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">.</span><span class="fu">get</span>()<span class="op">;</span></span></code></pre></div>
+<p>Calling <code>.get()</code> converts the returned jQuery object into
+a plain JavaScript array. Any input that contained an empty string
+evaluates to <code>null</code> and is purged from the final
+<code>textValues</code> array.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

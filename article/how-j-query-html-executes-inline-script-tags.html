@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How jQuery .html() Executes Inline Script Tags - jquery</title>
+    <meta name="description" content="When developers use jQuery’s .html() method to insert markup containing inline <script> tags, jQuery automatically extracts and executes the JavaScript code within the global scope. Unlike native DOM methods such as Element.innerHTML—which explicitly">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-j-query-html-executes-inline-script-tags">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How jQuery .html() Executes Inline Script Tags - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-j-query-html-executes-inline-script-tags" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When developers use jQuery’s .html() method to insert markup containing inline <script> tags, jQuery automatically extracts and executes the JavaScript code within the global scope. Unlike native DOM methods such as Element.innerHTML—which explicitly" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-jquery-html-executes-inline-script-tags">How jQuery .html()
+Executes Inline Script Tags</h1>
+<p>When developers use jQuery’s <code>.html()</code> method to insert
+markup containing inline <code>&lt;script&gt;</code> tags, jQuery
+automatically extracts and executes the JavaScript code within the
+global scope. Unlike native DOM methods such as
+<code>Element.innerHTML</code>—which explicitly block script execution
+for security reasons—jQuery intercepts HTML strings, separates the
+script elements, appends the standard markup to the DOM, and dynamically
+executes the script content.</p>
+<h3 id="native-innerhtml-vs-jquery-html">Native <code>innerHTML</code>
+vs. jQuery <code>.html()</code></h3>
+<p>In standard HTML5, inserting markup through
+<code>element.innerHTML = "&lt;script&gt;alert('test');&lt;/script&gt;"</code>
+will not run the script. This behavior was implemented by browser
+vendors to reduce cross-site scripting (XSS) risks.</p>
+<p>jQuery's <code>.html()</code> method was designed to make dynamic DOM
+updates intuitive, which historically meant ensuring that any included
+scripts ran as developers expected. To achieve this, jQuery circumvents
+native browser suppression by parsing and executing scripts
+manually.</p>
+<h3 id="step-1-parsing-markup-and-isolating-scripts">Step 1: Parsing
+Markup and Isolating Scripts</h3>
+<p>When you pass an HTML string containing script tags to
+<code>.html(val)</code>, jQuery processes the string through internal
+utilities:</p>
+<ol type="1">
+<li><strong>Document Fragment Creation:</strong> jQuery parses the HTML
+string into DOM nodes using a temporary
+<code>DocumentFragment</code>.</li>
+<li><strong>Identification and Extraction:</strong> jQuery traverses the
+generated nodes to locate all <code>&lt;script&gt;</code> elements,
+whether they reference external sources (<code>src</code>) or contain
+inline code.</li>
+<li><strong>Detachment:</strong> jQuery removes these script elements
+from the fragment before injecting the remaining HTML into the target
+element. This ensures that non-script elements are rendered in the DOM
+first.</li>
+</ol>
+<h3 id="step-2-global-execution-via-script-injection">Step 2: Global
+Execution via Script Injection</h3>
+<p>Once the non-script DOM elements are appended to the document, jQuery
+iterates over the extracted script elements in the exact order they
+appeared.</p>
+<p>For inline scripts, jQuery does not rely on standard
+<code>eval()</code>, because direct <code>eval()</code> runs within the
+local function scope. Instead, jQuery ensures the code runs in the
+global window scope using an internal utility called
+<code>jQuery.globalEval()</code>.</p>
+<p>In modern jQuery versions, global evaluation is achieved by:</p>
+<ol type="1">
+<li>Creating a new, native <code>&lt;script&gt;</code> DOM element via
+<code>document.createElement("script")</code>.</li>
+<li>Assigning the inline code string to the new element's
+<code>.text</code> property.</li>
+<li>Appending this temporary script element directly to
+<code>document.head</code>.</li>
+<li>Immediately removing the script element from
+<code>document.head</code> via
+<code>parentNode.removeChild()</code>.</li>
+</ol>
+<p>Because the script node is appended to the active DOM document, the
+browser's JavaScript engine immediately parses and executes the inline
+code in the global execution context. Removing the node right afterward
+cleans up the DOM while leaving the side effects (such as defined
+functions or global variables) intact in memory.</p>
+<h3 id="scope-order-and-execution-characteristics">Scope, Order, and
+Execution Characteristics</h3>
+<ul>
+<li><strong>Global Scope:</strong> Variables declared with
+<code>var</code> or traditional function declarations inside the inline
+script are attached to the global <code>window</code> object, matching
+standard page-load script behavior.</li>
+<li><strong>Synchronous Execution:</strong> Inline scripts are evaluated
+synchronously in the order they were defined within the markup
+string.</li>
+<li><strong>Cleaned DOM:</strong> Because jQuery handles execution
+through this temporary injection pattern, the script tags themselves may
+not remain in the final target element's DOM tree, depending on the
+exact jQuery version and methods used.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

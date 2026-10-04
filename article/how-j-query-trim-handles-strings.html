@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How jQuery $.trim() Handles Strings - jquery</title>
+    <meta name="description" content="The jQuery $.trim() function is a core utility designed to remove leading and trailing whitespace from a given value. This article explains how $.trim() processes string data, handles non-string and falsy inputs, matches different whitespace characters,">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-j-query-trim-handles-strings">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How jQuery $.trim() Handles Strings - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-j-query-trim-handles-strings" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery $.trim() function is a core utility designed to remove leading and trailing whitespace from a given value. This article explains how $.trim() processes string data, handles non-string and falsy inputs, matches different whitespace characters," />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-jquery-trim-handles-strings">How jQuery $.trim() Handles
+Strings</h1>
+<p>The jQuery <code>$.trim()</code> function is a core utility designed
+to remove leading and trailing whitespace from a given value. This
+article explains how <code>$.trim()</code> processes string data,
+handles non-string and falsy inputs, matches different whitespace
+characters, and compares to modern native JavaScript alternatives.</p>
+<h3 id="basic-string-handling">Basic String Handling</h3>
+<p>At its core, <code>$.trim()</code> takes a string argument and strips
+all whitespace from the beginning and end of that string, leaving any
+whitespace between characters intact.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> result <span class="op">=</span> $<span class="op">.</span><span class="fu">trim</span>(<span class="st">&quot;   Hello World!   &quot;</span>)<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Output: &quot;Hello World!&quot;</span></span></code></pre></div>
+<p>The function removes standard space characters, horizontal tabs
+(<code>\t</code>), line feeds (<code>\n</code>), carriage returns
+(<code>\r</code>), and other Unicode whitespace equivalents such as
+non-breaking spaces (<code>\xA0</code>) and zero-width spaces
+(<code>\uFEFF</code>).</p>
+<h3 id="handling-non-string-and-falsy-inputs">Handling Non-String and
+Falsy Inputs</h3>
+<p>One of the main advantages <code>$.trim()</code> had over standard
+methods during its introduction was its safe handling of
+<code>null</code> and <code>undefined</code> values.</p>
+<ul>
+<li><strong>Null and Undefined:</strong> If you pass <code>null</code>
+or <code>undefined</code> to <code>$.trim()</code>, it does not throw an
+error. Instead, it safely returns an empty string
+(<code>""</code>).</li>
+<li><strong>Numbers and Booleans:</strong> If a non-string primitive is
+passed, jQuery converts it to a string representation before applying
+the trim. For example, <code>$.trim(123)</code> returns
+<code>"123"</code>, and <code>$.trim(true)</code> returns
+<code>"true"</code>.</li>
+<li><strong>Objects and Arrays:</strong> Passing complex types invokes
+their standard <code>.toString()</code> conversion, after which the
+resulting string is trimmed.</li>
+</ul>
+<h3 id="internal-implementation">Internal Implementation</h3>
+<p>In early versions of jQuery, <code>$.trim()</code> relied on regular
+expressions to detect and remove whitespace characters:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rtrim <span class="op">=</span> <span class="ss">/</span><span class="sc">^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$</span><span class="ss">/g</span><span class="op">;</span></span></code></pre></div>
+<p>In later versions, jQuery updated <code>$.trim()</code> to delegate
+directly to the native ECMAScript 5 <code>String.prototype.trim()</code>
+method whenever available, while still maintaining null-safety
+checks:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>trim<span class="op">:</span> <span class="kw">function</span>( text ) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> text <span class="op">==</span> <span class="kw">null</span> <span class="op">?</span> <span class="st">&quot;&quot;</span> <span class="op">:</span> ( text <span class="op">+</span> <span class="st">&quot;&quot;</span> )<span class="op">.</span><span class="fu">trim</span>()<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="deprecation-and-native-javascript-alternative">Deprecation and
+Native JavaScript Alternative</h3>
+<p>Starting in jQuery 3.5.0, <code>$.trim()</code> was officially
+deprecated because all modern JavaScript environments natively support
+<code>String.prototype.trim()</code>.</p>
+<p>To achieve the same behavior using modern standard JavaScript without
+jQuery, you can use the optional chaining operator or a fallback check
+to prevent errors on nullish values:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> cleanString <span class="op">=</span> (value <span class="op">??</span> <span class="st">&quot;&quot;</span>)<span class="op">.</span><span class="fu">toString</span>()<span class="op">.</span><span class="fu">trim</span>()<span class="op">;</span></span></code></pre></div></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

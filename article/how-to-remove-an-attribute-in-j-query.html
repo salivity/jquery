@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Remove an Attribute in jQuery - jquery</title>
+    <meta name="description" content="Removing an attribute from an HTML element using jQuery is a common task in web development, typically accomplished with the removeAttr() method. This article covers the syntax and implementation of removeAttr(), demonstrates how to remove single or mult">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-remove-an-attribute-in-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Remove an Attribute in jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-remove-an-attribute-in-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Removing an attribute from an HTML element using jQuery is a common task in web development, typically accomplished with the removeAttr() method. This article covers the syntax and implementation of removeAttr(), demonstrates how to remove single or mult" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-remove-an-attribute-in-jquery">How to Remove an Attribute
+in jQuery</h1>
+<p>Removing an attribute from an HTML element using jQuery is a common
+task in web development, typically accomplished with the
+<code>removeAttr()</code> method. This article covers the syntax and
+implementation of <code>removeAttr()</code>, demonstrates how to remove
+single or multiple attributes, and explains when to use property
+manipulation instead for boolean attributes.</p>
+<h2 id="the-removeattr-method">The <code>removeAttr()</code> Method</h2>
+<p>The primary and most efficient way to delete an attribute from a DOM
+element using jQuery is the <code>.removeAttr()</code> method. It
+targets the selected elements and strips away the specified attribute
+completely.</p>
+<h3 id="basic-syntax">Basic Syntax</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(selector)<span class="op">.</span><span class="fu">removeAttr</span>(attributeName)<span class="op">;</span></span></code></pre></div>
+<ul>
+<li><strong>selector</strong>: The jQuery selector targeting the HTML
+element(s).</li>
+<li><strong>attributeName</strong>: A string representing the name of
+the attribute you want to remove (e.g., <code>title</code>,
+<code>target</code>, <code>disabled</code>).</li>
+</ul>
+<h3 id="example-removing-a-single-attribute">Example: Removing a Single
+Attribute</h3>
+<p>If you have a link with a <code>target="_blank"</code> attribute and
+want to remove it dynamically:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;myLink&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;https://example.com&quot;</span><span class="ot"> target</span><span class="op">=</span><span class="st">&quot;_blank&quot;</span><span class="dt">&gt;</span>Visit Site<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>You can remove the <code>target</code> attribute with the following
+code:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#myLink&#39;</span>)<span class="op">.</span><span class="fu">removeAttr</span>(<span class="st">&#39;target&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>After execution, the element becomes
+<code>&lt;a id="myLink" href="https://example.com"&gt;Visit Site&lt;/a&gt;</code>.</p>
+<hr />
+<h2 id="removing-multiple-attributes">Removing Multiple Attributes</h2>
+<p>Starting with jQuery 1.7, you can remove multiple attributes at once
+by separating their names with a space inside the string parameter.</p>
+<h3 id="example-removing-multiple-attributes-simultaneously">Example:
+Removing Multiple Attributes Simultaneously</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">input</span><span class="ot"> type</span><span class="op">=</span><span class="st">&quot;text&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;username&quot;</span><span class="ot"> disabled</span><span class="op">=</span><span class="st">&quot;disabled&quot;</span><span class="ot"> readonly</span><span class="op">=</span><span class="st">&quot;readonly&quot;</span><span class="ot"> title</span><span class="op">=</span><span class="st">&quot;Username Field&quot;</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#username&#39;</span>)<span class="op">.</span><span class="fu">removeAttr</span>(<span class="st">&#39;disabled readonly title&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This single line strips the <code>disabled</code>,
+<code>readonly</code>, and <code>title</code> attributes from the input
+element.</p>
+<hr />
+<h2 id="attributes-vs-properties-boolean-values">Attributes vs.
+Properties (Boolean Values)</h2>
+<p>For boolean attributes like <code>checked</code>,
+<code>disabled</code>, or <code>selected</code>, removing the attribute
+using <code>removeAttr()</code> works, but it can sometimes cause
+unexpected behavior across different browsers when working with dynamic
+form states.</p>
+<p>In modern jQuery (1.6+), it is often recommended to use
+<code>.prop()</code> instead of <code>.removeAttr()</code> to toggle
+these states:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Preferred for enabling an element</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#submitBtn&#39;</span>)<span class="op">.</span><span class="fu">prop</span>(<span class="st">&#39;disabled&#39;</span><span class="op">,</span> <span class="kw">false</span>)<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Preferred for unchecking a checkbox</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#agreeCheckbox&#39;</span>)<span class="op">.</span><span class="fu">prop</span>(<span class="st">&#39;checked&#39;</span><span class="op">,</span> <span class="kw">false</span>)<span class="op">;</span></span></code></pre></div>
+<p>Use <code>removeAttr()</code> when you need to completely eliminate
+the attribute from the HTML markup (such as <code>style</code>,
+<code>data-*</code>, <code>href</code>, or <code>title</code>), and use
+<code>prop()</code> when managing the current dynamic state of form
+controls.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

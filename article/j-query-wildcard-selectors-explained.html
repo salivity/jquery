@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Wildcard Selectors Explained - jquery</title>
+    <meta name="description" content="The purpose of the jQuery wildcard selector is to allow developers to target HTML elements based on partial string matches within their attributes, such as IDs, classes, or data attributes. Instead of requiring exact name matches, these selectors give yo">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-wildcard-selectors-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery Wildcard Selectors Explained - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-wildcard-selectors-explained" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The purpose of the jQuery wildcard selector is to allow developers to target HTML elements based on partial string matches within their attributes, such as IDs, classes, or data attributes. Instead of requiring exact name matches, these selectors give yo" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-wildcard-selectors-explained">jQuery Wildcard Selectors
+Explained</h1>
+<p>The purpose of the jQuery wildcard selector is to allow developers to
+target HTML elements based on partial string matches within their
+attributes, such as IDs, classes, or data attributes. Instead of
+requiring exact name matches, these selectors give you the flexibility
+to group, style, or manipulate elements that share naming patterns,
+which is especially useful when working with dynamically generated
+content.</p>
+<h3 id="what-is-a-wildcard-selector-in-jquery">What Is a Wildcard
+Selector in jQuery?</h3>
+<p>Technically, jQuery does not feature a single operator named
+"wildcard." Instead, it utilizes CSS attribute selectors that function
+as wildcards. These selectors match elements based on where a specific
+string appears inside an attribute value.</p>
+<p>There are three primary wildcard attribute selectors in jQuery:</p>
+<ol type="1">
+<li><strong>Starts With Selector (<code>^=</code>):</strong> Matches
+elements whose specified attribute begins with a given string.
+<ul>
+<li><em>Example:</em> <code>$('[id^="user_"]')</code> selects all
+elements whose <code>id</code> attribute starts with <code>user_</code>
+(such as <code>user_101</code>, <code>user_profile</code>).</li>
+</ul></li>
+<li><strong>Ends With Selector (<code>$=</code>):</strong> Matches
+elements whose specified attribute ends with a given string.
+<ul>
+<li><em>Example:</em> <code>$('[class$="_active"]')</code> selects
+elements whose <code>class</code> ends with <code>_active</code> (such
+as <code>tab_active</code>, <code>menu_active</code>).</li>
+</ul></li>
+<li><strong>Contains Selector (<code>*=</code>):</strong> Matches
+elements whose specified attribute contains a given substring anywhere
+within the value.
+<ul>
+<li><em>Example:</em> <code>$('[id*="edit"]')</code> selects elements
+containing the word <code>edit</code> anywhere within their
+<code>id</code> (such as <code>user_edit_button</code>,
+<code>quickedit</code>).</li>
+</ul></li>
+</ol>
+<h3 id="primary-use-cases-and-benefits">Primary Use Cases and
+Benefits</h3>
+<h4 id="1-managing-dynamically-generated-ids">1. Managing Dynamically
+Generated IDs</h4>
+<p>Many content management systems (like WordPress) or backend
+frameworks (such as ASP.NET or Ruby on Rails) automatically append
+dynamic integers or prefixes to element IDs. If an element's ID changes
+on every page load (e.g., <code>id="post-3498"</code>), standard ID
+selectors fail. A wildcard selector like <code>$('[id^="post-"]')</code>
+reliably selects these elements regardless of the generated ID.</p>
+<h4 id="2-batch-processing-elements">2. Batch Processing Elements</h4>
+<p>Instead of assigning a shared class to dozens of elements, wildcard
+selectors allow you to bind event handlers or apply changes to groups of
+elements that already share naming conventions. For instance, using
+<code>$('[id$="_total"]').val('0');</code> allows you to reset all input
+fields designated for totals in a single line.</p>
+<h4 id="3-reducing-redundant-markup">3. Reducing Redundant Markup</h4>
+<p>Wildcard selectors eliminate the need to clutter your HTML with extra
+classes solely for JavaScript selection. If elements already possess
+structured <code>name</code>, <code>id</code>, or custom
+<code>data-*</code> attributes, wildcards tap into those existing
+patterns directly.</p>
+<h3 id="performance-consideration">Performance Consideration</h3>
+<p>Attribute selectors evaluate every element in the DOM tree that
+matches the search scope, making them slower than native ID
+(<code>$('#myId')</code>) or class (<code>$('.myClass')</code>)
+selectors. To optimize performance, qualify wildcard selectors with a
+tag name (e.g., <code>$('input[name^="order_"]')</code>) or restrict
+them to a specific parent container (e.g.,
+<code>$('#formContainer').find('[id^="input_"]')</code>).</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery animate Step Function Explained - jquery</title>
+    <meta name="description" content="The step function in jQuery's animate() method is an optional callback that executes on every step—or frame—of an animation for each animated CSS property. It grants real-time access to the current state of the animation, enabling developers to modif">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-animate-step-function-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery animate Step Function Explained - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-animate-step-function-explained" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The step function in jQuery's animate() method is an optional callback that executes on every step—or frame—of an animation for each animated CSS property. It grants real-time access to the current state of the animation, enabling developers to modif" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-animate-step-function-explained">jQuery animate Step
+Function Explained</h1>
+<p>The <code>step</code> function in jQuery's <code>animate()</code>
+method is an optional callback that executes on every step—or frame—of
+an animation for each animated CSS property. It grants real-time access
+to the current state of the animation, enabling developers to modify
+behavior mid-flight, animate non-standard attributes like CSS
+transforms, build synchronized visual effects, or animate plain numeric
+values for counters and progress indicators.</p>
+<h3 id="syntax-and-parameters">Syntax and Parameters</h3>
+<p>To use the <code>step</code> function, pass it as part of the options
+object in a call to <code>animate()</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#element&quot;</span>)<span class="op">.</span><span class="fu">animate</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">opacity</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">top</span><span class="op">:</span> <span class="st">&quot;+=100px&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">duration</span><span class="op">:</span> <span class="dv">1000</span><span class="op">,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">step</span><span class="op">:</span> <span class="kw">function</span>(now<span class="op">,</span> fx) {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Logic executed on every frame per property</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<p>The function accepts two arguments:</p>
+<ul>
+<li><strong><code>now</code></strong>: A floating-point number
+representing the current numeric value of the animated property at that
+specific frame.</li>
+<li><strong><code>fx</code></strong>: A jQuery internal Tween/FX object
+containing metadata about the current animation step, including:
+<ul>
+<li><code>fx.prop</code>: The name of the property currently being
+animated (e.g., <code>"opacity"</code> or <code>"top"</code>).</li>
+<li><code>fx.elem</code>: The DOM element being animated.</li>
+<li><code>fx.start</code>: The starting value of the animation.</li>
+<li><code>fx.end</code>: The target ending value.</li>
+<li><code>fx.unit</code>: The unit of measurement (such as
+<code>px</code>, <code>%</code>, or <code>""</code>).</li>
+<li><code>fx.pos</code>: The relative progression of the animation from
+<code>0</code> to <code>1</code> (accounting for easing).</li>
+</ul></li>
+</ul>
+<h3 id="primary-use-cases">Primary Use Cases</h3>
+<h4 id="1-animating-css-transforms">1. Animating CSS Transforms</h4>
+<p>Standard jQuery <code>animate()</code> cannot interpolate
+string-based CSS3 properties like <code>transform: rotate(45deg)</code>
+or <code>scale(1.5)</code> directly. The <code>step</code> function
+bypasses this limitation by animating a dummy property or arbitrary
+object and applying the transform manually on every frame:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>({ <span class="dt">deg</span><span class="op">:</span> <span class="dv">0</span> })<span class="op">.</span><span class="fu">animate</span>({ <span class="dt">deg</span><span class="op">:</span> <span class="dv">180</span> }<span class="op">,</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">duration</span><span class="op">:</span> <span class="dv">800</span><span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="kw">function</span>(now) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)<span class="op">.</span><span class="fu">css</span>({</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">transform</span><span class="op">:</span> <span class="st">&quot;rotate(&quot;</span> <span class="op">+</span> now <span class="op">+</span> <span class="st">&quot;deg)&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h4 id="2-number-counters-and-progress-displays">2. Number Counters and
+Progress Displays</h4>
+<p>Because jQuery can animate arbitrary numeric properties on plain
+JavaScript objects, <code>step</code> is frequently used to create
+animated counting numbers:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>({ <span class="dt">count</span><span class="op">:</span> <span class="dv">0</span> })<span class="op">.</span><span class="fu">animate</span>({ <span class="dt">count</span><span class="op">:</span> <span class="dv">1000</span> }<span class="op">,</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">duration</span><span class="op">:</span> <span class="dv">2000</span><span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="kw">function</span>(now) {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;#counter&quot;</span>)<span class="op">.</span><span class="fu">text</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(now)<span class="op">.</span><span class="fu">toLocaleString</span>())<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h4 id="3-real-time-synchronization-and-constraints">3. Real-Time
+Synchronization and Constraints</h4>
+<p>Unlike the <code>complete</code> callback—which fires once the entire
+animation finishes—the <code>step</code> function runs continuously.
+This allows you to update secondary UI components (like a progress bar),
+check for collisions, or conditionally cancel or alter the animation
+before it completes.</p>
+<h3 id="execution-caveat">Execution Caveat</h3>
+<p>If an animation targets multiple properties on a single element (such
+as <code>width</code>, <code>height</code>, and <code>top</code>), the
+<code>step</code> function runs once for <em>each</em> property during
+every frame. If your custom logic should only run once per animation
+frame, evaluate <code>fx.prop</code> to isolate a single property.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

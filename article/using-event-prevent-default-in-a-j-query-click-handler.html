@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using event.preventDefault() in a jQuery Click Handler - jquery</title>
+    <meta name="description" content="In web development, the event.preventDefault() method stops a browser from executing its native action for an HTML element when an event occurs. When used inside a jQuery click handler, it intercepts the user's action—such as following a hyperlink or s">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/using-event-prevent-default-in-a-j-query-click-handler">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Using event.preventDefault() in a jQuery Click Handler - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/using-event-prevent-default-in-a-j-query-click-handler" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In web development, the event.preventDefault() method stops a browser from executing its native action for an HTML element when an event occurs. When used inside a jQuery click handler, it intercepts the user's action—such as following a hyperlink or s" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="using-eventpreventdefault-in-a-jquery-click-handler">Using
+event.preventDefault() in a jQuery Click Handler</h1>
+<p>In web development, the <code>event.preventDefault()</code> method
+stops a browser from executing its native action for an HTML element
+when an event occurs. When used inside a jQuery click handler, it
+intercepts the user's action—such as following a hyperlink or submitting
+a form—and suppresses that default behavior while allowing your custom
+JavaScript logic to execute. This article explains how
+<code>event.preventDefault()</code> works, provides common
+implementation examples, and clarifies how it differs from other
+event-handling techniques in jQuery.</p>
+<h2 id="what-eventpreventdefault-does">What
+<code>event.preventDefault()</code> Does</h2>
+<p>HTML elements inherently possess default behaviors. For example:</p>
+<ul>
+<li>Clicking an anchor tag (<code>&lt;a&gt;</code>) navigates the
+browser to the specified <code>href</code> URL.</li>
+<li>Clicking a submit button (<code>&lt;button type="submit"&gt;</code>
+or <code>&lt;input type="submit"&gt;</code>) sends form data to a server
+and refreshes the page.</li>
+<li>Clicking a checkbox toggles its checked state.</li>
+</ul>
+<p>When you pass the jQuery event object into an event listener callback
+function (commonly denoted as <code>e</code> or <code>event</code>),
+calling <code>event.preventDefault()</code> tells the browser to cancel
+the native action associated with that element.</p>
+<h2 id="how-to-use-it-in-jquery">How to Use It in jQuery</h2>
+<p>To use <code>event.preventDefault()</code>, you must accept the event
+object as an argument in your click handler callback.</p>
+<h3 id="example-1-preventing-link-navigation">Example 1: Preventing Link
+Navigation</h3>
+<p>Anchor tags are often used as interactive UI controls (like opening
+modals or tabs). Without <code>preventDefault()</code>, clicking a link
+with <code>href="#"</code> will jump the user to the top of the
+page.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#myLink&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>(<span class="bu">event</span>) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Stop the browser from navigating or jumping</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">event</span><span class="op">.</span><span class="fu">preventDefault</span>()<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Custom logic executes instead</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Link clicked, but navigation was prevented.&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="example-2-handling-form-submissions-via-ajax">Example 2:
+Handling Form Submissions via AJAX</h3>
+<p>When handling form data asynchronously using AJAX, you need to
+intercept the click event of the submit button to keep the page from
+reloading.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#submitBtn&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>(<span class="bu">event</span>) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Prevent the default form submission and page reload</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">event</span><span class="op">.</span><span class="fu">preventDefault</span>()<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Perform an asynchronous AJAX request instead</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    $<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;/api/submit&#39;</span><span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">method</span><span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">data</span><span class="op">:</span> <span class="fu">$</span>(<span class="st">&#39;#myForm&#39;</span>)<span class="op">.</span><span class="fu">serialize</span>()<span class="op">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">success</span><span class="op">:</span> <span class="kw">function</span>(response) {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Data successfully submitted:&#39;</span><span class="op">,</span> response)<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2
+id="eventpreventdefault-vs-eventstoppropagation"><code>event.preventDefault()</code>
+vs. <code>event.stopPropagation()</code></h2>
+<p>It is important to understand the boundary of what
+<code>preventDefault()</code> affects:</p>
+<ul>
+<li><strong><code>event.preventDefault()</code></strong>: Stops the
+<em>browser's default action</em>, but does <strong>not</strong> stop
+the event from bubbling up the DOM tree to parent elements.</li>
+<li><strong><code>event.stopPropagation()</code></strong>: Stops the
+event from <em>bubbling</em> up to ancestor elements, but does
+<strong>not</strong> stop the browser's default action on the target
+element.</li>
+</ul>
+<p>If you need to both cancel the default browser action and stop the
+event from triggering parent listeners, call both methods:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#button&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>(<span class="bu">event</span>) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">event</span><span class="op">.</span><span class="fu">preventDefault</span>()<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">event</span><span class="op">.</span><span class="fu">stopPropagation</span>()<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2
+id="eventpreventdefault-vs-return-false"><code>event.preventDefault()</code>
+vs. <code>return false</code></h2>
+<p>In native JavaScript, returning <code>false</code> from an inline
+event listener prevents the default behavior. However, in jQuery,
+returning <code>false</code> inside an event handler is equivalent to
+calling <strong>both</strong> <code>event.preventDefault()</code> and
+<code>event.stopPropagation()</code>.</p>
+<p>Using <code>event.preventDefault()</code> explicitly is generally
+preferred because it avoids inadvertently breaking event delegation and
+allows parent listeners to still monitor user interactions.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

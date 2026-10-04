@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Major Changes Introduced in jQuery 3.0 - jquery</title>
+    <meta name="description" content="jQuery 3.0 was released as a major overhaul designed to modernize the popular JavaScript library, improve performance, and align with current web standards. This version shed legacy browser workarounds, adopted ECMAScript 2015 (ES6) conventions, altered">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/major-changes-introduced-in-j-query-3-0">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Major Changes Introduced in jQuery 3.0 - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/major-changes-introduced-in-j-query-3-0" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="jQuery 3.0 was released as a major overhaul designed to modernize the popular JavaScript library, improve performance, and align with current web standards. This version shed legacy browser workarounds, adopted ECMAScript 2015 (ES6) conventions, altered" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="major-changes-introduced-in-jquery-30">Major Changes Introduced
+in jQuery 3.0</h1>
+<p>jQuery 3.0 was released as a major overhaul designed to modernize the
+popular JavaScript library, improve performance, and align with current
+web standards. This version shed legacy browser workarounds, adopted
+ECMAScript 2015 (ES6) conventions, altered the internal handling of
+promises, and introduced a lighter alternative build for modern
+workflows. Below is a breakdown of the most significant changes,
+deprecations, and new features introduced in this release.</p>
+<h2 id="promisesa-compatibility-in-jquerydeferred">Promises/A+
+Compatibility in jQuery.Deferred</h2>
+<p>In jQuery 3.0, <code>jQuery.Deferred</code> objects were updated to
+be fully compliant with the Promises/A+ specification. Previously,
+jQuery's Deferred implementation differed from native JavaScript
+Promises. With 3.0:</p>
+<ul>
+<li>Callbacks attached via <code>.then()</code> are always executed
+asynchronously, even if the Deferred object is already resolved.</li>
+<li>Exceptions thrown inside a <code>.then()</code> callback are caught
+and converted into a rejected promise, rather than bubbling up and
+stopping execution.</li>
+</ul>
+<h2 id="introduction-of-the-jquery-slim-build">Introduction of the
+jQuery Slim Build</h2>
+<p>A new "slim" package was introduced for developers who do not require
+animations or built-in Ajax functionality. The slim build excludes:</p>
+<ul>
+<li>The Ajax module (<code>$.ajax</code>, <code>$.get</code>,
+<code>$.post</code>).</li>
+<li>The effects/animation module (<code>animate</code>,
+<code>fade</code>, <code>slide</code>).</li>
+<li>Deprecated code modules.</li>
+</ul>
+<p>This reduced the gzipped file size substantially, making it popular
+for integration with modern utility frameworks and build tools where
+developers use the native Fetch API or external libraries for HTTP
+requests.</p>
+<h2 id="animation-performance-with-requestanimationframe">Animation
+Performance with requestAnimationFrame</h2>
+<p>jQuery 3.0 integrated the standard <code>requestAnimationFrame</code>
+API for animations on browsers that support it. This replaced
+interval-based timers (<code>setInterval</code>), resulting in:</p>
+<ul>
+<li>Smoother, 60fps animations that sync with browser paint cycles.</li>
+<li>Reduced CPU consumption and battery drain, as animations
+automatically pause when browser tabs are inactive or hidden.</li>
+</ul>
+<h2 id="simplified-show-and-hide-methods">Simplified show() and hide()
+Methods</h2>
+<p>To make jQuery behave more predictably with external CSS stylesheets
+and responsive design, the mechanics of <code>.show()</code> and
+<code>.hide()</code> were simplified. Previous versions tracked and
+restored the inline <code>display</code> style dynamically, often
+conflicting with media queries. In jQuery 3.0, <code>.hide()</code>
+simply sets <code>display: none</code> inline, and <code>.show()</code>
+clears that inline style, allowing the stylesheet’s rules to dictate the
+display property.</p>
+<h2 id="updated-html5-data--attribute-handling">Updated HTML5 data-*
+Attribute Handling</h2>
+<p>The <code>.data()</code> method was aligned with the HTML5 dataset
+specification regarding kebab-case and camelCase attributes. All keys
+are converted to camelCase:</p>
+<ul>
+<li>A tag with <code>data-page-index="1"</code> is stored as
+<code>pageIndex</code>.</li>
+<li>Accessing <code>$(el).data("page-index")</code> or
+<code>$(el).data("pageIndex")</code> accesses the exact same property,
+avoiding duplicate entries in the internal data cache.</li>
+</ul>
+<h2 id="support-for-es2015-forof-loops">Support for ES2015 for...of
+Loops</h2>
+<p>jQuery objects in version 3.0 implement the iterable contract
+introduced in ES6/ES2015. Developers can loop directly over elements in
+a jQuery collection using modern native loops:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> element <span class="kw">of</span> <span class="fu">$</span>(<span class="st">&quot;div&quot;</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// element is the native DOM node</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="removal-of-deprecated-methods">Removal of Deprecated
+Methods</h2>
+<p>Several legacy and deprecated methods were completely removed to
+clean up the API:</p>
+<ul>
+<li><strong>Event shorthands:</strong> <code>.load()</code>,
+<code>.unload()</code>, and <code>.error()</code> were removed to
+eliminate ambiguity with Ajax methods and modernize event binding (use
+<code>.on("load", ...)</code> instead).</li>
+<li><strong>DOM helpers:</strong> <code>.size()</code> was removed in
+favor of the <code>.length</code> property.</li>
+<li><strong>Internal utilities:</strong> <code>jQuery.parseJSON()</code>
+was deprecated in favor of native <code>JSON.parse()</code>.</li>
+<li><strong>Context and selector properties:</strong> Properties like
+<code>$(...).context</code> and <code>$(...).selector</code> were
+removed as they were fragile and poorly standardized.</li>
+</ul>
+<h2 id="improved-svg-support">Improved SVG Support</h2>
+<p>While jQuery 3.0 did not implement full SVG manipulation, it updated
+class manipulation methods (<code>.addClass()</code>,
+<code>.removeClass()</code>, and <code>.hasClass()</code>) to work
+correctly on SVG elements, removing the need for third-party workarounds
+for standard SVG styling.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

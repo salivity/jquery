@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Difference Between jQuery :nth-child and :eq() - jquery</title>
+    <meta name="description" content="While both the :nth-child and :eq() selectors in jQuery allow developers to target elements based on their numerical position, they operate under fundamentally different rules. The primary differences lie in their indexing systems, how they scope element">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/difference-between-j-query-nth-child-and-eq">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Difference Between jQuery :nth-child and :eq() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/difference-between-j-query-nth-child-and-eq" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="While both the :nth-child and :eq() selectors in jQuery allow developers to target elements based on their numerical position, they operate under fundamentally different rules. The primary differences lie in their indexing systems, how they scope element" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="difference-between-jquery-nth-child-and-eq">Difference Between
+jQuery :nth-child and :eq()</h1>
+<p>While both the <code>:nth-child</code> and <code>:eq()</code>
+selectors in jQuery allow developers to target elements based on their
+numerical position, they operate under fundamentally different rules.
+The primary differences lie in their indexing systems, how they scope
+elements within the Document Object Model (DOM), and whether they comply
+with standard CSS specifications. Understanding these distinctions
+ensures you select the exact elements you intend without unexpected
+layout bugs or performance issues.</p>
+<h3 id="1-index-base-1-based-vs-0-based">1. Index Base: 1-Based vs.
+0-Based</h3>
+<p>The most immediate difference is the way each selector counts:</p>
+<ul>
+<li><strong><code>:nth-child(n)</code> is 1-indexed.</strong> Following
+CSS conventions, counting starts at <code>1</code>. To select the first
+element, you use <code>:nth-child(1)</code>.</li>
+<li><strong><code>:eq(n)</code> is 0-indexed.</strong> Following
+JavaScript array conventions, counting starts at <code>0</code>. To
+select the first element, you use <code>:eq(0)</code>.</li>
+</ul>
+<h3 id="2-selection-scope-sibling-context-vs-global-matched-set">2.
+Selection Scope: Sibling Context vs. Global Matched Set</h3>
+<p>The most significant functional difference is how the selectors
+evaluate the DOM tree:</p>
+<ul>
+<li><strong><code>:nth-child()</code> evaluates elements relative to
+their siblings.</strong> It checks an element's position among its
+siblings under the same parent element. If your page has multiple parent
+containers matching the selector, <code>:nth-child()</code> will return
+an element from <em>each</em> parent container.</li>
+<li><strong><code>:eq()</code> evaluates elements within the jQuery
+collection.</strong> It filters the entire flattened set of elements
+matched by the preceding selector, regardless of where they reside in
+the DOM hierarchy. Consequently, <code>:eq()</code> always returns at
+most one single element.</li>
+</ul>
+<h4 id="example-scenario">Example Scenario</h4>
+<p>Consider the following HTML markup:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;list-a&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Item A1<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Item A2<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;list-b&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Item B1<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Item B2<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span></code></pre></div>
+<ul>
+<li>Running <code>$('li:nth-child(1)')</code> selects both <strong>Item
+A1</strong> and <strong>Item B1</strong>, because each is the first
+child of its respective parent <code>&lt;ul&gt;</code>.</li>
+<li>Running <code>$('li:eq(0)')</code> selects only <strong>Item
+A1</strong>, because it is the first element in the overall jQuery
+collection of all <code>&lt;li&gt;</code> elements on the page.</li>
+<li>Running <code>$('li:eq(2)')</code> selects <strong>Item B1</strong>,
+which is the third element (index 2) in the combined list.</li>
+</ul>
+<h3 id="3-native-css-support-vs-jquery-extension">3. Native CSS Support
+vs. jQuery Extension</h3>
+<ul>
+<li><strong><code>:nth-child</code> is a native CSS selector.</strong>
+Because it is part of the official W3C CSS specification, modern
+browsers can process it directly using the native
+<code>querySelectorAll</code> API, resulting in faster execution. It can
+also accept keywords and algebraic formulas (e.g.,
+<code>:nth-child(odd)</code>, <code>:nth-child(2n+1)</code>).</li>
+<li><strong><code>:eq()</code> is a proprietary jQuery
+selector.</strong> It is not part of the CSS specification. Because
+browsers do not natively understand <code>:eq()</code>, jQuery must
+parse and evaluate the selector using its own JavaScript engine
+(Sizzle), which incurs a slight performance penalty on large DOM trees.
+For better performance when using index-based filtering, jQuery provides
+the native <code>.eq()</code> method (e.g., <code>$('li').eq(0)</code>),
+which allows the initial query to run via native browser methods before
+applying the filter.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

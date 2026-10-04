@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use jQuery $.when() for Multiple AJAX Calls - jquery</title>
+    <meta name="description" content="Managing asynchronous JavaScript operations often requires waiting for several network requests to complete before executing subsequent logic. jQuery provides the $.when() method, which accepts multiple Deferred or Promise objects—such as those returne">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-use-j-query-when-for-multiple-ajax-calls">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Use jQuery $.when() for Multiple AJAX Calls - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-use-j-query-when-for-multiple-ajax-calls" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Managing asynchronous JavaScript operations often requires waiting for several network requests to complete before executing subsequent logic. jQuery provides the $.when() method, which accepts multiple Deferred or Promise objects—such as those returne" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-use-jquery-when-for-multiple-ajax-calls">How to Use
+jQuery $.when() for Multiple AJAX Calls</h1>
+<p>Managing asynchronous JavaScript operations often requires waiting
+for several network requests to complete before executing subsequent
+logic. jQuery provides the <code>$.when()</code> method, which accepts
+multiple Deferred or Promise objects—such as those returned by
+<code>$.ajax()</code>—and triggers a callback only when all requests
+have resolved. This guide explains how to structure multiple concurrent
+AJAX calls using <code>$.when()</code>, process their returned datasets,
+handle dynamic lists of requests, and catch potential errors.</p>
+<h2 id="the-basic-syntax">The Basic Syntax</h2>
+<p>Every <code>$.ajax()</code> call returns a <code>jqXHR</code> object,
+which implements the Promise interface. By passing these objects as
+arguments into <code>$.when()</code>, you can attach a
+<code>.done()</code> handler that fires only after every request
+completes successfully.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> requestUsers <span class="op">=</span> $<span class="op">.</span><span class="fu">ajax</span>({ <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;/api/users&#39;</span><span class="op">,</span> <span class="dt">method</span><span class="op">:</span> <span class="st">&#39;GET&#39;</span> })<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> requestPosts <span class="op">=</span> $<span class="op">.</span><span class="fu">ajax</span>({ <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;/api/posts&#39;</span><span class="op">,</span> <span class="dt">method</span><span class="op">:</span> <span class="st">&#39;GET&#39;</span> })<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">when</span>(requestUsers<span class="op">,</span> requestPosts)<span class="op">.</span><span class="fu">done</span>(<span class="kw">function</span>(usersResult<span class="op">,</span> postsResult) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Both requests are finished</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Users Data:&#39;</span><span class="op">,</span> usersResult[<span class="dv">0</span>])<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Posts Data:&#39;</span><span class="op">,</span> postsResult[<span class="dv">0</span>])<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="understanding-the-response-arguments">Understanding the Response
+Arguments</h3>
+<p>When passing multiple Deferreds to <code>$.when()</code>, the
+<code>.done()</code> callback passes an array of three arguments for
+each request:</p>
+<ol type="1">
+<li><code>data</code>: The actual payload returned from the server.</li>
+<li><code>statusText</code>: A string describing the status (e.g.,
+<code>"success"</code>).</li>
+<li><code>jqXHR</code>: The raw jQuery XMLHttpRequest object.</li>
+</ol>
+<p>To access the server response directly, read the first element of
+each argument (e.g., <code>usersResult[0]</code>). If only a single
+Deferred is passed to <code>$.when()</code>, the callback arguments
+behave like standard <code>$.ajax().done()</code> arguments rather than
+an array.</p>
+<h2 id="handling-a-dynamic-number-of-ajax-calls">Handling a Dynamic
+Number of AJAX Calls</h2>
+<p>When the number of requests is not known in advance, collect the AJAX
+promises into an array and pass them into <code>$.when()</code>.</p>
+<h3 id="using-the-es6-spread-operator">Using the ES6 Spread
+Operator</h3>
+<p>In modern JavaScript environments, use the spread operator
+(<code>...</code>) to pass the array elements as individual
+arguments:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> endpoints <span class="op">=</span> [<span class="st">&#39;/api/users&#39;</span><span class="op">,</span> <span class="st">&#39;/api/posts&#39;</span><span class="op">,</span> <span class="st">&#39;/api/comments&#39;</span>]<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> requests <span class="op">=</span> endpoints<span class="op">.</span><span class="fu">map</span>(url <span class="kw">=&gt;</span> $<span class="op">.</span><span class="fu">ajax</span>({ <span class="dt">url</span><span class="op">:</span> url<span class="op">,</span> <span class="dt">method</span><span class="op">:</span> <span class="st">&#39;GET&#39;</span> }))<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">when</span>(<span class="op">...</span>requests)<span class="op">.</span><span class="fu">done</span>(<span class="kw">function</span>(<span class="op">...</span>responses) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    responses<span class="op">.</span><span class="fu">forEach</span>((res<span class="op">,</span> index) <span class="kw">=&gt;</span> {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Response </span><span class="sc">${</span>index<span class="sc">}</span><span class="vs">:`</span><span class="op">,</span> res[<span class="dv">0</span>])<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="using-functionprototypeapply">Using
+<code>Function.prototype.apply()</code></h3>
+<p>For older environments without ES6 support, use
+<code>.apply()</code>:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> requests <span class="op">=</span> [</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    $<span class="op">.</span><span class="fu">ajax</span>({ <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;/api/users&#39;</span> })<span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    $<span class="op">.</span><span class="fu">ajax</span>({ <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;/api/posts&#39;</span> })</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="at">when</span><span class="op">.</span><span class="fu">apply</span>($<span class="op">,</span> requests)<span class="op">.</span><span class="fu">done</span>(<span class="kw">function</span>() {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Arguments correspond to the requests array</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">var</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="kw">arguments</span><span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Data:&#39;</span><span class="op">,</span> <span class="kw">arguments</span>[i][<span class="dv">0</span>])<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="error-handling-with-fail">Error Handling with
+<code>.fail()</code></h2>
+<p>By default, <code>$.when()</code> operates with "fail-fast" behavior.
+If any individual AJAX request fails, the entire chain immediately
+rejects and invokes the <code>.fail()</code> callback, skipping
+<code>.done()</code>:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">when</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    $<span class="op">.</span><span class="fu">ajax</span>(<span class="st">&#39;/api/valid-endpoint&#39;</span>)<span class="op">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    $<span class="op">.</span><span class="fu">ajax</span>(<span class="st">&#39;/api/broken-endpoint&#39;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">done</span>(<span class="kw">function</span>(res1<span class="op">,</span> res2) {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;All requests succeeded&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">fail</span>(<span class="kw">function</span>(jqXHR<span class="op">,</span> textStatus<span class="op">,</span> errorThrown) {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;At least one request failed:&#39;</span><span class="op">,</span> textStatus<span class="op">,</span> errorThrown)<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>If you need all requests to complete regardless of individual success
+or failure, handle errors within the individual <code>$.ajax()</code>
+definitions using <code>.catch()</code> or standard error callbacks
+before passing the promises to <code>$.when()</code>.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

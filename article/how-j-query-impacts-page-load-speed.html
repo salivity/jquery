@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How jQuery Impacts Page Load Speed - jquery</title>
+    <meta name="description" content="Using jQuery affects website performance primarily through additional file payload, network latency, render-blocking JavaScript execution, and CPU processing overhead. While modern broadband and content delivery networks (CDNs) can mitigate some of these">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-j-query-impacts-page-load-speed">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How jQuery Impacts Page Load Speed - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-j-query-impacts-page-load-speed" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Using jQuery affects website performance primarily through additional file payload, network latency, render-blocking JavaScript execution, and CPU processing overhead. While modern broadband and content delivery networks (CDNs) can mitigate some of these" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-jquery-impacts-page-load-speed">How jQuery Impacts Page Load
+Speed</h1>
+<p>Using jQuery affects website performance primarily through additional
+file payload, network latency, render-blocking JavaScript execution, and
+CPU processing overhead. While modern broadband and content delivery
+networks (CDNs) can mitigate some of these delays, relying on jQuery
+still measurably impacts Core Web Vitals—particularly First Contentful
+Paint (FCP), Largest Contentful Paint (LCP), and Interaction to Next
+Paint (INP)—especially on low-powered mobile devices. This article
+examines the direct performance costs of including jQuery on modern
+websites and evaluates whether the library remains a viable choice
+today.</p>
+<h2 id="the-network-cost-file-size-and-http-requests">The Network Cost:
+File Size and HTTP Requests</h2>
+<p>Including jQuery requires the browser to download an external
+JavaScript library before executing page-specific scripts that depend on
+it.</p>
+<ul>
+<li><strong>Payload Size:</strong> The minified, gzipped production
+version of jQuery 3.x is approximately 30 KB (around 85 KB
+uncompressed). While 30 KB seems small, mobile networks with high
+latency often experience noticeable delays fetching this additional
+resource.</li>
+<li><strong>Additional Requests:</strong> Loading jQuery via a
+third-party CDN requires separate DNS resolution, TLS negotiation, and
+TCP handshakes. Hosting it locally avoids external lookups but still
+consumes a network connection slot that could otherwise load critical
+assets like hero images or fonts.</li>
+</ul>
+<h2 id="render-blocking-and-the-critical-rendering-path">Render-Blocking
+and the Critical Rendering Path</h2>
+<p>By default, browsers pause HTML parsing whenever they encounter a
+standard <code>&lt;script&gt;</code> tag. Because many legacy sites load
+jQuery in the <code>&lt;head&gt;</code> of the document to ensure
+dependent scripts function, jQuery frequently becomes
+render-blocking.</p>
+<ul>
+<li><strong>Delayed First Paint:</strong> When the browser pauses to
+download and evaluate jQuery, it cannot construct the Render Tree,
+directly delaying the First Contentful Paint (FCP).</li>
+<li><strong>Dependency Chains:</strong> Inline scripts or subsequent
+plugin files that depend on jQuery create a waterfall chain. Each script
+must wait for jQuery to finish parsing before it can execute, extending
+total load times.</li>
+</ul>
+<h2 id="parsing-compilation-and-execution-overhead">Parsing,
+Compilation, and Execution Overhead</h2>
+<p>Download size accounts for only part of jQuery's performance cost.
+The browser must also parse, compile, and execute the JavaScript
+code.</p>
+<p>Once downloaded, the browser's JavaScript engine must process the
+uncompressed code (roughly 85 KB). On desktop computers with modern
+CPUs, this takes a few milliseconds. However, on budget mobile devices,
+parsing and compiling jQuery can tie up the main thread for 50 to 100
+milliseconds or more. This delays the browser's ability to respond to
+user interactions, leading to poor Interaction to Next Paint (INP)
+scores and higher Total Blocking Time (TBT).</p>
+<h2 id="abstraction-layers-vs-native-browser-apis">Abstraction Layers
+vs. Native Browser APIs</h2>
+<p>jQuery abstracts DOM manipulation, event handling, and AJAX through
+internal wrappers. While this solved cross-browser inconsistencies in
+2008, modern browsers provide standardized, hardware-optimized native
+APIs.</p>
+<ul>
+<li><strong>DOM Operations:</strong> Methods like
+<code>$('#element')</code> create a jQuery object wrapper around native
+elements. Native alternatives like
+<code>document.querySelector('#element')</code> execute directly within
+the browser's optimized C++ engine, consuming significantly less memory
+and CPU time.</li>
+<li><strong>Event Handling:</strong> jQuery maintains an internal event
+dispatch system. For high-frequency events such as <code>scroll</code>
+or <code>resize</code>, native <code>addEventListener</code> calls
+accompanied by modern features like passive listeners execute far more
+efficiently.</li>
+</ul>
+<h2 id="impact-on-core-web-vitals">Impact on Core Web Vitals</h2>
+<ol type="1">
+<li><strong>Largest Contentful Paint (LCP):</strong> If jQuery blocks
+the main thread or delays the discovery of critical resources, the
+primary content of the page renders later.</li>
+<li><strong>First Contentful Paint (FCP):</strong> Render-blocking
+instances of jQuery placed in the <code>&lt;head&gt;</code> prevent any
+visual feedback from appearing promptly.</li>
+<li><strong>Interaction to Next Paint (INP):</strong> Heavy execution
+during initial page load delays the main thread, causing user taps,
+clicks, or keypresses to feel sluggish.</li>
+</ol>
+<h2 id="reducing-jquerys-performance-impact">Reducing jQuery’s
+Performance Impact</h2>
+<p>If migrating away from jQuery is not immediately possible, apply
+these strategies to limit its effect on speed:</p>
+<ul>
+<li><strong>Use the <code>defer</code> Attribute:</strong> Add the
+<code>defer</code> attribute to the <code>&lt;script&gt;</code> tag.
+This downloads the script in the background without blocking HTML
+parsing and executes it in order right before
+<code>DOMContentLoaded</code>.</li>
+<li><strong>Use the Slim Build:</strong> If Ajax and visual effects are
+handled elsewhere, use the jQuery "slim" build, which reduces the file
+size to roughly 24 KB gzipped by omitting the effects and ajax
+modules.</li>
+<li><strong>Migrate to Vanilla JavaScript:</strong> Modern browsers
+natively support <code>fetch()</code>, <code>querySelectorAll()</code>,
+<code>classList</code>, and CSS animations, rendering jQuery entirely
+redundant for modern web development. Removing the library completely
+eliminates the network, parsing, and execution overhead.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

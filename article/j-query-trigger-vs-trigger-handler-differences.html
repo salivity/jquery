@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery trigger() vs triggerHandler() Differences - jquery</title>
+    <meta name="description" content="When developing with jQuery, simulating events programmatically is a routine task, typically accomplished using either trigger() or triggerHandler(). While both methods invoke event listeners bound to target elements, they behave differently under the ho">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-trigger-vs-trigger-handler-differences">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery trigger() vs triggerHandler() Differences - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-trigger-vs-trigger-handler-differences" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When developing with jQuery, simulating events programmatically is a routine task, typically accomplished using either trigger() or triggerHandler(). While both methods invoke event listeners bound to target elements, they behave differently under the ho" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-trigger-vs-triggerhandler-differences">jQuery trigger()
+vs triggerHandler() Differences</h1>
+<p>When developing with jQuery, simulating events programmatically is a
+routine task, typically accomplished using either <code>trigger()</code>
+or <code>triggerHandler()</code>. While both methods invoke event
+listeners bound to target elements, they behave differently under the
+hood. The primary distinctions lie in how they handle event bubbling,
+default browser behaviors, the number of matched DOM elements affected,
+and the values they return for method chaining. Understanding these
+differences ensures you choose the correct method for your specific
+JavaScript logic.</p>
+<h2 id="1-number-of-elements-affected">1. Number of Elements
+Affected</h2>
+<ul>
+<li><strong><code>trigger()</code></strong>: Executes the specified
+event on <strong>all</strong> elements matching the jQuery
+selector.</li>
+<li><strong><code>triggerHandler()</code></strong>: Executes the
+specified event only on the <strong>first</strong> element in the
+matched jQuery collection.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Triggers the &#39;click&#39; event on every button on the page</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;button&#39;</span>)<span class="op">.</span><span class="fu">trigger</span>(<span class="st">&#39;click&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Triggers the &#39;click&#39; event only on the first button found</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;button&#39;</span>)<span class="op">.</span><span class="fu">triggerHandler</span>(<span class="st">&#39;click&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<h2 id="2-event-bubbling">2. Event Bubbling</h2>
+<ul>
+<li><strong><code>trigger()</code></strong>: The triggered event bubbles
+up through the DOM tree. Parent elements with matching delegated
+listeners will also catch and process the event.</li>
+<li><strong><code>triggerHandler()</code></strong>: The event does
+<strong>not</strong> bubble up the DOM hierarchy. Only the handlers
+directly attached to the first matched element will execute.</li>
+</ul>
+<h2 id="3-default-browser-behaviors">3. Default Browser Behaviors</h2>
+<ul>
+<li><strong><code>trigger()</code></strong>: Triggers both the bound
+jQuery event handlers and the browser's default behavior for that event
+(such as submitting a form or checking a checkbox), unless
+<code>event.preventDefault()</code> is invoked within a handler.</li>
+<li><strong><code>triggerHandler()</code></strong>: Suppresses the
+browser's default action entirely. For instance, calling
+<code>.triggerHandler('submit')</code> on a <code>&lt;form&gt;</code>
+executes any custom submit handlers attached via jQuery, but the browser
+will not physically submit the form or reload the page.</li>
+</ul>
+<h2 id="4-return-values-and-method-chaining">4. Return Values and Method
+Chaining</h2>
+<ul>
+<li><strong><code>trigger()</code></strong>: Returns the original jQuery
+object, allowing you to chain additional jQuery methods afterward.</li>
+<li><strong><code>triggerHandler()</code></strong>: Returns the value
+returned by the last event handler executed, rather than a jQuery
+object. If no handler exists or the handler returns nothing, it returns
+<code>undefined</code>. Because it returns raw data, it breaks jQuery
+method chaining.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// trigger() maintains jQuery chaining</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#myInput&#39;</span>)<span class="op">.</span><span class="fu">trigger</span>(<span class="st">&#39;focus&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">// triggerHandler() returns the handler&#39;s return value</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#myInput&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;customCheck&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> result <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;#myInput&#39;</span>)<span class="op">.</span><span class="fu">triggerHandler</span>(<span class="st">&#39;customCheck&#39;</span>)<span class="op">;</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(result)<span class="op">;</span> <span class="co">// true (cannot chain jQuery methods here)</span></span></code></pre></div>
+<h2 id="summary-comparison">Summary Comparison</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>trigger()</code></th>
+<th style="text-align: left;"><code>triggerHandler()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Target Elements</strong></td>
+<td style="text-align: left;">All elements in selection</td>
+<td style="text-align: left;">Only the first element</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DOM Bubbling</strong></td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Default Action</strong></td>
+<td style="text-align: left;">Executes</td>
+<td style="text-align: left;">Suppressed</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Return Value</strong></td>
+<td style="text-align: left;">jQuery object (chainable)</td>
+<td style="text-align: left;">Handler's return value</td>
+</tr>
+</tbody>
+</table></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Wait for All Images to Load in jQuery - jquery</title>
+    <meta name="description" content="Executing jQuery functions before images finish downloading often causes incorrect dimension calculations, broken animations, or unexpected layout shifts. While the standard $(document).ready() executes as soon as the HTML structure is parsed, it does no">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-wait-for-all-images-to-load-in-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Wait for All Images to Load in jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-wait-for-all-images-to-load-in-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Executing jQuery functions before images finish downloading often causes incorrect dimension calculations, broken animations, or unexpected layout shifts. While the standard $(document).ready() executes as soon as the HTML structure is parsed, it does no" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-wait-for-all-images-to-load-in-jquery">How to Wait for
+All Images to Load in jQuery</h1>
+<p>Executing jQuery functions before images finish downloading often
+causes incorrect dimension calculations, broken animations, or
+unexpected layout shifts. While the standard
+<code>$(document).ready()</code> executes as soon as the HTML structure
+is parsed, it does not wait for external assets like images to render.
+This guide explains how to properly delay jQuery execution until all
+images are fully loaded across the entire page or within specific
+containers.</p>
+<h3 id="method-1-the-native-window-load-event">Method 1: The Native
+Window Load Event</h3>
+<p>The simplest and most common method to wait for all page
+assets—including stylesheets, scripts, and images—to load is using
+jQuery's <code>$(window).on('load', ...)</code>.</p>
+<p>Unlike <code>$(document).ready()</code>, the <code>load</code> event
+on the <code>window</code> object fires only after every resource has
+completely downloaded.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;load&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// All images and resources are fully loaded</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;All images are loaded.&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Run your layout or dimension-dependent code here</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> imageHeight <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;#my-image&#39;</span>)<span class="op">.</span><span class="fu">height</span>()<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="method-2-handling-specific-images-with-promises">Method 2:
+Handling Specific Images with Promises</h3>
+<p>If you only need to wait for a specific set of images—such as an
+image gallery—waiting for the entire page to finish loading can create
+an unnecessary delay for users. You can use JavaScript
+<code>Promise.all()</code> alongside jQuery to monitor a specific group
+of images.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">waitForImages</span>($container) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> promises <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    $container<span class="op">.</span><span class="fu">find</span>(<span class="st">&#39;img&#39;</span>)<span class="op">.</span><span class="fu">each</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">var</span> img <span class="op">=</span> <span class="kw">this</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="op">!</span>img<span class="op">.</span><span class="at">complete</span>) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="kw">var</span> promise <span class="op">=</span> <span class="kw">new</span> <span class="bu">Promise</span>(<span class="kw">function</span>(resolve) {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">$</span>(img)<span class="op">.</span><span class="fu">one</span>(<span class="st">&#39;load error&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">resolve</span>()<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                })<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            })<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            promises<span class="op">.</span><span class="fu">push</span>(promise)<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">Promise</span><span class="op">.</span><span class="fu">all</span>(promises)<span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">// Usage</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">ready</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">waitForImages</span>(<span class="fu">$</span>(<span class="st">&#39;#gallery&#39;</span>))<span class="op">.</span><span class="fu">then</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;All gallery images are loaded.&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Initialize carousel, masonry, or other scripts here</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Checking <code>img.complete</code> is essential. If an image is
+already cached by the browser, the <code>load</code> event might not
+fire at all, causing code that relies strictly on event listeners to
+hang indefinitely.</p>
+<h3 id="method-3-using-the-imagesloaded-library">Method 3: Using the
+<code>imagesLoaded</code> Library</h3>
+<p>For complex layouts like Masonry grids or infinite scrolling,
+handling cached images, CSS background images, and dynamically injected
+content natively can be tricky. The lightweight third-party library
+<strong>imagesLoaded</strong> is the standard solution in the jQuery
+ecosystem.</p>
+<p>Once the library is included on your page, you can bind it directly
+to any jQuery selector:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#container&#39;</span>)<span class="op">.</span><span class="fu">imagesLoaded</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">always</span>(<span class="kw">function</span>(instance) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;All images are loaded or failed to load.&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">done</span>(<span class="kw">function</span>(instance) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;All images successfully loaded.&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Execute dependent code here</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">fail</span>(<span class="kw">function</span>() {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;At least one image failed to load.&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">progress</span>(<span class="kw">function</span>(instance<span class="op">,</span> image) {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">var</span> result <span class="op">=</span> image<span class="op">.</span><span class="at">isLoaded</span> <span class="op">?</span> <span class="st">&#39;loaded&#39;</span> <span class="op">:</span> <span class="st">&#39;broken&#39;</span><span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Image is &#39;</span> <span class="op">+</span> result <span class="op">+</span> <span class="st">&#39; for &#39;</span> <span class="op">+</span> image<span class="op">.</span><span class="at">img</span><span class="op">.</span><span class="at">src</span>)<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span></code></pre></div>
+<h3 id="summary">Summary</h3>
+<ul>
+<li>Use <strong><code>$(window).on('load', ...)</code></strong> if your
+code depends on every image on the entire page and you do not want to
+use external libraries.</li>
+<li>Use <strong><code>Promise.all()</code></strong> with
+<code>img.complete</code> verification if you only need to wait for
+images within a specific section of the page.</li>
+<li>Use the <strong><code>imagesLoaded</code></strong> library when
+dealing with dynamic content, cached assets, or complex UI components
+like isotope and masonry layouts.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

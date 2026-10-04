@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the jQuery Focus Event Used For? - jquery</title>
+    <meta name="description" content="This article provides a concise overview of the jQuery focus event, explaining its core purpose, typical implementation scenarios, and practical code examples. You will learn how the event detects when an element becomes active, how developers utilize it">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-is-the-j-query-focus-event-used-for">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the jQuery Focus Event Used For? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-is-the-j-query-focus-event-used-for" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a concise overview of the jQuery focus event, explaining its core purpose, typical implementation scenarios, and practical code examples. You will learn how the event detects when an element becomes active, how developers utilize it" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-is-the-jquery-focus-event-used-for">What Is the jQuery
+Focus Event Used For?</h1>
+<p>This article provides a concise overview of the jQuery
+<code>focus</code> event, explaining its core purpose, typical
+implementation scenarios, and practical code examples. You will learn
+how the event detects when an element becomes active, how developers
+utilize it to enhance user interfaces, and the primary ways it is
+triggered both automatically and programmatically.</p>
+<p>The jQuery <code>focus</code> event is used to bind an event handler
+to the JavaScript <code>focus</code> event or trigger that event on an
+HTML element. An element gains focus when a user selects it using a
+mouse click, navigates to it via the keyboard (such as using the
+<code>Tab</code> key), or when it is targeted programmatically via
+script. It is most commonly applied to interactive elements such as
+<code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code>,
+<code>&lt;select&gt;</code>, <code>&lt;button&gt;</code>, and
+<code>&lt;a&gt;</code> tags.</p>
+<h3 id="key-use-cases">Key Use Cases</h3>
+<ol type="1">
+<li><p><strong>Enhancing Form Usability and Styling</strong> The most
+frequent use of the <code>focus</code> event is to provide visual
+feedback to users navigating a form. While CSS <code>:focus</code>
+handles basic styling, the jQuery <code>focus</code> event allows for
+dynamic UI behavior, such as displaying contextual help tooltips,
+opening dropdown menus, or highlighting related elements on the
+page.</p></li>
+<li><p><strong>Managing Form Validation and State</strong> Developers
+use the <code>focus</code> event to reset inline error messages, clear
+default or placeholder text, or update status indicators as soon as a
+user enters a field to correct a mistake.</p></li>
+<li><p><strong>Programmatic Navigation</strong> Beyond listening for
+user interaction, calling <code>.focus()</code> without arguments
+programmatically shifts the browser's attention to a specific element.
+This is useful for automatically placing the cursor in the first input
+field on page load, directing a user to an invalid field after failed
+submission, or setting focus inside a newly opened modal dialog for
+accessibility.</p></li>
+</ol>
+<h3 id="syntax-and-implementation">Syntax and Implementation</h3>
+<p>You can listen for the event using either the shorthand
+<code>.focus()</code> method or the <code>.on('focus', handler)</code>
+method:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Attaching an event listener</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;input[type=&quot;text&quot;]&#39;</span>)<span class="op">.</span><span class="fu">focus</span>(<span class="kw">function</span>() {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active-field&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;#helper-text&#39;</span>)<span class="op">.</span><span class="fu">text</span>(<span class="st">&#39;Please enter your full name.&#39;</span>)<span class="op">.</span><span class="fu">show</span>()<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Triggering focus programmatically</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#submit-btn&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">$</span>(<span class="st">&#39;#username&#39;</span>)<span class="op">.</span><span class="fu">val</span>() <span class="op">===</span> <span class="st">&#39;&#39;</span>) {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="st">&#39;#username&#39;</span>)<span class="op">.</span><span class="fu">focus</span>()<span class="op">;</span> <span class="co">// Moves cursor to #username</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="event-delegation-note">Event Delegation Note</h3>
+<p>Standard <code>focus</code> events do not bubble up the DOM tree in
+pure JavaScript. However, jQuery normalizes this behavior so you can use
+event delegation on parent containers. Alternatively, jQuery provides
+the <code>focusin</code> event, which natively supports bubbling and is
+often preferred when delegating focus events to dynamically generated
+elements.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

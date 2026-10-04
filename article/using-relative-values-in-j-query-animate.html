@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using Relative Values in jQuery animate() - jquery</title>
+    <meta name="description" content="This article explains how to animate CSS properties relative to their current values using jQuery's animate() method. By prefixing property values with += or -=, you can dynamically increment or decrement numeric styles without needing to manually calcul">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/using-relative-values-in-j-query-animate">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Using Relative Values in jQuery animate() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/using-relative-values-in-j-query-animate" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how to animate CSS properties relative to their current values using jQuery's animate() method. By prefixing property values with += or -=, you can dynamically increment or decrement numeric styles without needing to manually calcul" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="using-relative-values-in-jquery-animate">Using Relative Values
+in jQuery animate()</h1>
+<p>This article explains how to animate CSS properties relative to their
+current values using jQuery's <code>animate()</code> method. By
+prefixing property values with <code>+=</code> or <code>-=</code>, you
+can dynamically increment or decrement numeric styles without needing to
+manually calculate their current dimensions or positions.</p>
+<p>To use relative values in jQuery's <code>animate()</code> method,
+wrap the operator and target value in quotation marks as a string. The
+syntax <code>+=</code> adds the specified value to the element's current
+value, while <code>-=</code> subtracts it.</p>
+<h3 id="basic-syntax-and-example">Basic Syntax and Example</h3>
+<p>Here is a common scenario where a <code>&lt;div&gt;</code> element
+moves 50 pixels to the right every time a button is clicked:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#moveButton&quot;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&quot;click&quot;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)<span class="op">.</span><span class="fu">animate</span>({</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">left</span><span class="op">:</span> <span class="st">&quot;+=50px&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span> <span class="dv">500</span>)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>In this example, if the current CSS <code>left</code> value of
+<code>#box</code> is <code>100px</code>, the animation smoothly
+transitions it to <code>150px</code> over 500 milliseconds. Clicking the
+button again will move it from <code>150px</code> to
+<code>200px</code>.</p>
+<h3 id="combining-multiple-relative-properties">Combining Multiple
+Relative Properties</h3>
+<p>You can apply relative animations to multiple properties
+simultaneously. This is useful for scaling dimensions and moving
+elements at the same time:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#expandButton&quot;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&quot;click&quot;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)<span class="op">.</span><span class="fu">animate</span>({</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">width</span><span class="op">:</span> <span class="st">&quot;+=30px&quot;</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">height</span><span class="op">:</span> <span class="st">&quot;+=30px&quot;</span><span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">top</span><span class="op">:</span> <span class="st">&quot;-=15px&quot;</span><span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">left</span><span class="op">:</span> <span class="st">&quot;-=15px&quot;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span> <span class="st">&quot;fast&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="key-considerations">Key Considerations</h3>
+<ol type="1">
+<li><strong>Units are Required:</strong> Always provide a unit of
+measurement (such as <code>px</code>, <code>em</code>, or
+<code>%</code>) inside the string. If omitted, jQuery defaults to
+pixels, but explicitly declaring units avoids unexpected layout
+calculations.</li>
+<li><strong>CSS Positioning:</strong> When animating position properties
+like <code>top</code>, <code>bottom</code>, <code>left</code>, or
+<code>right</code>, ensure the target element has its CSS
+<code>position</code> property set to <code>relative</code>,
+<code>absolute</code>, or <code>fixed</code>. By default, elements are
+<code>static</code>, which ignores these positional offset
+properties.</li>
+<li><strong>Numeric Properties Only:</strong> Relative operators can
+only be used on CSS properties that accept numeric values. They cannot
+be used directly with non-numeric properties, such as background colors
+or display types.</li>
+</ol></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

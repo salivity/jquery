@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Extract Data Attributes Using jQuery .data() - jquery</title>
+    <meta name="description" content="Extracting custom data attributes from HTML elements is a common task in modern web development, and jQuery simplifies this process with its built-in .data() method. This guide covers how to read individual custom data- attributes, extract all data attri">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-extract-data-attributes-using-j-query-data">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Extract Data Attributes Using jQuery .data() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-extract-data-attributes-using-j-query-data" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Extracting custom data attributes from HTML elements is a common task in modern web development, and jQuery simplifies this process with its built-in .data() method. This guide covers how to read individual custom data- attributes, extract all data attri" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-extract-data-attributes-using-jquery-data">How to Extract
+Data Attributes Using jQuery .data()</h1>
+<p>Extracting custom data attributes from HTML elements is a common task
+in modern web development, and jQuery simplifies this process with its
+built-in <code>.data()</code> method. This guide covers how to read
+individual custom <code>data-*</code> attributes, extract all data
+attributes at once as an object, and understand how jQuery automatically
+converts data types like numbers, booleans, and JSON strings.</p>
+<h3 id="basic-syntax-for-reading-a-data-attribute">Basic Syntax for
+Reading a Data Attribute</h3>
+<p>To read a custom HTML5 <code>data-*</code> attribute, select the
+element using jQuery and pass the attribute name (omitting the
+<code>data-</code> prefix) into the <code>.data()</code> method.</p>
+<p>Given the following HTML element:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;product&quot;</span><span class="ot"> data-id</span><span class="op">=</span><span class="st">&quot;101&quot;</span><span class="ot"> data-category</span><span class="op">=</span><span class="st">&quot;electronics&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>You can extract the values using:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Extract by name without the &#39;data-&#39; prefix</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> productId <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;#product&#39;</span>)<span class="op">.</span><span class="fu">data</span>(<span class="st">&#39;id&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> category <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;#product&#39;</span>)<span class="op">.</span><span class="fu">data</span>(<span class="st">&#39;category&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(productId)<span class="op">;</span> <span class="co">// Output: 101 (as a number)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(category)<span class="op">;</span>  <span class="co">// Output: &quot;electronics&quot;</span></span></code></pre></div>
+<h3 id="handling-hyphenated-attribute-names">Handling Hyphenated
+Attribute Names</h3>
+<p>When an attribute contains hyphens, such as
+<code>data-user-role</code> or <code>data-item-price</code>, jQuery
+automatically converts the name to camelCase. You can access it using
+either the camelCase property or the original hyphenated string, though
+camelCase is the standard convention.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;user&quot;</span><span class="ot"> data-user-role</span><span class="op">=</span><span class="st">&quot;editor&quot;</span><span class="ot"> data-account-status</span><span class="op">=</span><span class="st">&quot;active&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Recommended: camelCase</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> role <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;#user&#39;</span>)<span class="op">.</span><span class="fu">data</span>(<span class="st">&#39;userRole&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Also valid: hyphenated string</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> status <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;#user&#39;</span>)<span class="op">.</span><span class="fu">data</span>(<span class="st">&#39;account-status&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(role)<span class="op">;</span>   <span class="co">// Output: &quot;editor&quot;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(status)<span class="op">;</span> <span class="co">// Output: &quot;active&quot;</span></span></code></pre></div>
+<h3 id="extracting-all-data-attributes-at-once">Extracting All Data
+Attributes at Once</h3>
+<p>If an element has multiple <code>data-*</code> attributes and you
+want to retrieve all of them simultaneously, call <code>.data()</code>
+without passing any arguments. This returns a single JavaScript object
+containing key-value pairs of all parsed data attributes.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;action-btn&quot;</span><span class="ot"> data-action</span><span class="op">=</span><span class="st">&quot;delete&quot;</span><span class="ot"> data-target-id</span><span class="op">=</span><span class="st">&quot;45&quot;</span><span class="ot"> data-confirm</span><span class="op">=</span><span class="st">&quot;true&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> allData <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;#action-btn&#39;</span>)<span class="op">.</span><span class="fu">data</span>()<span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(allData)<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Output: { action: &quot;delete&quot;, targetId: 45, confirm: true }</span></span></code></pre></div>
+<h3 id="automatic-type-casting">Automatic Type Casting</h3>
+<p>Unlike <code>.attr('data-...')</code> which always returns a string,
+jQuery's <code>.data()</code> method attempts to parse values into their
+corresponding JavaScript data types:</p>
+<ul>
+<li><strong>Numbers:</strong> <code>"42"</code> becomes the number
+<code>42</code>.</li>
+<li><strong>Booleans:</strong> <code>"true"</code> or
+<code>"false"</code> become boolean <code>true</code> or
+<code>false</code>.</li>
+<li><strong>Null:</strong> <code>"null"</code> becomes
+<code>null</code>.</li>
+<li><strong>JSON:</strong> Valid JSON strings are automatically parsed
+into JavaScript objects or arrays.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;meta&quot;</span><span class="ot"> data-count</span><span class="op">=</span><span class="st">&quot;15&quot;</span><span class="ot"> data-valid</span><span class="op">=</span><span class="st">&quot;false&quot;</span><span class="ot"> data-tags</span><span class="op">=</span><span class="st">&#39;[&quot;news&quot;, &quot;updates&quot;]&#39;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">typeof</span> <span class="fu">$</span>(<span class="st">&#39;#meta&#39;</span>)<span class="op">.</span><span class="fu">data</span>(<span class="st">&#39;count&#39;</span>))<span class="op">;</span> <span class="co">// Output: &quot;number&quot;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">typeof</span> <span class="fu">$</span>(<span class="st">&#39;#meta&#39;</span>)<span class="op">.</span><span class="fu">data</span>(<span class="st">&#39;valid&#39;</span>))<span class="op">;</span> <span class="co">// Output: &quot;boolean&quot;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">Array</span><span class="op">.</span><span class="fu">isArray</span>(<span class="fu">$</span>(<span class="st">&#39;#meta&#39;</span>)<span class="op">.</span><span class="fu">data</span>(<span class="st">&#39;tags&#39;</span>)))<span class="op">;</span> <span class="co">// Output: true</span></span></code></pre></div>
+<h3 id="data-vs-attr"><code>.data()</code> vs. <code>.attr()</code></h3>
+<p>Use <code>.data()</code> when you want jQuery to automatically cache
+the value and parse types. If you specifically need to read the exact
+string value directly from the DOM without type conversion or caching,
+use <code>.attr('data-your-key')</code> instead.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

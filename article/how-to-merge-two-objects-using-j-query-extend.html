@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Merge Two Objects Using jQuery $.extend() - jquery</title>
+    <meta name="description" content="This article provides a practical guide on merging JavaScript objects using jQuery’s built-in $.extend() method. You will learn the basic syntax for combining multiple objects, how to handle conflicting properties, how to avoid mutating the original so">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-merge-two-objects-using-j-query-extend">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Merge Two Objects Using jQuery $.extend() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-merge-two-objects-using-j-query-extend" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a practical guide on merging JavaScript objects using jQuery’s built-in $.extend() method. You will learn the basic syntax for combining multiple objects, how to handle conflicting properties, how to avoid mutating the original so" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-merge-two-objects-using-jquery-extend">How to Merge Two
+Objects Using jQuery $.extend()</h1>
+<p>This article provides a practical guide on merging JavaScript objects
+using jQuery’s built-in <code>$.extend()</code> method. You will learn
+the basic syntax for combining multiple objects, how to handle
+conflicting properties, how to avoid mutating the original source
+objects, and how to execute deep recursive merges for nested data
+structures.</p>
+<h2 id="basic-syntax">Basic Syntax</h2>
+<p>The <code>$.extend()</code> utility method merges the contents of two
+or more objects into a target object.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">extend</span>([deep]<span class="op">,</span> target<span class="op">,</span> object1<span class="op">,</span> [objectN])</span></code></pre></div>
+<ul>
+<li><strong><code>deep</code></strong> <em>(optional)</em>: A boolean.
+If set to <code>true</code>, the merge becomes recursive (deep
+copy).</li>
+<li><strong><code>target</code></strong>: The object that receives the
+new properties.</li>
+<li><strong><code>object1</code> to <code>objectN</code></strong>: The
+source objects containing the properties you want to merge.</li>
+</ul>
+<h2 id="shallow-merging-two-objects">Shallow Merging Two Objects</h2>
+<p>By default, <code>$.extend()</code> performs a shallow merge.
+Properties from the source objects are copied directly into the target
+object.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> object1 <span class="op">=</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">name</span><span class="op">:</span> <span class="st">&quot;John&quot;</span><span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">role</span><span class="op">:</span> <span class="st">&quot;Developer&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> object2 <span class="op">=</span> {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">role</span><span class="op">:</span> <span class="st">&quot;Senior Developer&quot;</span><span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">city</span><span class="op">:</span> <span class="st">&quot;New York&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">// Merge object2 into object1</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">extend</span>(object1<span class="op">,</span> object2)<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(object1)<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">// Output: { name: &quot;John&quot;, role: &quot;Senior Developer&quot;, city: &quot;New York&quot; }</span></span></code></pre></div>
+<h3 id="avoiding-mutation-of-the-original-object">Avoiding Mutation of
+the Original Object</h3>
+<p>In the example above, <code>object1</code> was modified directly. To
+merge two objects into a completely new object without altering the
+originals, pass an empty object literal <code>{}</code> as the
+target:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> object1 <span class="op">=</span> { <span class="dt">a</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">b</span><span class="op">:</span> <span class="dv">2</span> }<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> object2 <span class="op">=</span> { <span class="dt">b</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">c</span><span class="op">:</span> <span class="dv">4</span> }<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> mergedObject <span class="op">=</span> $<span class="op">.</span><span class="fu">extend</span>({}<span class="op">,</span> object1<span class="op">,</span> object2)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(mergedObject)<span class="op">;</span> <span class="co">// Output: { a: 1, b: 3, c: 4 }</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(object1)<span class="op">;</span>      <span class="co">// Output: { a: 1, b: 2 } (Unchanged)</span></span></code></pre></div>
+<p>If a property name exists in both objects, the property from the
+latter object overwrites the property in the former.</p>
+<h2 id="deep-merging-nested-objects">Deep Merging Nested Objects</h2>
+<p>A standard shallow merge replaces nested objects entirely if keys
+conflict. To recursively combine nested structures instead of
+overwriting them, pass <code>true</code> as the first argument.</p>
+<h3 id="shallow-merge-conflict-without-true">Shallow Merge Conflict
+(Without <code>true</code>):</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> defaults <span class="op">=</span> {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">settings</span><span class="op">:</span> {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">theme</span><span class="op">:</span> <span class="st">&quot;light&quot;</span><span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">notifications</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> userPreferences <span class="op">=</span> {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">settings</span><span class="op">:</span> {</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">theme</span><span class="op">:</span> <span class="st">&quot;dark&quot;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> result <span class="op">=</span> $<span class="op">.</span><span class="fu">extend</span>({}<span class="op">,</span> defaults<span class="op">,</span> userPreferences)<span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(result<span class="op">.</span><span class="at">settings</span>)<span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">// Output: { theme: &quot;dark&quot; }</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">// Notice that &#39;notifications: true&#39; was completely overwritten and lost.</span></span></code></pre></div>
+<h3 id="deep-merge-solution-with-true">Deep Merge Solution (With
+<code>true</code>):</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> defaults <span class="op">=</span> {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">settings</span><span class="op">:</span> {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">theme</span><span class="op">:</span> <span class="st">&quot;light&quot;</span><span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">notifications</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> userPreferences <span class="op">=</span> {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">settings</span><span class="op">:</span> {</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">theme</span><span class="op">:</span> <span class="st">&quot;dark&quot;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> result <span class="op">=</span> $<span class="op">.</span><span class="fu">extend</span>(<span class="kw">true</span><span class="op">,</span> {}<span class="op">,</span> defaults<span class="op">,</span> userPreferences)<span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(result<span class="op">.</span><span class="at">settings</span>)<span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">// Output: { theme: &quot;dark&quot;, notifications: true }</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">// Both nested properties are preserved.</span></span></code></pre></div></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Create Custom jQuery Pseudo-Selectors - jquery</title>
+    <meta name="description" content="jQuery allows developers to extend its selector engine using the $.expr[':'] object to build custom pseudo-selectors. This article explains how to define, configure, and execute custom pseudo-selectors to streamline DOM traversal and eliminate repetitive">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-create-custom-j-query-pseudo-selectors">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Create Custom jQuery Pseudo-Selectors - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-create-custom-j-query-pseudo-selectors" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="jQuery allows developers to extend its selector engine using the $.expr[':'] object to build custom pseudo-selectors. This article explains how to define, configure, and execute custom pseudo-selectors to streamline DOM traversal and eliminate repetitive" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-create-custom-jquery-pseudo-selectors">How to Create
+Custom jQuery Pseudo-Selectors</h1>
+<p>jQuery allows developers to extend its selector engine using the
+<code>$.expr[':']</code> object to build custom pseudo-selectors. This
+article explains how to define, configure, and execute custom
+pseudo-selectors to streamline DOM traversal and eliminate repetitive
+filtering code in your projects.</p>
+<h3 id="understanding-expr">Understanding <code>$.expr[':']</code></h3>
+<p>Under the hood, jQuery uses the Sizzle selector engine. The
+<code>$.expr[':']</code> object (an alias for
+<code>jQuery.expr.pseudos</code>) stores all pseudo-selectors such as
+<code>:visible</code>, <code>:first</code>, and <code>:checked</code>.
+By adding a new function to this object, you define a custom filter that
+jQuery applies to DOM elements during a query.</p>
+<p>The callback function assigned to a custom pseudo-selector receives
+four arguments:</p>
+<ol type="1">
+<li><strong><code>elem</code></strong>: The current raw DOM element
+being evaluated.</li>
+<li><strong><code>index</code></strong>: The zero-based index of the
+element in the current collection.</li>
+<li><strong><code>match</code></strong>: An array containing parsing
+metadata about the selector. <code>match[3]</code> contains any
+parameter passed inside the parentheses of the selector.</li>
+<li><strong><code>stack</code></strong>: The complete array of elements
+being filtered.</li>
+</ol>
+<p>The function must return <code>true</code> to keep the element in the
+matched set, or <code>false</code> to exclude it.</p>
+<hr />
+<h3 id="creating-a-basic-custom-pseudo-selector">Creating a Basic Custom
+Pseudo-Selector</h3>
+<p>A basic pseudo-selector evaluates an element's property without
+taking any arguments.</p>
+<p>The following example creates a <code>:blank-input</code> selector
+that matches input fields that are empty or contain only whitespace:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="at">expr</span>[<span class="st">&#39;:&#39;</span>][<span class="st">&#39;blank-input&#39;</span>] <span class="op">=</span> <span class="kw">function</span>(elem) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Ensure the element is an input or textarea</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (elem<span class="op">.</span><span class="at">tagName</span> <span class="op">===</span> <span class="st">&#39;INPUT&#39;</span> <span class="op">||</span> elem<span class="op">.</span><span class="at">tagName</span> <span class="op">===</span> <span class="st">&#39;TEXTAREA&#39;</span>) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">$</span>(elem)<span class="op">.</span><span class="fu">val</span>()<span class="op">.</span><span class="fu">trim</span>() <span class="op">===</span> <span class="st">&#39;&#39;</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Usage:</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;input:blank-input&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;error-highlight&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<hr />
+<h3 id="creating-a-parameterized-pseudo-selector">Creating a
+Parameterized Pseudo-Selector</h3>
+<p>Custom selectors can also accept arguments passed within parentheses
+(e.g., <code>:min-height(200)</code>). To capture the parameter, read
+<code>match[3]</code>.</p>
+<p>The following example creates a <code>:min-width</code> selector to
+filter elements whose rendered width meets or exceeds a specified pixel
+value:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="at">expr</span>[<span class="st">&#39;:&#39;</span>][<span class="st">&#39;min-width&#39;</span>] <span class="op">=</span> <span class="kw">function</span>(elem<span class="op">,</span> index<span class="op">,</span> match) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Parse the argument passed inside the parentheses: :min-width(value)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> minWidth <span class="op">=</span> <span class="pp">parseInt</span>(match[<span class="dv">3</span>]<span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="pp">isNaN</span>(minWidth)) {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="fu">$</span>(elem)<span class="op">.</span><span class="fu">width</span>() <span class="op">&gt;=</span> minWidth<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Usage:</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;div:min-width(500)&#39;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;border&#39;</span><span class="op">,</span> <span class="st">&#39;2px solid green&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<hr />
+<h3 id="best-practices">Best Practices</h3>
+<ul>
+<li><strong>Native JavaScript over jQuery Wrapping:</strong> Inside the
+selector function, inspect <code>elem</code> using native JavaScript
+properties (e.g., <code>elem.getAttribute()</code>,
+<code>elem.offsetWidth</code>) whenever possible. Avoiding
+<code>$(elem)</code> calls inside the function significantly improves
+selector performance across large DOM trees.</li>
+<li><strong>Compatibility:</strong> In modern jQuery (v1.8 and newer),
+<code>$.expr[':']</code> is officially an alias for
+<code>$.expr.pseudos</code>. While <code>$.expr[':']</code> remains
+fully supported for backward compatibility, you can use
+<code>$.expr.pseudos</code> interchangeably using the same syntax.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

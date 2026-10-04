@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the jQuery $.expr Object - jquery</title>
+    <meta name="description" content="The jQuery $.expr object is the internal storage mechanism for jQuery's selector engine, historically powered by Sizzle. It defines how jQuery parses, interprets, and matches elements against CSS selectors. By interacting directly with $.expr, developers">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/understanding-the-j-query-expr-object">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding the jQuery $.expr Object - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/understanding-the-j-query-expr-object" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery $.expr object is the internal storage mechanism for jQuery's selector engine, historically powered by Sizzle. It defines how jQuery parses, interprets, and matches elements against CSS selectors. By interacting directly with $.expr, developers" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="understanding-the-jquery-expr-object">Understanding the jQuery
+$.expr Object</h1>
+<p>The jQuery <code>$.expr</code> object is the internal storage
+mechanism for jQuery's selector engine, historically powered by Sizzle.
+It defines how jQuery parses, interprets, and matches elements against
+CSS selectors. By interacting directly with <code>$.expr</code>,
+developers can extend jQuery's native selection capabilities and create
+custom pseudo-class selectors tailored to specific application
+needs.</p>
+<h3 id="what-is-expr">What is $.expr?</h3>
+<p>In jQuery, standard selectors like <code>#id</code>,
+<code>.class</code>, or <code>div</code> are processed using standard
+DOM methods like <code>querySelector</code> or
+<code>querySelectorAll</code>. However, jQuery also supports custom,
+non-standard pseudo-selectors such as <code>:visible</code>,
+<code>:hidden</code>, <code>:input</code>, and <code>:even</code>.</p>
+<p>These custom pseudo-selectors are registered within the
+<code>$.expr</code> object. Specifically, <code>$.expr[':']</code> (an
+alias for <code>$.expr.pseudos</code> in jQuery 1.8 and later) holds the
+collection of selector functions that jQuery evaluates when scanning DOM
+nodes.</p>
+<h3 id="the-primary-purpose-creating-custom-selectors">The Primary
+Purpose: Creating Custom Selectors</h3>
+<p>The main practical purpose of <code>$.expr</code> for developers is
+creating custom pseudo-selectors to simplify repetitive filtering logic.
+Instead of chaining methods like <code>.filter()</code>, you can embed
+the logic directly into selector strings.</p>
+<h4 id="basic-syntax-and-example">Basic Syntax and Example</h4>
+<p>A custom selector is created by attaching a new function to
+<code>$.expr[':']</code>. The function must evaluate an element and
+return <code>true</code> if it matches, or <code>false</code> if it does
+not.</p>
+<p>Here is an example that creates a <code>:caseContains</code>
+selector, allowing case-insensitive text matching:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>jQuery<span class="op">.</span><span class="at">expr</span>[<span class="st">&#39;:&#39;</span>]<span class="op">.</span><span class="at">caseContains</span> <span class="op">=</span> <span class="kw">function</span>(elem<span class="op">,</span> index<span class="op">,</span> match) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> searchText <span class="op">=</span> match[<span class="dv">3</span>]<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (elem<span class="op">.</span><span class="at">textContent</span> <span class="op">||</span> elem<span class="op">.</span><span class="at">innerText</span> <span class="op">||</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">toLowerCase</span>()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">indexOf</span>(searchText<span class="op">.</span><span class="fu">toLowerCase</span>()) <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">// Usage:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;p:caseContains(&quot;jquery&quot;)&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;highlight&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="anatomy-of-a-selector-function">Anatomy of a Selector
+Function</h3>
+<p>When defining a custom selector in <code>$.expr</code>, the callback
+function receives several arguments:</p>
+<ol type="1">
+<li><strong><code>elem</code></strong>: The current DOM element being
+tested.</li>
+<li><strong><code>index</code></strong>: The zero-based index of the
+element within the loop.</li>
+<li><strong><code>match</code></strong>: An array containing regex match
+information. The most commonly used element is <code>match[3]</code>,
+which captures any parameter passed inside the parentheses of the
+pseudo-selector (e.g., the <code>"jquery"</code> in
+<code>:caseContains("jquery")</code>).</li>
+</ol>
+<h3 id="why-use-expr">Why Use $.expr?</h3>
+<ul>
+<li><strong>Code Readability:</strong> Custom selectors make queries
+declarative and clean (e.g., <code>$('a:external')</code> instead of
+running loops or custom <code>.filter()</code> checks).</li>
+<li><strong>Reusability:</strong> Once added to <code>$.expr</code>, the
+selector is globally available throughout your application wherever
+jQuery selectors are accepted.</li>
+<li><strong>Component-Level Filtering:</strong> You can create
+domain-specific selectors, such as <code>:overdue</code>,
+<code>:validated</code>, or <code>:inline</code>, making DOM traversal
+intuitive for teams working on large codebases.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

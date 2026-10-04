@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using jQuery parseHTML for Safe DOM Insertion - jquery</title>
+    <meta name="description" content="jQuery's $.parseHTML() method is a utility designed to convert a raw HTML string into an array of native DOM nodes, providing a controlled alternative to direct string-based DOM insertion methods. Direct methods like $(htmlString) or .html(htmlString) ca">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/using-j-query-parse-html-for-safe-dom-insertion">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Using jQuery parseHTML for Safe DOM Insertion - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/using-j-query-parse-html-for-safe-dom-insertion" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="jQuery's $.parseHTML() method is a utility designed to convert a raw HTML string into an array of native DOM nodes, providing a controlled alternative to direct string-based DOM insertion methods. Direct methods like $(htmlString) or .html(htmlString) ca" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="using-jquery-parsehtml-for-safe-dom-insertion">Using jQuery
+parseHTML for Safe DOM Insertion</h1>
+<p>jQuery's <code>$.parseHTML()</code> method is a utility designed to
+convert a raw HTML string into an array of native DOM nodes, providing a
+controlled alternative to direct string-based DOM insertion methods.
+Direct methods like <code>$(htmlString)</code> or
+<code>.html(htmlString)</code> can expose applications to Cross-Site
+Scripting (XSS) vulnerabilities if they process untrusted user input.
+This article explores how <code>$.parseHTML()</code> functions, its
+defensive mechanisms against script execution, and best practices for
+securely rendering dynamic content into the DOM.</p>
+<h3 id="the-security-problem-with-standard-insertion">The Security
+Problem with Standard Insertion</h3>
+<p>Directly passing HTML strings into standard jQuery methods—such as
+<code>$(string)</code> or <code>.append(string)</code>—causes jQuery to
+interpret the string and automatically evaluate any contained
+<code>&lt;script&gt;</code> tags or executable elements. If an attacker
+injects malicious code into that string, the browser executes it
+immediately upon insertion. This behavior turns unchecked user inputs
+into a major XSS risk.</p>
+<h3 id="how-parsehtml-mitigates-script-execution">How
+<code>$.parseHTML()</code> Mitigates Script Execution</h3>
+<p>The <code>$.parseHTML()</code> method alters this behavior by taking
+control over how elements are instantiated. Its syntax is:</p>
+<p><code>jQuery.parseHTML( data [, context ] [, keepScripts ] )</code></p>
+<ol type="1">
+<li><strong>Explicit Node Conversion:</strong> Instead of directly
+appending elements to the active document, <code>$.parseHTML()</code>
+uses the browser's native DOM manipulation (typically an inactive
+document or document fragment) to parse the string into an array of DOM
+nodes.</li>
+<li><strong>Script Disabling by Default:</strong> The most critical
+parameter for security is <code>keepScripts</code>. This boolean
+defaults to <code>false</code>. When <code>keepScripts</code> is omitted
+or set to <code>false</code>, jQuery strips out any
+<code>&lt;script&gt;</code> elements from the resulting array,
+preventing immediate inline script execution when the nodes are attached
+to the document.</li>
+</ol>
+<h3 id="safe-implementation">Safe Implementation</h3>
+<p>To safely insert dynamic markup, parse the string first and then
+append the resulting node array using jQuery's traversal and insertion
+methods:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Raw input from an untrusted source</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> userPayload <span class="op">=</span> <span class="st">&#39;&lt;div&gt;Hello World!&lt;/div&gt;&lt;script&gt;alert(&quot;XSS Attack!&quot;);&lt;</span><span class="sc">\/</span><span class="st">script&gt;&#39;</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Parse the HTML while disallowing script tags (keepScripts defaults to false)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> safeNodes <span class="op">=</span> $<span class="op">.</span><span class="fu">parseHTML</span>(userPayload)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Empty target container and safely append the parsed DOM nodes</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#content-container&quot;</span>)<span class="op">.</span><span class="fu">empty</span>()<span class="op">.</span><span class="fu">append</span>(safeNodes)<span class="op">;</span></span></code></pre></div>
+<p>In this example, the <code>&lt;div&gt;</code> element is parsed and
+rendered, but the <code>&lt;script&gt;</code> tag is dropped entirely,
+preventing the alert from running.</p>
+<h3 id="limitations-and-the-need-for-sanitization">Limitations and the
+Need for Sanitization</h3>
+<p>While <code>$.parseHTML()</code> prevents executable
+<code>&lt;script&gt;</code> tags when <code>keepScripts</code> is
+<code>false</code>, it does not sanitize malicious inline event
+attributes (such as
+<code>&lt;img src="invalid" onerror="alert('XSS')"&gt;</code>). The
+browser still treats these event handlers as executable once the
+elements enter the live DOM.</p>
+<p>Therefore, <code>$.parseHTML()</code> should not be treated as a
+complete HTML sanitizer. For comprehensive protection against XSS, input
+containing HTML should first pass through a robust sanitization library
+like DOMPurify to strip malicious attributes before being parsed and
+inserted into the document.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

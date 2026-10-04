@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Reject a jQuery Deferred Object - jquery</title>
+    <meta name="description" content="In jQuery, managing asynchronous workflows requires controlling the lifecycle of a Deferred object, transitioning it from a pending state to either resolved or rejected. This guide explains how to properly reject a jQuery Deferred object using the built-">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-reject-a-j-query-deferred-object">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Reject a jQuery Deferred Object - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-reject-a-j-query-deferred-object" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In jQuery, managing asynchronous workflows requires controlling the lifecycle of a Deferred object, transitioning it from a pending state to either resolved or rejected. This guide explains how to properly reject a jQuery Deferred object using the built-" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-reject-a-jquery-deferred-object">How to Reject a jQuery
+Deferred Object</h1>
+<p>In jQuery, managing asynchronous workflows requires controlling the
+lifecycle of a <code>Deferred</code> object, transitioning it from a
+pending state to either resolved or rejected. This guide explains how to
+properly reject a jQuery Deferred object using the built-in
+<code>reject()</code> and <code>rejectWith()</code> methods, how to pass
+error arguments to failure callbacks, and how to verify the object's
+terminal state.</p>
+<h3 id="the-deferredreject-method">The <code>deferred.reject()</code>
+Method</h3>
+<p>The primary way to reject a jQuery Deferred object is by calling its
+<code>.reject()</code> method. Invoking this method transitions the
+Deferred from the "pending" state to the "rejected" state and
+immediately executes any failure callbacks attached via
+<code>.fail()</code>, <code>.then()</code>, or
+<code>.always()</code>.</p>
+<p>You can pass optional arguments to <code>.reject()</code>, which are
+then forwarded to the fail callbacks:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Initialize a new Deferred object</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> deferred <span class="op">=</span> $<span class="op">.</span><span class="fu">Deferred</span>()<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Attach a failure callback</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>deferred<span class="op">.</span><span class="fu">fail</span>(<span class="kw">function</span>(errorMessage<span class="op">,</span> errorCode) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Failed:&quot;</span><span class="op">,</span> errorMessage<span class="op">,</span> <span class="st">&quot;Code:&quot;</span><span class="op">,</span> errorCode)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Reject the Deferred object with arguments</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>deferred<span class="op">.</span><span class="fu">reject</span>(<span class="st">&quot;Operation timed out&quot;</span><span class="op">,</span> <span class="dv">408</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="the-deferredrejectwith-method">The
+<code>deferred.rejectWith()</code> Method</h3>
+<p>If you need to define a specific execution context
+(<code>this</code>) for the fail callbacks, use
+<code>.rejectWith()</code>. This method accepts the context object as
+the first argument, followed by an optional array or arguments object
+containing the parameters passed to the callbacks.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> deferred <span class="op">=</span> $<span class="op">.</span><span class="fu">Deferred</span>()<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> errorContext <span class="op">=</span> {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">service</span><span class="op">:</span> <span class="st">&quot;AuthenticationService&quot;</span><span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timestamp</span><span class="op">:</span> <span class="bu">Date</span><span class="op">.</span><span class="fu">now</span>()</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>deferred<span class="op">.</span><span class="fu">fail</span>(<span class="kw">function</span>(reason) {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// &#39;this&#39; refers to errorContext</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Error in &quot;</span> <span class="op">+</span> <span class="kw">this</span><span class="op">.</span><span class="at">service</span> <span class="op">+</span> <span class="st">&quot;: &quot;</span> <span class="op">+</span> reason)<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">// Reject with a custom context</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>deferred<span class="op">.</span><span class="fu">rejectWith</span>(errorContext<span class="op">,</span> [<span class="st">&quot;Invalid credentials&quot;</span>])<span class="op">;</span></span></code></pre></div>
+<h3 id="key-considerations">Key Considerations</h3>
+<ul>
+<li><strong>State Immutability:</strong> A Deferred object can only
+change its state once. Once marked as rejected (or resolved), subsequent
+calls to <code>.resolve()</code>, <code>.reject()</code>,
+<code>.resolveWith()</code>, or <code>.rejectWith()</code> are
+ignored.</li>
+<li><strong>Checking State:</strong> You can inspect the current state
+of a Deferred object at any time using <code>deferred.state()</code>.
+Once rejected, this method returns the string
+<code>"rejected"</code>.</li>
+<li><strong>Promise Objects:</strong> If you expose a
+<code>Promise</code> using <code>deferred.promise()</code>, note that
+promises are read-only. You must reject the underlying
+<code>Deferred</code> instance, not the exposed promise, as promises
+lack the <code>.reject()</code> method by design.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

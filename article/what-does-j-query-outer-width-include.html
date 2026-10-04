@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does jQuery outerWidth() Include? - jquery</title>
+    <meta name="description" content="The jQuery outerWidth() method calculates the total horizontal space occupied by an HTML element, measuring its core content width along with its padding and borders by default, with an optional setting to include margins. Understanding how outerWidth()">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-does-j-query-outer-width-include">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does jQuery outerWidth() Include? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-does-j-query-outer-width-include" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery outerWidth() method calculates the total horizontal space occupied by an HTML element, measuring its core content width along with its padding and borders by default, with an optional setting to include margins. Understanding how outerWidth()" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-does-jquery-outerwidth-include">What Does jQuery
+outerWidth() Include?</h1>
+<p>The jQuery <code>outerWidth()</code> method calculates the total
+horizontal space occupied by an HTML element, measuring its core content
+width along with its padding and borders by default, with an optional
+setting to include margins. Understanding how <code>outerWidth()</code>
+computes these dimensions is essential for dynamic DOM manipulation,
+responsive scripting, and accurately aligning elements on a web
+page.</p>
+<h3 id="default-calculation-content-padding-and-border">Default
+Calculation: Content, Padding, and Border</h3>
+<p>By default, calling <code>$(selector).outerWidth()</code> returns the
+width of the element including the following CSS box model
+properties:</p>
+<ul>
+<li><strong>Content width:</strong> The width of the element's actual
+content.</li>
+<li><strong>Padding:</strong> Both the left and right padding
+(<code>padding-left</code> and <code>padding-right</code>).</li>
+<li><strong>Borders:</strong> Both the left and right borders
+(<code>border-left-width</code> and
+<code>border-right-width</code>).</li>
+</ul>
+<p>The default formula is:
+<code>Total Width = Content Width + Left Padding + Right Padding + Left Border + Right Border</code></p>
+<h3 id="including-margins-with-outerwidthtrue">Including Margins with
+outerWidth(true)</h3>
+<p>The <code>outerWidth()</code> method accepts an optional boolean
+parameter. When passed <code>true</code>—as in
+<code>$(selector).outerWidth(true)</code>—the calculation extends to
+include the element's margins.</p>
+<p>In this case, the calculation includes:</p>
+<ul>
+<li>Content width</li>
+<li>Left and right padding</li>
+<li>Left and right borders</li>
+<li>Left and right margins (<code>margin-left</code> and
+<code>margin-right</code>)</li>
+</ul>
+<p>This variation represents the full footprint of the element in the
+document flow, making it ideal for collision detection, grid layouts, or
+computing spacing between adjacent elements.</p>
+<h3 id="comparison-with-related-jquery-sizing-methods">Comparison with
+Related jQuery Sizing Methods</h3>
+<p>To choose the right method for your calculation, compare how
+<code>outerWidth()</code> relates to other jQuery dimension methods:</p>
+<ul>
+<li><code>width()</code>: Measures only the element's content width,
+excluding padding, borders, and margins.</li>
+<li><code>innerWidth()</code>: Measures the content width plus left and
+right padding, excluding borders and margins.</li>
+<li><code>outerWidth()</code>: Measures content, padding, and
+borders.</li>
+<li><code>outerWidth(true)</code>: Measures content, padding, borders,
+and margins.</li>
+</ul>
+<h3 id="css-box-sizing-considerations">CSS Box-Sizing
+Considerations</h3>
+<p>The <code>outerWidth()</code> method returns the computed pixel value
+regardless of whether the element uses
+<code>box-sizing: content-box</code> or
+<code>box-sizing: border-box</code>. While <code>box-sizing</code>
+changes how CSS applies the <code>width</code> property internally,
+<code>outerWidth()</code> consistently reports the final rendered outer
+measurement of the element on the screen.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

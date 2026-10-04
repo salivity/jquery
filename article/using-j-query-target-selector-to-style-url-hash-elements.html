@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using jQuery Target Selector to Style URL Hash Elements - jquery</title>
+    <meta name="description" content="This article explains how to use jQuery and the :target selector to detect the URL hash and dynamically apply styles to the corresponding element. By combining jQuery's selector engine with window events, you can highlight sections, tabs, or modal window">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/using-j-query-target-selector-to-style-url-hash-elements">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Using jQuery Target Selector to Style URL Hash Elements - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/using-j-query-target-selector-to-style-url-hash-elements" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how to use jQuery and the :target selector to detect the URL hash and dynamically apply styles to the corresponding element. By combining jQuery's selector engine with window events, you can highlight sections, tabs, or modal window" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="using-jquery-target-selector-to-style-url-hash-elements">Using
+jQuery Target Selector to Style URL Hash Elements</h1>
+<p>This article explains how to use jQuery and the <code>:target</code>
+selector to detect the URL hash and dynamically apply styles to the
+corresponding element. By combining jQuery's selector engine with window
+events, you can highlight sections, tabs, or modal windows instantly
+when a user loads a page with a hash fragment or clicks an anchor
+link.</p>
+<h3 id="understanding-the-target-selector">Understanding the
+<code>:target</code> Selector</h3>
+<p>In CSS, the <code>:target</code> pseudo-class matches an element with
+an <code>id</code> attribute matching the current URL's hash fragment
+(for example, <code>#section2</code>). jQuery incorporates this selector
+directly into its selection engine. When you query
+<code>$(':target')</code>, jQuery locates the specific element in the
+DOM whose ID matches the fragment identifier currently in
+<code>window.location.hash</code>.</p>
+<h3 id="selecting-and-styling-on-page-load">Selecting and Styling on
+Page Load</h3>
+<p>When a visitor lands on a page containing a hash (such as
+<code>example.com/#about</code>), you can immediately target and style
+that element using jQuery:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">ready</span>(<span class="kw">function</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;:target&#39;</span>)<span class="op">.</span><span class="fu">css</span>({</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;background-color&#39;</span><span class="op">:</span> <span class="st">&#39;#fff3cd&#39;</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;border&#39;</span><span class="op">:</span> <span class="st">&#39;2px solid #ffeeba&#39;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Using CSS classes is generally preferable for maintainability:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">ready</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;:target&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active-target&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="handling-real-time-hash-changes">Handling Real-Time Hash
+Changes</h3>
+<p>Because users can click in-page navigation links without reloading
+the page, the active <code>:target</code> changes dynamically. To keep
+styles synchronized, listen for the <code>hashchange</code> event on the
+<code>window</code> object:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">updateTargetStyle</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Remove the style or class from any previously targeted elements</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;.active-target&#39;</span>)<span class="op">.</span><span class="fu">removeClass</span>(<span class="st">&#39;active-target&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Apply the class to the current target, if one exists</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;:target&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active-target&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Trigger on hash change and initial page load</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;hashchange load&#39;</span><span class="op">,</span> updateTargetStyle)<span class="op">;</span></span></code></pre></div>
+<h3 id="direct-hash-selection-alternative">Direct Hash Selection
+Alternative</h3>
+<p>While <code>$(':target')</code> works directly, you can also extract
+<code>window.location.hash</code> directly if you need greater control
+or compatibility safeguards:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;hashchange load&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> hash <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="at">location</span><span class="op">.</span><span class="at">hash</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Reset styles</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;.highlight&#39;</span>)<span class="op">.</span><span class="fu">removeClass</span>(<span class="st">&#39;highlight&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Check if hash exists and corresponds to a valid element</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (hash <span class="op">&amp;&amp;</span> <span class="fu">$</span>(hash)<span class="op">.</span><span class="at">length</span>) {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(hash)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;highlight&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="best-practices">Best Practices</h3>
+<ol type="1">
+<li><strong>Sanitize Hash Input</strong>: If selecting elements directly
+with <code>$(window.location.hash)</code> instead of
+<code>$(':target')</code>, ensure the hash contains valid ID characters
+to avoid syntax errors with unexpected characters.</li>
+<li><strong>Combine with CSS Transitions</strong>: Pair the class
+toggled by jQuery with CSS <code>transition</code> properties to create
+smooth visual feedback when navigation links are clicked.</li>
+<li><strong>Accessibility</strong>: When altering visual styles for
+targeted elements, consider updating accessibility attributes, such as
+<code>aria-current="true"</code>, to inform screen readers of the active
+content.</li>
+</ol></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

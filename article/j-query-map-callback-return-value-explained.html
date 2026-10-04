@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery map Callback Return Value Explained - jquery</title>
+    <meta name="description" content="The jQuery .map() method relies on a callback function to transform elements within a collection into a new set of values. When writing a callback for .map(), the expected return value can be a single transformed value, an array of values, or null/undefi">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-map-callback-return-value-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery map Callback Return Value Explained - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-map-callback-return-value-explained" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery .map() method relies on a callback function to transform elements within a collection into a new set of values. When writing a callback for .map(), the expected return value can be a single transformed value, an array of values, or null/undefi" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-map-callback-return-value-explained">jQuery map Callback
+Return Value Explained</h1>
+<p>The jQuery <code>.map()</code> method relies on a callback function
+to transform elements within a collection into a new set of values. When
+writing a callback for <code>.map()</code>, the expected return value
+can be a single transformed value, an array of values, or
+<code>null</code>/<code>undefined</code>. Depending on what is returned,
+jQuery either appends the value, flattens the array into the final
+collection, or removes the element entirely from the resulting set.</p>
+<h3 id="allowed-return-values-and-behaviors">Allowed Return Values and
+Behaviors</h3>
+<p>The callback function passed to jQuery <code>.map()</code> can return
+three types of results:</p>
+<ol type="1">
+<li><strong>A Single Value:</strong> Returning any single JavaScript
+value (such as a string, number, object, or boolean) places that item
+into the new collection at the corresponding position.</li>
+<li><strong>An Array of Values:</strong> If the callback returns an
+array, jQuery automatically flattens the array. Each item within the
+returned array becomes an individual element in the resulting collection
+rather than being stored as a nested array.</li>
+<li><strong><code>null</code> or <code>undefined</code>:</strong>
+Returning <code>null</code> or <code>undefined</code> instructs jQuery
+to omit the current item entirely. This allows <code>.map()</code> to
+act simultaneously as both a mapper and a filter.</li>
+</ol>
+<h3 id="difference-between-selectormap-and-map">Difference Between
+<code>$(selector).map()</code> and <code>$.map()</code></h3>
+<p>jQuery provides two variants of the <code>.map()</code> method, and
+both follow the same return value rules, though their callback
+parameters are ordered differently:</p>
+<ul>
+<li><strong>Collection method:
+<code>$(selector).map(function(index, domElement))</code></strong>
+Operates on a jQuery selection. The callback receives the
+<code>index</code> first and the <code>domElement</code> second. It
+returns a new jQuery-wrapped collection.</li>
+<li><strong>Utility method:
+<code>$.map(arrayOrObject, function(elementOrValue, indexOrKey))</code></strong>
+Operates on plain JavaScript arrays or objects. The callback receives
+the element or value first and the index or key second. It returns a
+standard JavaScript array.</li>
+</ul>
+<h3 id="code-example">Code Example</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Using $(selector).map()</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> result <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;li&#39;</span>)<span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span>(index<span class="op">,</span> element) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> text <span class="op">=</span> <span class="fu">$</span>(element)<span class="op">.</span><span class="fu">text</span>()<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (text <span class="op">===</span> <span class="st">&#39;Skip&#39;</span>) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span> <span class="co">// Omitted from the final result</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (text <span class="op">===</span> <span class="st">&#39;Split&#39;</span>) {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [<span class="st">&#39;Part 1&#39;</span><span class="op">,</span> <span class="st">&#39;Part 2&#39;</span>]<span class="op">;</span> <span class="co">// Flattened into separate items</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> text<span class="op">.</span><span class="fu">toUpperCase</span>()<span class="op">;</span> <span class="co">// Single transformed value</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>})<span class="op">.</span><span class="fu">get</span>()<span class="op">;</span> <span class="co">// .get() converts the jQuery object to a native JavaScript array</span></span></code></pre></div>
+<h3 id="contrast-with-native-javascript-arrayprototypemap">Contrast with
+Native JavaScript <code>Array.prototype.map</code></h3>
+<p>Unlike JavaScript's built-in <code>Array.prototype.map()</code>,
+which always maintains a 1-to-1 length mapping and keeps
+<code>null</code> or <code>undefined</code> in the output, jQuery's
+<code>.map()</code> dynamically changes the size of the resulting
+collection by flattening returned arrays and dropping <code>null</code>
+or <code>undefined</code> values.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

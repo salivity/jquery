@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery .then() vs .done() and .fail() - jquery</title>
+    <meta name="description" content="In jQuery, managing asynchronous operations relies on the Deferred and Promise APIs, where .then(), .done(), and .fail() handle completion or rejection states. While .done() and .fail() are legacy utility methods designed simply to attach callbacks to an">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-then-vs-done-and-fail">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery .then() vs .done() and .fail() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-then-vs-done-and-fail" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In jQuery, managing asynchronous operations relies on the Deferred and Promise APIs, where .then(), .done(), and .fail() handle completion or rejection states. While .done() and .fail() are legacy utility methods designed simply to attach callbacks to an" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-then-vs-done-and-fail">jQuery .then() vs .done() and
+.fail()</h1>
+<p>In jQuery, managing asynchronous operations relies on the Deferred
+and Promise APIs, where <code>.then()</code>, <code>.done()</code>, and
+<code>.fail()</code> handle completion or rejection states. While
+<code>.done()</code> and <code>.fail()</code> are legacy utility methods
+designed simply to attach callbacks to an existing Deferred object,
+<code>.then()</code> adheres more closely to modern Promises/A+
+specifications by returning a new promise. Consequently,
+<code>.then()</code> supports data transformation and sequential
+asynchronous chaining, whereas <code>.done()</code> and
+<code>.fail()</code> simply execute side effects while returning the
+original Deferred object unchanged.</p>
+<h2 id="understanding-done-and-fail">Understanding .done() and
+.fail()</h2>
+<p>The <code>.done()</code> and <code>.fail()</code> methods are
+dedicated handlers for specific promise states:</p>
+<ul>
+<li><strong><code>.done(callback)</code></strong>: Executes the provided
+callback function only when the Deferred object is successfully
+resolved.</li>
+<li><strong><code>.fail(callback)</code></strong>: Executes the provided
+callback function only when the Deferred object is rejected.</li>
+</ul>
+<p>Both methods return the original Deferred or Promise object to which
+they were attached. Because the return value is the original object,
+chaining multiple <code>.done()</code> or <code>.fail()</code> calls
+attaches multiple independent listeners to the exact same event. They
+cannot modify the values passed down the chain.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>(<span class="st">&quot;/api/user&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">done</span>(<span class="kw">function</span>(data) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Request succeeded:&quot;</span><span class="op">,</span> data)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">fail</span>(<span class="kw">function</span>(error) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Request failed:&quot;</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span></code></pre></div>
+<h2 id="understanding-then">Understanding .then()</h2>
+<p>The <code>.then()</code> method accepts up to three arguments: a
+success handler, a failure handler, and an optional progress
+handler:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>promise<span class="op">.</span><span class="fu">then</span>(doneCallback<span class="op">,</span> failCallback)<span class="op">;</span></span></code></pre></div>
+<p>Starting in jQuery 1.8, <code>.then()</code> creates and returns a
+<strong>new promise</strong> rather than returning the original Deferred
+object. The value returned by the callback inside <code>.then()</code>
+determines the resolved value of this new promise. This behavior allows
+you to:</p>
+<ol type="1">
+<li><strong>Transform Data:</strong> You can return modified data from a
+<code>.then()</code> handler, and subsequent chained methods will
+receive that modified data.</li>
+<li><strong>Chain Asynchronous Tasks:</strong> If a <code>.then()</code>
+callback returns another promise, the downstream chain waits for that
+nested promise to resolve before continuing.</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>(<span class="st">&quot;/api/user&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">then</span>(<span class="kw">function</span>(user) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Transform data</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> user<span class="op">.</span><span class="at">id</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">then</span>(<span class="kw">function</span>(userId) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Returns a new AJAX promise</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> $<span class="op">.</span><span class="fu">ajax</span>(<span class="st">&quot;/api/profile/&quot;</span> <span class="op">+</span> userId)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">done</span>(<span class="kw">function</span>(profile) {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Fetched profile:&quot;</span><span class="op">,</span> profile)<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span></code></pre></div>
+<h2 id="key-differences">Key Differences</h2>
+<h3 id="1-return-values-and-chaining">1. Return Values and Chaining</h3>
+<ul>
+<li><strong><code>.done()</code> and <code>.fail()</code></strong>:
+Always return the <strong>same</strong> promise object. Any return
+statement inside their callbacks is ignored.</li>
+<li><strong><code>.then()</code></strong>: Returns a
+<strong>new</strong> promise object. The return value inside the
+callback is passed to the next handler in the chain.</li>
+</ul>
+<h3 id="2-error-recovery-and-filtering">2. Error Recovery and
+Filtering</h3>
+<p>Because <code>.then()</code> returns a new promise, throwing an error
+or returning a rejected promise inside a <code>.then()</code> handler
+changes the state of the downstream promise chain. In contrast,
+<code>.done()</code> and <code>.fail()</code> do not alter state
+transitions across chained calls.</p>
+<h3 id="3-standards-compliance">3. Standards Compliance</h3>
+<p>Modern JavaScript uses native Promises, where <code>.then()</code>
+and <code>.catch()</code> are standard. jQuery's <code>.then()</code>
+mimics the standard Promise pipeline, making it easier to write code
+that aligns with modern ECMAScript standards. The <code>.done()</code>
+and <code>.fail()</code> methods are non-standard, jQuery-specific
+constructs.</p>
+<h2 id="when-to-use-which">When to Use Which</h2>
+<ul>
+<li>Use <strong><code>.done()</code></strong> and
+<strong><code>.fail()</code></strong> when you only need simple,
+standalone handlers to react to the outcome of an event without
+modifying the output or chaining dependent asynchronous requests.</li>
+<li>Use <strong><code>.then()</code></strong> when you need sequential
+execution (calling one asynchronous operation after another) or when you
+need to transform the result before passing it to subsequent
+handlers.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

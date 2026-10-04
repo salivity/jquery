@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Modern CMS Platforms Still Bundle jQuery - jquery</title>
+    <meta name="description" content="Despite the rise of modern JavaScript frameworks and the maturation of native browser APIs, platforms like WordPress still bundle jQuery by default. While developers today can accomplish most tasks with standard vanilla JavaScript, content management sys">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/why-modern-cms-platforms-still-bundle-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Modern CMS Platforms Still Bundle jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/why-modern-cms-platforms-still-bundle-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Despite the rise of modern JavaScript frameworks and the maturation of native browser APIs, platforms like WordPress still bundle jQuery by default. While developers today can accomplish most tasks with standard vanilla JavaScript, content management sys" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-modern-cms-platforms-still-bundle-jquery">Why Modern CMS
+Platforms Still Bundle jQuery</h1>
+<p>Despite the rise of modern JavaScript frameworks and the maturation
+of native browser APIs, platforms like WordPress still bundle jQuery by
+default. While developers today can accomplish most tasks with standard
+vanilla JavaScript, content management systems must balance modern
+development standards with the needs of a massive, long-standing user
+base. This article examines the core reasons behind this ongoing
+reliance, focusing on backward compatibility, third-party ecosystem
+dependencies, administrative legacy architecture, and the strategic
+challenges of phasing out deeply embedded software.</p>
+<h3 id="backward-compatibility-and-site-stability">Backward
+Compatibility and Site Stability</h3>
+<p>The primary reason modern CMS platforms continue to ship jQuery is
+backward compatibility. WordPress powers over 40% of the web, running on
+millions of websites with varying code ages. Removing jQuery from the
+core software would instantly break millions of active sites. CMS
+maintainers prioritize stability and zero-breakage updates, ensuring
+that an automated minor or major update does not take a business offline
+due to missing JavaScript dependencies.</p>
+<h3 id="massive-plugin-and-theme-ecosystems">Massive Plugin and Theme
+Ecosystems</h3>
+<p>CMS platforms owe much of their popularity to extensive third-party
+ecosystems. WordPress, for example, hosts tens of thousands of free and
+premium plugins and themes. A substantial portion of these
+extensions—ranging from simple sliders and form validators to complex
+e-commerce add-ons—were built using jQuery. If a CMS stopped bundling
+the library, theme and plugin authors would either need to rewrite years
+of code or bundle their own redundant versions of jQuery, which would
+create conflicts and degrade site performance.</p>
+<h3 id="core-administrative-dependencies">Core Administrative
+Dependencies</h3>
+<p>Much of the underlying code inside the administrative dashboards of
+older CMSs was authored when jQuery was the industry standard for DOM
+manipulation and AJAX requests. In WordPress, features such as media
+uploads, drag-and-drop menu management, and meta boxes historically
+relied on jQuery and jQuery UI. While modern features like the Block
+Editor (Gutenberg) are built using React and native JavaScript, the
+legacy administrative interface still requires jQuery to function
+properly.</p>
+<h3 id="developer-familiarity-and-low-barrier-to-entry">Developer
+Familiarity and Low Barrier to Entry</h3>
+<p>jQuery remains one of the most accessible JavaScript libraries ever
+created. Its simple syntax allows non-specialist developers, site
+builders, and designers to add interactivity without mastering complex
+build steps, compilers, or advanced JavaScript concepts. By keeping
+jQuery readily available, CMS platforms maintain a low barrier to entry
+for creators who want to implement functional scripts quickly.</p>
+<h3 id="the-shift-toward-gradual-decoupling">The Shift Toward Gradual
+Decoupling</h3>
+<p>Modern CMSs are not ignoring modern web standards; they are simply
+decoupling gradually rather than abruptly. For instance, modern
+WordPress front-end features increasingly avoid jQuery dependencies, and
+core developers actively work to remove jQuery from user-facing
+templates. However, until the vast ecosystem fully transitions to native
+APIs or headless architectures, bundling jQuery remains the safest and
+most practical choice for web-scale platforms.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

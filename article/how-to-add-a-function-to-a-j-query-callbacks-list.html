@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Add a Function to a jQuery Callbacks List - jquery</title>
+    <meta name="description" content="The jQuery $.Callbacks() object provides a multi-purpose callback list system used internally by components like $.ajax() and $.Deferred(). This article explains how to add functions to a jQuery Callbacks list using the built-in .add() method, walks thro">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-add-a-function-to-a-j-query-callbacks-list">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Add a Function to a jQuery Callbacks List - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-add-a-function-to-a-j-query-callbacks-list" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery $.Callbacks() object provides a multi-purpose callback list system used internally by components like $.ajax() and $.Deferred(). This article explains how to add functions to a jQuery Callbacks list using the built-in .add() method, walks thro" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-add-a-function-to-a-jquery-callbacks-list">How to Add a
+Function to a jQuery Callbacks List</h1>
+<p>The jQuery <code>$.Callbacks()</code> object provides a multi-purpose
+callback list system used internally by components like
+<code>$.ajax()</code> and <code>$.Deferred()</code>. This article
+explains how to add functions to a jQuery Callbacks list using the
+built-in <code>.add()</code> method, walks through a basic code
+implementation, and covers how to add multiple functions or configure
+list behaviors.</p>
+<h2 id="using-the-callbacksadd-method">Using the
+<code>callbacks.add()</code> Method</h2>
+<p>To add a function to a jQuery Callbacks list, use the
+<code>.add()</code> method on a Callbacks instance. The method accepts a
+function, an array of functions, or a list of function references
+separated by commas.</p>
+<h3 id="basic-example">Basic Example</h3>
+<p>To get started, instantiate the callback object using
+<code>$.Callbacks()</code>, define your function, and pass it to the
+<code>.add()</code> method:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. Create a Callbacks instance</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> myCallbacks <span class="op">=</span> $<span class="op">.</span><span class="fu">Callbacks</span>()<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. Define a function</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">greet</span>(name) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Hello, &quot;</span> <span class="op">+</span> name)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">// 3. Add the function to the list</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>myCallbacks<span class="op">.</span><span class="fu">add</span>(greet)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">// 4. Execute the list</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>myCallbacks<span class="op">.</span><span class="fu">fire</span>(<span class="st">&quot;World&quot;</span>)<span class="op">;</span> <span class="co">// Output: &quot;Hello, World&quot;</span></span></code></pre></div>
+<h2 id="adding-multiple-functions">Adding Multiple Functions</h2>
+<p>The <code>.add()</code> method is flexible and allows you to attach
+multiple functions at once or chain method calls together.</p>
+<h3 id="1-passing-an-array-of-functions">1. Passing an Array of
+Functions</h3>
+<p>You can pass an array containing multiple function definitions or
+references:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">stepOne</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Step 1 complete&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">stepTwo</span>() {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Step 2 complete&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>myCallbacks<span class="op">.</span><span class="fu">add</span>([stepOne<span class="op">,</span> stepTwo])<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>myCallbacks<span class="op">.</span><span class="fu">fire</span>()<span class="op">;</span></span></code></pre></div>
+<h3 id="2-method-chaining">2. Method Chaining</h3>
+<p>Because <code>.add()</code> returns the callback object itself, you
+can chain multiple <code>.add()</code> calls:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>myCallbacks<span class="op">.</span><span class="fu">add</span>(stepOne)<span class="op">.</span><span class="fu">add</span>(stepTwo)<span class="op">;</span></span></code></pre></div>
+<h2 id="controlling-behavior-with-flags">Controlling Behavior with
+Flags</h2>
+<p>When initializing <code>$.Callbacks()</code>, you can supply flags as
+strings to control how functions are added and executed:</p>
+<ul>
+<li><p><strong><code>"unique"</code></strong>: Prevents duplicate
+functions from being added to the list.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> uniqueCallbacks <span class="op">=</span> $<span class="op">.</span><span class="fu">Callbacks</span>(<span class="st">&quot;unique&quot;</span>)<span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>uniqueCallbacks<span class="op">.</span><span class="fu">add</span>(greet)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>uniqueCallbacks<span class="op">.</span><span class="fu">add</span>(greet)<span class="op">;</span> <span class="co">// Ignored; will not execute twice</span></span></code></pre></div></li>
+<li><p><strong><code>"memory"</code></strong>: Remembers the most recent
+arguments passed to <code>.fire()</code>. If a new function is added via
+<code>.add()</code> <em>after</em> the list has already been fired, the
+newly added function executes immediately with the stored values.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> memoryCallbacks <span class="op">=</span> $<span class="op">.</span><span class="fu">Callbacks</span>(<span class="st">&quot;memory&quot;</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>memoryCallbacks<span class="op">.</span><span class="fu">add</span>(greet)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>memoryCallbacks<span class="op">.</span><span class="fu">fire</span>(<span class="st">&quot;Alice&quot;</span>)<span class="op">;</span> <span class="co">// Output: &quot;Hello, Alice&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Adding a new function executes immediately with &quot;Alice&quot;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>memoryCallbacks<span class="op">.</span><span class="fu">add</span>(<span class="kw">function</span>(name) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Welcome, &quot;</span> <span class="op">+</span> name)<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span> <span class="co">// Output: &quot;Welcome, Alice&quot;</span></span></code></pre></div></li>
+<li><p><strong><code>"once"</code></strong>: Ensures the list can only
+be fired once.</p></li>
+<li><p><strong><code>"stopOnFalse"</code></strong>: Halts callback
+execution across the entire list if any added function returns
+<code>false</code>.</p></li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select nth-child of an Element Using jQuery - jquery</title>
+    <meta name="description" content="Selecting the nth-child of an element in jQuery is a common task when styling or manipulating specific items within lists, tables, or generic containers. This guide demonstrates how to target elements using jQuery's :nth-child() pseudo-class selector, ex">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/select-nth-child-of-an-element-using-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Select nth-child of an Element Using jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/select-nth-child-of-an-element-using-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Selecting the nth-child of an element in jQuery is a common task when styling or manipulating specific items within lists, tables, or generic containers. This guide demonstrates how to target elements using jQuery's :nth-child() pseudo-class selector, ex" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="select-nth-child-of-an-element-using-jquery">Select nth-child of
+an Element Using jQuery</h1>
+<p>Selecting the nth-child of an element in jQuery is a common task when
+styling or manipulating specific items within lists, tables, or generic
+containers. This guide demonstrates how to target elements using
+jQuery's <code>:nth-child()</code> pseudo-class selector, explains its
+1-based index system, covers dynamic formulas like <code>even</code> and
+<code>odd</code>, and contrasts it with jQuery’s zero-indexed
+alternatives such as <code>:eq()</code>.</p>
+<h3 id="the-nth-child-selector">The <code>:nth-child()</code>
+Selector</h3>
+<p>jQuery supports the standard CSS <code>:nth-child()</code> selector,
+which matches elements based on their position among all siblings under
+the same parent element.</p>
+<p>The basic syntax is:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;parent :nth-child(index)&quot;</span>)<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// or targeting specific child elements directly</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;ul li:nth-child(index)&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p><strong>Important:</strong> The <code>:nth-child()</code> selector is
+<strong>1-indexed</strong>, meaning the first child starts at index
+<code>1</code>, not <code>0</code>.</p>
+<h4 id="example-selecting-a-specific-child">Example: Selecting a
+Specific Child</h4>
+<p>To select the second <code>&lt;li&gt;</code> element inside an
+unordered list:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;ul li:nth-child(2)&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;color&quot;</span><span class="op">,</span> <span class="st">&quot;red&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="using-keywords-and-formulas">Using Keywords and Formulas</h3>
+<p>The <code>:nth-child()</code> selector accepts keywords and algebraic
+expressions (<code>An+B</code>) to select repeating patterns.</p>
+<ul>
+<li><strong>Even elements:</strong>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;table tr:nth-child(even)&quot;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&quot;striped&quot;</span>)<span class="op">;</span></span></code></pre></div></li>
+<li><strong>Odd elements:</strong>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;table tr:nth-child(odd)&quot;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&quot;highlight&quot;</span>)<span class="op">;</span></span></code></pre></div></li>
+<li><strong>Cycle patterns (<code>An+B</code>):</strong> Select every
+third element starting from the first:
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;ul li:nth-child(3n+1)&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;font-weight&quot;</span><span class="op">,</span> <span class="st">&quot;bold&quot;</span>)<span class="op">;</span></span></code></pre></div></li>
+</ul>
+<h3 id="nth-child-vs-eq"><code>:nth-child()</code> vs.
+<code>:eq()</code></h3>
+<p>While <code>:nth-child()</code> checks the index of a child element
+relative to its siblings under a common parent, jQuery also provides the
+<code>.eq()</code> method and <code>:eq()</code> pseudo-selector.</p>
+<ol type="1">
+<li><strong>Indexing:</strong> <code>:nth-child()</code> is
+<strong>1-based</strong>, whereas <code>.eq()</code> is
+<strong>0-based</strong>.</li>
+<li><strong>Context:</strong>
+<ul>
+<li><code>$("li:nth-child(1)")</code> targets every
+<code>&lt;li&gt;</code> that is the first child of its respective
+parent.</li>
+<li><code>$("li").eq(0)</code> targets only the single first
+<code>&lt;li&gt;</code> found across the entire jQuery selection set on
+the page.</li>
+</ul></li>
+</ol>
+<h4 id="example-using-eq">Example using <code>.eq()</code>:</h4>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Targets the 3rd item overall (0-indexed)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;ul li&quot;</span>)<span class="op">.</span><span class="fu">eq</span>(<span class="dv">2</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&quot;active&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="complete-working-example">Complete Working Example</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;fruit-list&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Apple<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Banana<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Cherry<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Date<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">ready</span>(<span class="kw">function</span>() {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Selects &quot;Banana&quot; (2nd child)</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;#fruit-list li:nth-child(2)&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;background-color&quot;</span><span class="op">,</span> <span class="st">&quot;yellow&quot;</span>)<span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span></code></pre></div></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

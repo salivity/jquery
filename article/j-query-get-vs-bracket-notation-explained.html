@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery .get() vs Bracket Notation Explained - jquery</title>
+    <meta name="description" content="When working with jQuery collections, developers often need to access the underlying native DOM elements. Both the .get() method and standard JavaScript square bracket notation ([]) serve this fundamental purpose, yet they behave differently when handlin">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-get-vs-bracket-notation-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery .get() vs Bracket Notation Explained - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-get-vs-bracket-notation-explained" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When working with jQuery collections, developers often need to access the underlying native DOM elements. Both the .get() method and standard JavaScript square bracket notation ([]) serve this fundamental purpose, yet they behave differently when handlin" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-get-vs-bracket-notation-explained">jQuery .get() vs
+Bracket Notation Explained</h1>
+<p>When working with jQuery collections, developers often need to access
+the underlying native DOM elements. Both the <code>.get()</code> method
+and standard JavaScript square bracket notation (<code>[]</code>) serve
+this fundamental purpose, yet they behave differently when handling
+negative indexes, converting collections to native arrays, and
+processing method execution. Understanding these differences ensures you
+choose the most reliable and readable approach for your codebase.</p>
+<h3 id="the-core-similarity-retrieving-native-dom-elements">The Core
+Similarity: Retrieving Native DOM Elements</h3>
+<p>Both <code>.get(index)</code> and <code>[index]</code> retrieve the
+raw HTML DOM element from a jQuery object rather than a jQuery-wrapped
+object. For example, if you have a selection of list items:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> elementViaMethod <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;li&#39;</span>)<span class="op">.</span><span class="fu">get</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> elementViaBracket <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;li&#39;</span>)[<span class="dv">0</span>]<span class="op">;</span></span></code></pre></div>
+<p>Both variables will reference the identical native
+<code>HTMLLIElement</code>. If you instead need to keep the element
+wrapped in jQuery to chain additional jQuery methods, you would use
+<code>.eq(0)</code>.</p>
+<h3 id="negative-index-support">Negative Index Support</h3>
+<p>The most significant functional difference lies in how each handles
+negative integers:</p>
+<ul>
+<li><strong><code>.get(index)</code> supports negative indexes:</strong>
+jQuery interprets negative numbers as counting backward from the end of
+the matched set. Calling <code>$('li').get(-1)</code> will reliably
+return the last DOM element in the collection,
+<code>$('li').get(-2)</code> returns the second-to-last, and so on.</li>
+<li><strong><code>[index]</code> does not support negative
+indexes:</strong> In standard JavaScript, array-like bracket notation
+treats the index as an object property key. Using
+<code>$('li')[-1]</code> searches for a property named <code>"-1"</code>
+on the jQuery object, which does not exist, returning
+<code>undefined</code>.</li>
+</ul>
+<h3 id="converting-to-a-native-array">Converting to a Native Array</h3>
+<p>The <code>.get()</code> method provides functionality beyond
+single-element retrieval:</p>
+<ul>
+<li><strong><code>.get()</code> without arguments:</strong> If you
+invoke <code>.get()</code> with no parameters, jQuery converts the
+entire collection into a standard JavaScript array containing all the
+matched DOM elements.</li>
+<li><strong>Bracket notation:</strong> Bracket access requires an
+explicit key or index. It cannot transform or clone the jQuery object
+into a native array.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Returns a standard JavaScript Array of elements</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> elementsArray <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;li&#39;</span>)<span class="op">.</span><span class="fu">get</span>()<span class="op">;</span></span></code></pre></div>
+<h3 id="performance-and-syntax">Performance and Syntax</h3>
+<p>Bracket notation (<code>$('li')[0]</code>) bypasses function
+invocation and retrieves the property directly from the jQuery object
+wrapper, offering a slight performance advantage over
+<code>.get(0)</code>. However, for modern browsers and typical web
+applications, this performance gap is negligible.</p>
+<h3 id="summary-of-when-to-use-which">Summary of When to Use Which</h3>
+<ul>
+<li>Use <strong>bracket notation (<code>[i]</code>)</strong> when you
+are passing a known positive index or iterating using a standard loop
+and want the most concise syntax.</li>
+<li>Use <strong><code>.get(i)</code></strong> when you need to access
+elements from the end of a collection using negative indexes.</li>
+<li>Use <strong><code>.get()</code></strong> without arguments when you
+need a true JavaScript <code>Array</code> of DOM nodes to use with
+native array methods like <code>.map()</code>, <code>.filter()</code>,
+or <code>.forEach()</code>.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

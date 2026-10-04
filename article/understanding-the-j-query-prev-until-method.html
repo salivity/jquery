@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the jQuery prevUntil() Method - jquery</title>
+    <meta name="description" content="This article explains the purpose, syntax, and practical application of the jQuery prevUntil() method. You will learn how this DOM traversal function works, how it differs from similar sibling-traversal methods, and how to effectively use it to select a">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/understanding-the-j-query-prev-until-method">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding the jQuery prevUntil() Method - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/understanding-the-j-query-prev-until-method" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the purpose, syntax, and practical application of the jQuery prevUntil() method. You will learn how this DOM traversal function works, how it differs from similar sibling-traversal methods, and how to effectively use it to select a" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="understanding-the-jquery-prevuntil-method">Understanding the
+jQuery prevUntil() Method</h1>
+<p>This article explains the purpose, syntax, and practical application
+of the jQuery <code>prevUntil()</code> method. You will learn how this
+DOM traversal function works, how it differs from similar
+sibling-traversal methods, and how to effectively use it to select a
+specific range of preceding sibling elements in an HTML document.</p>
+<h2 id="the-purpose-of-jquery-prevuntil">The Purpose of jQuery
+prevUntil()</h2>
+<p>The primary purpose of the <code>prevUntil()</code> method is to
+traverse backward along an element's preceding siblings in the DOM tree,
+returning all sibling elements up to—but not including—a specified
+stopping point.</p>
+<p>When working with dynamic web pages, you frequently need to select a
+group of elements based on their relative position. While
+<code>prev()</code> selects only the single immediately preceding
+sibling, and <code>prevAll()</code> selects every preceding sibling all
+the way to the start of the parent container, <code>prevUntil()</code>
+provides a bounded range. It allows developers to target a precise
+subset of previous siblings located between the initial element and a
+defined boundary element.</p>
+<h2 id="syntax-and-parameters">Syntax and Parameters</h2>
+<p>The standard syntax for the <code>prevUntil()</code> method is:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(selector)<span class="op">.</span><span class="fu">prevUntil</span>(stop<span class="op">,</span> filter)<span class="op">;</span></span></code></pre></div>
+<p>The method accepts two optional parameters:</p>
+<ol type="1">
+<li><strong><code>stop</code> (optional):</strong> A selector
+expression, DOM element, or jQuery object that defines where the
+backward search should stop. The search stops immediately when this
+boundary element is encountered, and the boundary element itself is
+excluded from the returned collection. If this parameter is omitted or
+cannot be found among the siblings, the method behaves like
+<code>prevAll()</code> and selects all preceding siblings.</li>
+<li><strong><code>filter</code> (optional):</strong> A secondary
+selector expression used to narrow down the selected siblings within the
+specified range. If an element falls within the range but does not match
+this filter, it is excluded from the final result.</li>
+</ol>
+<h2 id="practical-example">Practical Example</h2>
+<p>Consider the following HTML list:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;step-1&quot;</span><span class="dt">&gt;</span>Step 1<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;step-2&quot;</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;completed&quot;</span><span class="dt">&gt;</span>Step 2<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;step-3&quot;</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;completed&quot;</span><span class="dt">&gt;</span>Step 3<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;step-4&quot;</span><span class="dt">&gt;</span>Step 4<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;step-5&quot;</span><span class="dt">&gt;</span>Step 5<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>If you want to select the completed steps between <code>step-4</code>
+and <code>step-1</code>, you can execute:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#step-4&quot;</span>)<span class="op">.</span><span class="fu">prevUntil</span>(<span class="st">&quot;#step-1&quot;</span><span class="op">,</span> <span class="st">&quot;.completed&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;color&quot;</span><span class="op">,</span> <span class="st">&quot;green&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>In this execution:</p>
+<ul>
+<li>The traversal starts at <code>#step-4</code> (excluded).</li>
+<li>It looks backward toward <code>#step-1</code> (excluded).</li>
+<li>The intermediate siblings encountered are <code>#step-3</code> and
+<code>#step-2</code>.</li>
+<li>The <code>.completed</code> filter ensures only elements matching
+that class receive the green styling.</li>
+</ul>
+<h2 id="common-use-cases">Common Use Cases</h2>
+<p>The <code>prevUntil()</code> method is particularly useful in user
+interfaces requiring sequential manipulation, such as:</p>
+<ul>
+<li><strong>Progress Trackers and Wizards:</strong> Highlighting or
+marking all previous steps as complete up to the initial step or a
+specific milestone.</li>
+<li><strong>Star Rating Widgets:</strong> Highlighting all rating stars
+before the hovered star up to a designated threshold.</li>
+<li><strong>Data Tables and Lists:</strong> Selecting a range of rows or
+list items above a clicked element without affecting the entire table or
+document.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

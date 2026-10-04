@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Specify Data Type in jQuery $.ajax() - jquery</title>
+    <meta name="description" content="When making asynchronous HTTP requests with jQuery, specifying the expected data type ensures that the server's response is correctly parsed and handled by your application. This article explains how to define the expected response format using the dataT">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-specify-data-type-in-j-query-ajax">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Specify Data Type in jQuery $.ajax() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-specify-data-type-in-j-query-ajax" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When making asynchronous HTTP requests with jQuery, specifying the expected data type ensures that the server's response is correctly parsed and handled by your application. This article explains how to define the expected response format using the dataT" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-specify-data-type-in-jquery-ajax">How to Specify Data
+Type in jQuery $.ajax()</h1>
+<p>When making asynchronous HTTP requests with jQuery, specifying the
+expected data type ensures that the server's response is correctly
+parsed and handled by your application. This article explains how to
+define the expected response format using the <code>dataType</code>
+setting in a <code>$.ajax()</code> configuration, details the supported
+data formats, and outlines what occurs when the server response does not
+match expectations.</p>
+<h2 id="the-datatype-setting">The <code>dataType</code> Setting</h2>
+<p>To specify the expected return type from the server, add the
+<code>dataType</code> property to your <code>$.ajax()</code> settings
+object. This property informs jQuery how to treat the incoming data
+before passing it to your <code>success</code> callback.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;https://api.example.com/user/1&#39;</span><span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;GET&#39;</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">dataType</span><span class="op">:</span> <span class="st">&#39;json&#39;</span><span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">success</span><span class="op">:</span> <span class="kw">function</span>(data) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">// data is automatically parsed as a JavaScript object</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(data<span class="op">.</span><span class="at">name</span>)<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">error</span><span class="op">:</span> <span class="kw">function</span>(xhr<span class="op">,</span> status<span class="op">,</span> error) {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Request failed:&#39;</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="supported-data-types">Supported Data Types</h2>
+<p>jQuery supports several predefined options for the
+<code>dataType</code> property:</p>
+<ul>
+<li><strong><code>xml</code></strong>: Parses the response as an XML
+document, accessible through jQuery XML traversal methods.</li>
+<li><strong><code>html</code></strong>: Returns the response as plain
+text. Any included <code>&lt;script&gt;</code> tags are executed when
+inserted into the DOM.</li>
+<li><strong><code>script</code></strong>: Evaluates the response as
+JavaScript code and returns it as plain text. Disables caching by
+default.</li>
+<li><strong><code>json</code></strong>: Evaluates the response string as
+a JSON structure and automatically parses it into a native JavaScript
+object or array.</li>
+<li><strong><code>jsonp</code></strong>: Loads a JSON block using JSONP,
+adding a callback parameter to the request URL to bypass cross-domain
+restrictions.</li>
+<li><strong><code>text</code></strong>: Returns the raw response as a
+plain string without transformation.</li>
+</ul>
+<h2 id="automatic-type-detection">Automatic Type Detection</h2>
+<p>If you do not specify a <code>dataType</code>, jQuery inspects the
+<code>Content-Type</code> header sent by the web server (MIME type) to
+infer the appropriate format:</p>
+<ul>
+<li>A <code>Content-Type</code> of <code>application/json</code> or
+<code>text/javascript</code> is automatically parsed as JSON.</li>
+<li>A <code>Content-Type</code> of <code>text/xml</code> or
+<code>application/xml</code> is parsed as XML.</li>
+<li>Other MIME types default to returning raw text or HTML.</li>
+</ul>
+<p>Explicitly declaring the <code>dataType</code> is recommended because
+it removes ambiguity and guarantees that your application logic receives
+data in the expected structure.</p>
+<h2 id="handling-parser-errors">Handling Parser Errors</h2>
+<p>If you declare a <code>dataType</code> and the server returns data
+that cannot be parsed into that format (such as an HTML error page when
+expecting <code>json</code>), jQuery fails the request and executes the
+<code>error</code> callback with a <code>parsererror</code> status.
+Ensuring your server sets matching HTTP headers and valid body content
+prevents parsing failures.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

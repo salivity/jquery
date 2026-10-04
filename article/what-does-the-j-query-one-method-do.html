@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does the jQuery one() Method Do? - jquery</title>
+    <meta name="description" content="The jQuery one() method is an event-handling function designed to execute an event handler exactly once per element. This article explains how the one() method works, outlines its syntax and parameters, compares it to the standard on() method, and highli">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-does-the-j-query-one-method-do">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does the jQuery one() Method Do? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-does-the-j-query-one-method-do" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery one() method is an event-handling function designed to execute an event handler exactly once per element. This article explains how the one() method works, outlines its syntax and parameters, compares it to the standard on() method, and highli" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-does-the-jquery-one-method-do">What Does the jQuery one()
+Method Do?</h1>
+<p>The jQuery <code>one()</code> method is an event-handling function
+designed to execute an event handler exactly once per element. This
+article explains how the <code>one()</code> method works, outlines its
+syntax and parameters, compares it to the standard <code>on()</code>
+method, and highlights practical use cases where single-execution event
+listeners are needed in web development.</p>
+<h2 id="understanding-the-jquery-one-method">Understanding the jQuery
+one() Method</h2>
+<p>The <code>one()</code> method attaches a handler to an event for the
+selected elements, identical to the standard <code>on()</code> method,
+with one crucial difference: the handler is unbound immediately after it
+executes for the first time. Any subsequent triggers of the same event
+on that element will not run the function again.</p>
+<h3 id="syntax">Syntax</h3>
+<p>The basic syntax for the <code>one()</code> method is as follows:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(selector)<span class="op">.</span><span class="fu">one</span>(<span class="bu">event</span><span class="op">,</span> data<span class="op">,</span> handler)<span class="op">;</span></span></code></pre></div>
+<ul>
+<li><strong><code>event</code></strong> <em>(String, Required)</em>: One
+or more JavaScript event types, such as <code>click</code>,
+<code>submit</code>, <code>mouseenter</code>, or custom events.</li>
+<li><strong><code>data</code></strong> <em>(Object, Optional)</em>: Data
+passed to the event handler object (<code>event.data</code>) when the
+event is triggered.</li>
+<li><strong><code>handler</code></strong> <em>(Function, Required)</em>:
+The function to execute when the event occurs.</li>
+</ul>
+<h3 id="event-delegation-syntax">Event Delegation Syntax</h3>
+<p>Like <code>on()</code>, the <code>one()</code> method also supports
+delegated events for dynamically added elements:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(parentSelector)<span class="op">.</span><span class="fu">one</span>(<span class="bu">event</span><span class="op">,</span> childSelector<span class="op">,</span> data<span class="op">,</span> handler)<span class="op">;</span></span></code></pre></div>
+<h2 id="basic-code-example">Basic Code Example</h2>
+<p>Here is a common scenario using the <code>one()</code> method to
+track an initial user interaction:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#submit-button&quot;</span>)<span class="op">.</span><span class="fu">one</span>(<span class="st">&quot;click&quot;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;This will only log once.&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">prop</span>(<span class="st">&quot;disabled&quot;</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>In this example, the click event runs once. If the element is clicked
+a second time, the event handler is no longer attached, preventing any
+repeated execution.</p>
+<h2 id="jquery-one-vs-jquery-on">jQuery one() vs. jQuery on()</h2>
+<ul>
+<li><strong><code>$(selector).on()</code></strong>: Attaches a
+persistent listener that fires every time the specified event occurs
+until it is explicitly detached using
+<code>$(selector).off()</code>.</li>
+<li><strong><code>$(selector).one()</code></strong>: Automatically
+detaches itself after its first execution. It eliminates the manual
+cleanup required when manually calling <code>off()</code> inside an
+<code>on()</code> callback.</li>
+</ul>
+<h2 id="handling-multiple-events">Handling Multiple Events</h2>
+<p>You can supply multiple space-separated events to the
+<code>one()</code> method. When doing so, the handler runs once
+<strong>for each event type</strong>:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;img&quot;</span>)<span class="op">.</span><span class="fu">one</span>(<span class="st">&quot;mouseenter mouseleave&quot;</span><span class="op">,</span> <span class="kw">function</span>(<span class="bu">event</span>) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Triggered event: &quot;</span> <span class="op">+</span> <span class="bu">event</span><span class="op">.</span><span class="at">type</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>In this case, the function triggers once on the initial
+<code>mouseenter</code> and once on the initial
+<code>mouseleave</code>.</p>
+<h2 id="common-practical-use-cases">Common Practical Use Cases</h2>
+<ul>
+<li><strong>Preventing Duplicate Submissions</strong>: Ensuring a user
+cannot click a form submission or checkout button multiple times while
+the request processes.</li>
+<li><strong>Lazy Loading Resources</strong>: Fetching external data,
+initializing heavy plugins (such as map widgets or carousels), or
+rendering complex UI components only when a user interacts with a
+container for the first time.</li>
+<li><strong>Onboarding Tooltips</strong>: Displaying an introductory
+tutorial tip or guidance pop-up the first time a user focuses on an
+input field.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

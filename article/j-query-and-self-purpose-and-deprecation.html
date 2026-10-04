@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery andSelf: Purpose and Deprecation - jquery</title>
+    <meta name="description" content="This article provides a concise overview of jQuery's .andSelf() method, detailing its purpose in DOM traversal, the reasons for its deprecation in jQuery 1.8 and removal in jQuery 3.0, and the modern alternative developers should use in its place. The .a">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-and-self-purpose-and-deprecation">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery andSelf: Purpose and Deprecation - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-and-self-purpose-and-deprecation" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a concise overview of jQuery's .andSelf() method, detailing its purpose in DOM traversal, the reasons for its deprecation in jQuery 1.8 and removal in jQuery 3.0, and the modern alternative developers should use in its place. The .a" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-andself-purpose-and-deprecation">jQuery andSelf: Purpose
+and Deprecation</h1>
+<p>This article provides a concise overview of jQuery's
+<code>.andSelf()</code> method, detailing its purpose in DOM traversal,
+the reasons for its deprecation in jQuery 1.8 and removal in jQuery 3.0,
+and the modern alternative developers should use in its place.</p>
+<h2 id="what-is-the-jquery-andself-method">What is the jQuery andSelf()
+Method?</h2>
+<p>The <code>.andSelf()</code> method was a DOM traversal method in
+jQuery used to combine the previous set of matched elements on the
+internal stack with the current set of matched elements.</p>
+<p>When you perform traversal operations in jQuery—such as
+<code>.parent()</code>, <code>.children()</code>, <code>.find()</code>,
+or <code>.next()</code>—jQuery creates a new collection representing the
+elements you navigated to, pushing the previous selection onto an
+internal stack. The <code>.andSelf()</code> method allowed developers to
+include the previous element set alongside the newly selected elements,
+making it possible to apply subsequent methods to both sets
+simultaneously.</p>
+<h3 id="basic-syntax-and-example">Basic Syntax and Example</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Select all &lt;ul&gt; elements, find their &lt;li&gt; children, </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// and include the original &lt;ul&gt; elements in the matched set</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;ul&quot;</span>)<span class="op">.</span><span class="fu">find</span>(<span class="st">&quot;li&quot;</span>)<span class="op">.</span><span class="fu">andSelf</span>()<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&quot;highlight&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>In this example, without <code>.andSelf()</code>, only the
+<code>&lt;li&gt;</code> elements would receive the
+<code>highlight</code> class. Calling <code>.andSelf()</code> merges the
+original <code>&lt;ul&gt;</code> elements back into the selection,
+applying the class to both the <code>&lt;ul&gt;</code> and
+<code>&lt;li&gt;</code> elements.</p>
+<h2 id="why-was-andself-deprecated">Why Was andSelf() Deprecated?</h2>
+<p>jQuery deprecated <code>.andSelf()</code> in version 1.8 and
+permanently removed it in version 3.0. The primary reason for its
+deprecation was poor naming semantics and limited functionality:</p>
+<ol type="1">
+<li><strong>Misleading Name:</strong> The term "self" implied that the
+method was specifically referring to an original or root element.
+However, in chained traversal calls, the previous item on the stack was
+simply whatever element set existed immediately before the last
+traversal step, not necessarily "itself."</li>
+<li><strong>Lack of Filtering:</strong> The method automatically added
+back all elements from the previous stack frame with no way to filter
+them.</li>
+</ol>
+<h2 id="the-modern-alternative-addback">The Modern Alternative:
+.addBack()</h2>
+<p>To fix the naming ambiguity and add flexibility, jQuery replaced
+<code>.andSelf()</code> with <code>.addBack()</code>.</p>
+<p>The <code>.addBack()</code> method functions identically to
+<code>.andSelf()</code>, but its name more accurately describes the
+action of adding back the previous set of elements from the internal
+stack. Furthermore, <code>.addBack()</code> accepts an optional selector
+parameter, allowing developers to filter which previous elements are
+added to the current selection.</p>
+<h3 id="updating-to-addback">Updating to addBack()</h3>
+<p>To modernize legacy code, replace <code>.andSelf()</code> with
+<code>.addBack()</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Legacy syntax (deprecated)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;div.container&quot;</span>)<span class="op">.</span><span class="fu">find</span>(<span class="st">&quot;p&quot;</span>)<span class="op">.</span><span class="fu">andSelf</span>()<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;border&quot;</span><span class="op">,</span> <span class="st">&quot;1px solid red&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Modern syntax</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;div.container&quot;</span>)<span class="op">.</span><span class="fu">find</span>(<span class="st">&quot;p&quot;</span>)<span class="op">.</span><span class="fu">addBack</span>()<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;border&quot;</span><span class="op">,</span> <span class="st">&quot;1px solid red&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Optional filtering with addBack()</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;div&quot;</span>)<span class="op">.</span><span class="fu">find</span>(<span class="st">&quot;p&quot;</span>)<span class="op">.</span><span class="fu">addBack</span>(<span class="st">&quot;.special-div&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;color&quot;</span><span class="op">,</span> <span class="st">&quot;blue&quot;</span>)<span class="op">;</span></span></code></pre></div></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

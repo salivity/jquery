@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Wrap a jQuery Plugin in a React Component - jquery</title>
+    <meta name="description" content="Integrating legacy jQuery plugins into modern React applications requires bridging the gap between React's declarative Virtual DOM and jQuery's imperative direct DOM manipulation. This article provides a concise guide to safely wrapping any jQuery plugin">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-wrap-a-j-query-plugin-in-a-react-component">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Wrap a jQuery Plugin in a React Component - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-wrap-a-j-query-plugin-in-a-react-component" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Integrating legacy jQuery plugins into modern React applications requires bridging the gap between React's declarative Virtual DOM and jQuery's imperative direct DOM manipulation. This article provides a concise guide to safely wrapping any jQuery plugin" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-wrap-a-jquery-plugin-in-a-react-component">How to Wrap a
+jQuery Plugin in a React Component</h1>
+<p>Integrating legacy jQuery plugins into modern React applications
+requires bridging the gap between React's declarative Virtual DOM and
+jQuery's imperative direct DOM manipulation. This article provides a
+concise guide to safely wrapping any jQuery plugin inside a functional
+React component using the <code>useRef</code> and <code>useEffect</code>
+hooks. By isolating the DOM node, managing lifecycle events,
+synchronizing data changes, and guaranteeing proper cleanup, you can use
+jQuery plugins without breaking React's rendering pipeline.</p>
+<hr />
+<h3 id="the-fundamental-rule-dom-isolation">The Fundamental Rule: DOM
+Isolation</h3>
+<p>React relies on its Virtual DOM to determine when and how to update
+the actual webpage. jQuery, on the other hand, directly mutates DOM
+elements. If React attempts to re-render an element that jQuery has
+altered, conflicts, memory leaks, and UI glitches will occur.</p>
+<p>To resolve this, you must give the jQuery plugin full ownership of a
+specific leaf DOM element, ensuring that React never tries to modify the
+children or attributes of that element after mounting.</p>
+<h3 id="core-steps-to-wrap-a-plugin">Core Steps to Wrap a Plugin</h3>
+<p>Wrapping a plugin safely involves four primary responsibilities:</p>
+<ol type="1">
+<li><strong>Reference the DOM Node</strong>: Use <code>useRef</code> to
+acquire a direct reference to the HTML element.</li>
+<li><strong>Initialize on Mount</strong>: Use <code>useEffect</code>
+with an empty dependency array (<code>[]</code>) to instantiate the
+plugin once the component renders for the first time.</li>
+<li><strong>Clean Up on Unmount</strong>: Return a cleanup function
+inside <code>useEffect</code> that calls the plugin's
+<code>destroy</code> method (or removes event listeners) to prevent
+memory leaks.</li>
+<li><strong>Bridge Data Flow</strong>: Pass incoming React props to the
+plugin via its API, and pass plugin events back to React via callback
+functions.</li>
+</ol>
+<hr />
+<h3 id="implementation-example">Implementation Example</h3>
+<p>The following example demonstrates how to wrap a generic jQuery
+plugin (such as a datepicker or custom select box) inside a robust React
+component:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React<span class="op">,</span> { useRef<span class="op">,</span> useEffect } <span class="im">from</span> <span class="st">&#39;react&#39;</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> $ <span class="im">from</span> <span class="st">&#39;jquery&#39;</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Import the jQuery plugin here (e.g., &#39;plugin-name&#39;)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">function</span> <span class="fu">JQueryPluginWrapper</span>({ value<span class="op">,</span> onChange<span class="op">,</span> options <span class="op">=</span> {} }) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 1. Create a ref to hold the DOM element</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> elRef <span class="op">=</span> <span class="fu">useRef</span>(<span class="kw">null</span>)<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Keep track of the jQuery instance</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pluginInstanceRef <span class="op">=</span> <span class="fu">useRef</span>(<span class="kw">null</span>)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 2. Initialize and destroy the plugin</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">useEffect</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> $el <span class="op">=</span> <span class="fu">$</span>(elRef<span class="op">.</span><span class="at">current</span>)<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Initialize the plugin with configuration options</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    pluginInstanceRef<span class="op">.</span><span class="at">current</span> <span class="op">=</span> $el<span class="op">.</span><span class="fu">myPlugin</span>({</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="op">...</span>options<span class="op">,</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">defaultValue</span><span class="op">:</span> value<span class="op">,</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Listen to plugin events and notify React</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    $el<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;plugin:change&#39;</span><span class="op">,</span> (<span class="bu">event</span><span class="op">,</span> data) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (onChange) {</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">onChange</span>(data<span class="op">.</span><span class="at">value</span>)<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 3. Clean up on unmount</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>      $el<span class="op">.</span><span class="fu">off</span>(<span class="st">&#39;plugin:change&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="kw">typeof</span> $el<span class="op">.</span><span class="at">myPlugin</span> <span class="op">===</span> <span class="st">&#39;function&#39;</span>) {</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Most jQuery plugins offer a &#39;destroy&#39; method</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        $el<span class="op">.</span><span class="fu">myPlugin</span>(<span class="st">&#39;destroy&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> [])<span class="op">;</span> <span class="co">// Run once on mount</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 4. Synchronize incoming prop changes</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">useEffect</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> $el <span class="op">=</span> <span class="fu">$</span>(elRef<span class="op">.</span><span class="at">current</span>)<span class="op">;</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Call plugin&#39;s update method if the value prop changes externally</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (pluginInstanceRef<span class="op">.</span><span class="at">current</span> <span class="op">&amp;&amp;</span> value <span class="op">!==</span> <span class="kw">undefined</span>) {</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>      $el<span class="op">.</span><span class="fu">myPlugin</span>(<span class="st">&#39;setValue&#39;</span><span class="op">,</span> value)<span class="op">;</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> [value])<span class="op">;</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Return a pure container node with no children managed by React</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return </span><span class="kw">&lt;div</span> <span class="ot">ref</span><span class="op">=</span><span class="va">{</span>elRef<span class="va">}</span> <span class="kw">/&gt;</span><span class="op">;</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h3 id="best-practices-for-safety-and-stability">Best Practices for
+Safety and Stability</h3>
+<ul>
+<li><strong>Never Pass React Children</strong>: The component wrapping
+the jQuery plugin should render an empty container (e.g.,
+<code>&lt;div ref={elRef} /&gt;</code> or
+<code>&lt;input ref={elRef} /&gt;</code>). Do not let React manage
+children inside this container.</li>
+<li><strong>Always Unbind Listeners</strong>: When binding jQuery events
+using <code>.on()</code>, always remove them using <code>.off()</code>
+inside the cleanup phase. Failing to do so keeps references alive in
+memory, causing severe leaks in Single Page Applications (SPAs).</li>
+<li><strong>Guard Against Null References</strong>: Before executing
+plugin methods, ensure the reference (<code>elRef.current</code>) is not
+<code>null</code> to avoid runtime errors during fast unmount
+scenarios.</li>
+<li><strong>Avoid Infinite Loops</strong>: When syncing data, ensure
+that external prop updates do not trigger internal plugin events that in
+turn call your React <code>onChange</code> handler, creating an endless
+update loop. Check whether the value has actually changed before
+applying updates.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

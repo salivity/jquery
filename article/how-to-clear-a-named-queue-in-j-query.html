@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Clear a Named Queue in jQuery - jquery</title>
+    <meta name="description" content="Managing asynchronous task sequences and custom animations in jQuery often requires working with named queues. This article demonstrates how to empty a specific named queue on selected elements, covering the built-in .clearQueue() method and the alternat">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-clear-a-named-queue-in-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Clear a Named Queue in jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-clear-a-named-queue-in-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Managing asynchronous task sequences and custom animations in jQuery often requires working with named queues. This article demonstrates how to empty a specific named queue on selected elements, covering the built-in .clearQueue() method and the alternat" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-clear-a-named-queue-in-jquery">How to Clear a Named Queue
+in jQuery</h1>
+<p>Managing asynchronous task sequences and custom animations in jQuery
+often requires working with named queues. This article demonstrates how
+to empty a specific named queue on selected elements, covering the
+built-in <code>.clearQueue()</code> method and the alternative
+<code>.queue()</code> technique with concise code examples.</p>
+<h3 id="using-the-clearqueue-method">Using the
+<code>.clearQueue()</code> Method</h3>
+<p>The most direct way to remove all unexecuted functions from a named
+queue is jQuery's <code>.clearQueue()</code> method. By default, calling
+this method without parameters clears the standard animation queue
+(<code>fx</code>), but passing the queue's name as a string targets that
+specific custom sequence.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Clear the custom queue named &quot;myQueue&quot; on a targeted element</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#myElement&quot;</span>)<span class="op">.</span><span class="fu">clearQueue</span>(<span class="st">&quot;myQueue&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>When this runs, any functions waiting in <code>"myQueue"</code> are
+removed immediately and will not execute.</p>
+<h3 id="using-the-queue-method-with-an-empty-array">Using the
+<code>.queue()</code> Method with an Empty Array</h3>
+<p>An alternative approach is setting the named queue to an empty array
+using the <code>.queue()</code> method. This explicitly replaces the
+existing sequence array with a blank list.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Replace the contents of &quot;myQueue&quot; with an empty array</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#myElement&quot;</span>)<span class="op">.</span><span class="fu">queue</span>(<span class="st">&quot;myQueue&quot;</span><span class="op">,</span> [])<span class="op">;</span></span></code></pre></div>
+<p>This method produces the same functional result as
+<code>.clearQueue("myQueue")</code> and is compatible with older
+versions of jQuery (prior to jQuery 1.4).</p>
+<h3 id="important-considerations">Important Considerations</h3>
+<p>Clearing a named queue only removes functions that are currently
+waiting in line. If a function from the queue is already actively
+executing, clearing the queue will not abort that running operation; it
+simply prevents the subsequent items in the sequence from being
+invoked.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

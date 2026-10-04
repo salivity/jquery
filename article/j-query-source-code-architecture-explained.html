@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Source Code Architecture Explained - jquery</title>
+    <meta name="description" content="This article breaks down the internal architecture of the jQuery source code, detailing how the library is structured, initialized, and executed. It covers the core design patterns used by jQuery, including its Immediately Invoked Function Expression (II">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-source-code-architecture-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery Source Code Architecture Explained - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-source-code-architecture-explained" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article breaks down the internal architecture of the jQuery source code, detailing how the library is structured, initialized, and executed. It covers the core design patterns used by jQuery, including its Immediately Invoked Function Expression (II" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-source-code-architecture-explained">jQuery Source Code
+Architecture Explained</h1>
+<p>This article breaks down the internal architecture of the jQuery
+source code, detailing how the library is structured, initialized, and
+executed. It covers the core design patterns used by jQuery, including
+its Immediately Invoked Function Expression (IIFE) wrapper, the factory
+pattern that eliminates the need for the <code>new</code> keyword, the
+prototype alias mechanism (<code>jQuery.fn</code>), the internal
+extension system, and how specialized sub-modules like Sizzle, the Event
+system, and Ajax interact to create a cohesive, chainable library.</p>
+<h3 id="the-self-executing-wrapper-iife">The Self-Executing Wrapper
+(IIFE)</h3>
+<p>The entirety of jQuery's source code is wrapped in an Immediately
+Invoked Function Expression (IIFE) or Universal Module Definition (UMD)
+pattern. This pattern prevents variable leakage into the global scope
+and encapsulates internal implementation details.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">function</span>(<span class="bu">global</span><span class="op">,</span> factory) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;use strict&quot;</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">typeof</span> module <span class="op">===</span> <span class="st">&quot;object&quot;</span> <span class="op">&amp;&amp;</span> <span class="kw">typeof</span> module<span class="op">.</span><span class="at">exports</span> <span class="op">===</span> <span class="st">&quot;object&quot;</span>) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// CommonJS / Node environment</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        module<span class="op">.</span><span class="at">exports</span> <span class="op">=</span> <span class="bu">global</span><span class="op">.</span><span class="at">document</span> <span class="op">?</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">factory</span>(<span class="bu">global</span><span class="op">,</span> <span class="kw">true</span>) <span class="op">:</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>            <span class="kw">function</span>(w) {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (<span class="op">!</span>w<span class="op">.</span><span class="at">document</span>) {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">&quot;jQuery requires a window with a document&quot;</span>)<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                }</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="fu">factory</span>(w)<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Browser environment</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">factory</span>(<span class="bu">global</span>)<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>})(<span class="kw">typeof</span> <span class="bu">window</span> <span class="op">!==</span> <span class="st">&quot;undefined&quot;</span> <span class="op">?</span> <span class="bu">window</span> <span class="op">:</span> <span class="kw">this</span><span class="op">,</span> <span class="kw">function</span>(<span class="bu">window</span><span class="op">,</span> noGlobal) {</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// jQuery core implementation lives here</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>By passing <code>window</code> (or <code>global</code>) into the
+factory function, jQuery localizes the reference, which speeds up
+variable resolution and enables minifiers to compress the reference into
+a single character.</p>
+<h3 id="the-factory-function-and-prototype-architecture">The Factory
+Function and Prototype Architecture</h3>
+<p>One of jQuery's defining design choices is allowing users to invoke
+<code>$()</code> without typing <code>new $()</code>. To accomplish
+this, jQuery uses a factory pattern linked directly to its
+prototype.</p>
+<ol type="1">
+<li><strong><code>jQuery</code> Declaration:</strong> The
+<code>jQuery</code> variable is defined as a function that returns an
+instance of an internal constructor named
+<code>jQuery.fn.init</code>.</li>
+<li><strong><code>jQuery.fn</code> Alias:</strong> jQuery sets
+<code>jQuery.fn = jQuery.prototype</code> as a shorthand.</li>
+<li><strong><code>init</code> Prototype Reassignment:</strong> The
+prototype of <code>jQuery.fn.init</code> is pointed back to
+<code>jQuery.fn</code>.</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> jQuery <span class="op">=</span> <span class="kw">function</span>(selector<span class="op">,</span> context) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">new</span> jQuery<span class="op">.</span><span class="at">fn</span><span class="op">.</span><span class="fu">init</span>(selector<span class="op">,</span> context)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>jQuery<span class="op">.</span><span class="at">fn</span> <span class="op">=</span> jQuery<span class="op">.</span><span class="at">prototype</span> <span class="op">=</span> {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">constructor</span><span class="op">:</span> jQuery<span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">length</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// core prototype methods...</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> init <span class="op">=</span> jQuery<span class="op">.</span><span class="at">fn</span><span class="op">.</span><span class="at">init</span> <span class="op">=</span> <span class="kw">function</span>(selector<span class="op">,</span> context<span class="op">,</span> <span class="bu">root</span>) {</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// DOM selection and parsing logic</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">// Crucial link: allows instances created by init to inherit jQuery.fn methods</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>init<span class="op">.</span><span class="at">prototype</span> <span class="op">=</span> jQuery<span class="op">.</span><span class="at">fn</span><span class="op">;</span></span></code></pre></div>
+<p>When a user calls <code>$('div')</code>, an instance of
+<code>init</code> is instantiated, but because
+<code>init.prototype</code> references <code>jQuery.fn</code>, the
+returned object inherits all jQuery methods.</p>
+<h3 id="method-chaining">Method Chaining</h3>
+<p>jQuery enables fluent chaining by ensuring that methods that mutate
+or query the collection return the calling instance (<code>this</code>).
+If a method creates a new set of elements (such as <code>.find()</code>
+or <code>.filter()</code>), it builds a new jQuery instance using
+<code>.pushStack()</code>, which maintains a reference to the previous
+state (<code>prevObject</code>) so users can revert back using
+<code>.end()</code>.</p>
+<h3 id="the-extension-mechanism-jqueryextend">The Extension Mechanism:
+<code>jQuery.extend</code></h3>
+<p>The <code>extend</code> method is the structural engine for
+modularity in jQuery. It merges the contents of two or more objects
+together into the first object.</p>
+<ul>
+<li><strong><code>jQuery.extend</code>:</strong> Extends the jQuery
+static object directly with utility methods (e.g., <code>$.ajax</code>,
+<code>$.each</code>).</li>
+<li><strong><code>jQuery.fn.extend</code>:</strong> Extends the jQuery
+prototype, adding instance methods available to element collections
+(e.g., <code>.addClass</code>, <code>.css</code>).</li>
+</ul>
+<p>Both functions point to the exact same implementation:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>jQuery<span class="op">.</span><span class="at">extend</span> <span class="op">=</span> jQuery<span class="op">.</span><span class="at">fn</span><span class="op">.</span><span class="at">extend</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Copies properties from source objects to target object</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>This single method serves as both the internal module assembler and
+the external plugin interface.</p>
+<h3 id="modular-sub-systems">Modular Sub-Systems</h3>
+<p>The jQuery codebase divides its responsibilities into separate,
+decoupled modules:</p>
+<ul>
+<li><strong>Core &amp; Accessors:</strong> Handles instance creation,
+type checking, iteration (<code>each</code>, <code>map</code>), and
+array manipulation.</li>
+<li><strong>Selector Engine (Sizzle):</strong> An integrated engine (or
+modern <code>querySelectorAll</code> wrapper) that parses complex CSS
+selectors and traverses the DOM.</li>
+<li><strong>Data Storage (<code>Data</code>):</strong> Manages metadata
+associated with DOM elements without creating memory leaks caused by
+circular references between JavaScript and DOM objects.</li>
+<li><strong>Callbacks &amp; Deferreds:</strong> A custom implementation
+of asynchronous control flow and promises that powers both internal
+queues and external API operations.</li>
+<li><strong>Queue:</strong> Manages execution queues, heavily used by
+the animation subsystem.</li>
+<li><strong>Event System:</strong> Normalizes cross-browser event
+handling, bubbling, and delegation via an internal cache rather than
+binding directly to raw DOM nodes repeatedly.</li>
+<li><strong>DOM Manipulation:</strong> Methods for inserting, wrapping,
+cloning, and removing DOM nodes safely, managing cleanup of event
+listeners and cached data.</li>
+<li><strong>CSS &amp; Dimensions:</strong> Computes style values,
+polyfills browser quirks, and retrieves layout dimensions (width,
+height, offsets).</li>
+<li><strong>Ajax:</strong> Implements <code>XMLHttpRequest</code>
+wrappers with support for custom data transports, JSONP, and
+promises.</li>
+</ul>
+<h3 id="global-exposure-and-noconflict">Global Exposure and
+<code>noConflict</code></h3>
+<p>At the conclusion of the factory function, jQuery binds itself to the
+global environment while saving any prior values assigned to
+<code>$</code> or <code>jQuery</code> to support multi-library
+compatibility:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> _jQuery <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="at">jQuery</span><span class="op">,</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    _$ <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="at">$</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>jQuery<span class="op">.</span><span class="at">noConflict</span> <span class="op">=</span> <span class="kw">function</span>(deep) {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="bu">window</span><span class="op">.</span><span class="at">$</span> <span class="op">===</span> jQuery) {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">window</span><span class="op">.</span><span class="at">$</span> <span class="op">=</span> _$<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (deep <span class="op">&amp;&amp;</span> <span class="bu">window</span><span class="op">.</span><span class="at">jQuery</span> <span class="op">===</span> jQuery) {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">window</span><span class="op">.</span><span class="at">jQuery</span> <span class="op">=</span> _jQuery<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jQuery<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>noGlobal) {</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">window</span><span class="op">.</span><span class="at">jQuery</span> <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="at">$</span> <span class="op">=</span> jQuery<span class="op">;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>This allows developers to relinquish control of the <code>$</code>
+shortcut back to other libraries (such as Prototype or MooTools) when
+required.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

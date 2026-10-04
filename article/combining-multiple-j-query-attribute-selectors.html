@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combining Multiple jQuery Attribute Selectors - jquery</title>
+    <meta name="description" content="Combining multiple jQuery attribute selectors allows developers to target precise HTML elements based on complex criteria without altering markup or adding extra classes. By chaining multiple bracketed selectors together—such as $('input[type="text"][n">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/combining-multiple-j-query-attribute-selectors">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Combining Multiple jQuery Attribute Selectors - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/combining-multiple-j-query-attribute-selectors" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Combining multiple jQuery attribute selectors allows developers to target precise HTML elements based on complex criteria without altering markup or adding extra classes. By chaining multiple bracketed selectors together—such as $('input[type="text"][n" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="combining-multiple-jquery-attribute-selectors">Combining
+Multiple jQuery Attribute Selectors</h1>
+<p>Combining multiple jQuery attribute selectors allows developers to
+target precise HTML elements based on complex criteria without altering
+markup or adding extra classes. By chaining multiple bracketed selectors
+together—such as
+<code>$('input[type="text"][name="email"]')</code>—jQuery evaluates each
+condition using logical AND logic. This approach is essential in
+scenarios involving complex form validation, dynamic state management,
+link filtering, and manipulating legacy or third-party codebases where
+modifying the original HTML is impossible.</p>
+<h3 id="1-complex-form-input-filtering">1. Complex Form Input
+Filtering</h3>
+<p>Standard form fields often share the same element tag
+(<code>&lt;input&gt;</code>) and type, requiring more attributes to
+isolate specific fields. Combining selectors enables precise selection
+based on type, name, and current states:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Target required text inputs with a specific name prefix</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;input[type=&quot;text&quot;][required][name^=&quot;shipping_&quot;]&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;highlight&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This prevents accidental style or behavior changes on unrelated
+inputs (like hidden or optional fields) while avoiding the need for
+dedicated CSS utility classes.</p>
+<h3 id="2-multi-condition-data--attribute-filtering">2. Multi-Condition
+<code>data-*</code> Attribute Filtering</h3>
+<p>Modern web applications often manage application state and metadata
+using custom <code>data-*</code> attributes. When an element’s status
+depends on multiple dynamic variables—such as user role, status, or
+display mode—chaining attribute selectors ensures only the correct
+elements are selected:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Target active tabs belonging specifically to the user dashboard</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;div[data-component=&quot;tabs&quot;][data-role=&quot;user&quot;][data-status=&quot;active&quot;]&#39;</span>)<span class="op">.</span><span class="fu">show</span>()<span class="op">;</span></span></code></pre></div>
+<p>Using combined selectors here mimics multi-dimensional querying,
+allowing the interface to react to distinct state combinations
+cleanly.</p>
+<h3 id="3-file-and-url-target-filtering">3. File and URL Target
+Filtering</h3>
+<p>Anchor tags (<code>&lt;a&gt;</code>) frequently require different
+visual treatments or behavior based on destination types or protocols.
+Combining substring attribute selectors (e.g., <code>^=</code> for
+"starts with", <code>$=</code> for "ends with", and <code>*=</code> for
+"contains") allows fine-grained link parsing:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Target secure external PDF downloads</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;a[href^=&quot;https://&quot;][href$=&quot;.pdf&quot;][target=&quot;_blank&quot;]&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;pdf-download&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This isolates external PDF documents from regular page links or
+internal relative paths without requiring manual tagging in the CMS.</p>
+<h3 id="4-interacting-with-legacy-code-and-third-party-widgets">4.
+Interacting with Legacy Code and Third-Party Widgets</h3>
+<p>When working with third-party widgets, CMS-generated content, or
+legacy systems, developers often lack access to modify the underlying
+HTML structure to add convenient classes or IDs. Combining existing
+attributes provides a robust workaround:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Select a plugin&#39;s auto-generated container without unique IDs</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;div[role=&quot;dialog&quot;][aria-modal=&quot;true&quot;][data-vendor=&quot;pluginName&quot;]&#39;</span>)<span class="op">.</span><span class="fu">fadeIn</span>()<span class="op">;</span></span></code></pre></div>
+<p>This allows precise DOM manipulation based purely on existing
+accessibility roles, identifiers, or structural metadata.</p>
+<h3 id="5-media-and-asset-matching">5. Media and Asset Matching</h3>
+<p>When manipulating media elements like images or videos, multiple
+properties can determine whether an asset should be processed or
+lazy-loaded:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Target responsive webp images that are flagged for lazy loading</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;img[src*=&quot;/thumbnails/&quot;][src$=&quot;.webp&quot;][loading=&quot;lazy&quot;]&#39;</span>)<span class="op">.</span><span class="fu">trigger</span>(<span class="st">&#39;customLoad&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This ensures only images matching specific path formats and modern
+extensions are targeted during optimized loading operations.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

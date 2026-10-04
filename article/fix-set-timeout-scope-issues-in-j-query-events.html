@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix setTimeout Scope Issues in jQuery Events - jquery</title>
+    <meta name="description" content="When using setTimeout inside a jQuery event handler, the execution context changes, causing the this keyword to refer to the global window object rather than the DOM element that triggered the event. This article explains why this context shift occurs an">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/fix-set-timeout-scope-issues-in-j-query-events">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Fix setTimeout Scope Issues in jQuery Events - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/fix-set-timeout-scope-issues-in-j-query-events" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When using setTimeout inside a jQuery event handler, the execution context changes, causing the this keyword to refer to the global window object rather than the DOM element that triggered the event. This article explains why this context shift occurs an" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="fix-settimeout-scope-issues-in-jquery-events">Fix setTimeout
+Scope Issues in jQuery Events</h1>
+<p>When using <code>setTimeout</code> inside a jQuery event handler, the
+execution context changes, causing the <code>this</code> keyword to
+refer to the global <code>window</code> object rather than the DOM
+element that triggered the event. This article explains why this context
+shift occurs and details the best methods to resolve it, including
+modern ES6 arrow functions, variable caching,
+<code>Function.prototype.bind()</code>, and jQuery's
+<code>$.proxy()</code> method.</p>
+<h2 id="the-scope-problem">The Scope Problem</h2>
+<p>In a standard jQuery event handler, <code>this</code> refers directly
+to the HTML element that triggered the event. However,
+<code>setTimeout</code> runs its callback function asynchronously in the
+global execution context. As a result, <code>this</code> inside the
+timer defaults to <code>window</code> (or <code>undefined</code> in
+strict mode).</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.button&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Here, this refers to the clicked &#39;.button&#39; element</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="pp">setTimeout</span>(<span class="kw">function</span>() {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Scope lost: this now refers to window</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active&#39;</span>)<span class="op">;</span> <span class="co">// Fails silently</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span> <span class="dv">1000</span>)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>To maintain access to the triggering element, you must preserve the
+reference to <code>this</code>.</p>
+<hr />
+<h2 id="solution-1-use-es6-arrow-functions-recommended">Solution 1: Use
+ES6 Arrow Functions (Recommended)</h2>
+<p>Arrow functions do not bind their own <code>this</code>; instead,
+they inherit <code>this</code> lexically from the enclosing execution
+context. This makes them the cleanest and most modern approach.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.button&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">setTimeout</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Arrow function retains &#39;this&#39; from the outer click handler</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span> <span class="dv">1000</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<hr />
+<h2 id="solution-2-cache-the-this-reference-in-a-variable">Solution 2:
+Cache the <code>this</code> Reference in a Variable</h2>
+<p>A traditional and widely compatible pattern is to assign
+<code>this</code> to a local variable (commonly named <code>self</code>,
+<code>that</code>, or <code>$this</code>) within the event handler. The
+<code>setTimeout</code> callback can then access this variable via a
+JavaScript closure.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.button&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> $this <span class="op">=</span> <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">;</span> <span class="co">// Cache jQuery object reference</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="pp">setTimeout</span>(<span class="kw">function</span>() {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        $this<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active&#39;</span>)<span class="op">;</span> <span class="co">// Safely accessed via closure</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span> <span class="dv">1000</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<hr />
+<h2 id="solution-3-use-functionprototypebind">Solution 3: Use
+<code>Function.prototype.bind()</code></h2>
+<p>The native JavaScript <code>bind()</code> method creates a new
+function with its <code>this</code> keyword set explicitly to the
+provided value.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.button&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">setTimeout</span>(<span class="kw">function</span>() {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    }<span class="op">.</span><span class="fu">bind</span>(<span class="kw">this</span>)<span class="op">,</span> <span class="dv">1000</span>)<span class="op">;</span> <span class="co">// Explicitly pass the element&#39;s context</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<hr />
+<h2 id="solution-4-use-jquerys-proxy-legacy">Solution 4: Use jQuery's
+<code>$.proxy()</code> (Legacy)</h2>
+<p>If you are maintaining an older codebase that does not support ES6
+features or native <code>.bind()</code>, jQuery provides the
+<code>$.proxy()</code> utility. It returns a new function that always
+executes within a specific context.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;.button&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">setTimeout</span>($<span class="op">.</span><span class="fu">proxy</span>(<span class="kw">function</span>() {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active&#39;</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span> <span class="kw">this</span>)<span class="op">,</span> <span class="dv">1000</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<hr />
+<h2 id="summary-of-best-practices">Summary of Best Practices</h2>
+<ul>
+<li>For modern applications running ES6+, use <strong>arrow
+functions</strong>.</li>
+<li>When caching jQuery wrapper objects for multiple operations, use a
+<strong>local variable</strong> (<code>const $el = $(this)</code>).</li>
+<li>When working with existing functions that cannot be converted to
+arrow functions, use <strong><code>.bind(this)</code></strong>.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

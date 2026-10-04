@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Debounce a Resize Event in jQuery - jquery</title>
+    <meta name="description" content="Debouncing a window resize event in jQuery ensures that your callback function executes only once after the user has finished resizing their browser, rather than firing continuously during the action. This article explains why the standard jQuery resize">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-debounce-a-resize-event-in-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Debounce a Resize Event in jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-debounce-a-resize-event-in-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Debouncing a window resize event in jQuery ensures that your callback function executes only once after the user has finished resizing their browser, rather than firing continuously during the action. This article explains why the standard jQuery resize" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-debounce-a-resize-event-in-jquery">How to Debounce a
+Resize Event in jQuery</h1>
+<p>Debouncing a window resize event in jQuery ensures that your callback
+function executes only once after the user has finished resizing their
+browser, rather than firing continuously during the action. This article
+explains why the standard jQuery resize event causes performance issues
+and provides step-by-step code implementations using custom JavaScript
+debounce functions as well as utility libraries to optimize your
+application's responsiveness.</p>
+<h3 id="the-problem-with-the-default-resize-event">The Problem with the
+Default Resize Event</h3>
+<p>The standard browser <code>resize</code> event can fire dozens of
+times per second while a user drags the browser window border. Attaching
+resource-intensive tasks—such as DOM recalculations, layout adjustments,
+or API calls—directly to this event causes layout thrashing and
+noticeable interface lag:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Inefficient: runs dozens of times per second during resize</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;resize&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Window resized:&#39;</span><span class="op">,</span> <span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">width</span>())<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="implementing-a-custom-debounce-function">Implementing a Custom
+Debounce Function</h3>
+<p>The most lightweight way to debounce the handler without external
+dependencies is to write a generic debounce helper function. A debounce
+function uses JavaScript closures and <code>setTimeout</code> to delay
+execution until a specific idle period has passed.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">debounce</span>(func<span class="op">,</span> wait) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> timeout<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">function</span>(<span class="op">...</span>args) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> context <span class="op">=</span> <span class="kw">this</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="pp">clearTimeout</span>(timeout)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        timeout <span class="op">=</span> <span class="pp">setTimeout</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            func<span class="op">.</span><span class="fu">apply</span>(context<span class="op">,</span> args)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span> wait)<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="attaching-the-debounced-handler-in-jquery">Attaching the
+Debounced Handler in jQuery</h3>
+<p>Pass your event callback through the <code>debounce</code> function
+when binding it to the <code>$(window).on('resize')</code> listener.
+Specify the delay in milliseconds (typically between 150ms and 300ms
+depending on user experience requirements):</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">handleWindowResize</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> windowWidth <span class="op">=</span> <span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">width</span>()<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> windowHeight <span class="op">=</span> <span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">height</span>()<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Resized to: </span><span class="sc">${</span>windowWidth<span class="sc">}</span><span class="vs">x</span><span class="sc">${</span>windowHeight<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Place layout adjustment or element calculations here</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">// Bind the debounced function with a 250ms delay</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;resize&#39;</span><span class="op">,</span> <span class="fu">debounce</span>(handleWindowResize<span class="op">,</span> <span class="dv">250</span>))<span class="op">;</span></span></code></pre></div>
+<h3 id="using-lodash-or-underscore">Using Lodash or Underscore</h3>
+<p>If your project already includes Lodash or Underscore, you do not
+need to write a custom debounce function. You can use the built-in
+<code>_.debounce</code> method directly with jQuery:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Using Lodash&#39;s _.debounce method</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;resize&#39;</span><span class="op">,</span> _<span class="op">.</span><span class="fu">debounce</span>(<span class="kw">function</span>() {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Finished resizing:&#39;</span><span class="op">,</span> <span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">width</span>())<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> <span class="dv">200</span>))<span class="op">;</span></span></code></pre></div>
+<h3 id="removing-the-debounced-event-listener">Removing the Debounced
+Event Listener</h3>
+<p>If you dynamically remove event listeners in single-page applications
+to prevent memory leaks, store the debounced function reference before
+binding:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> debouncedResize <span class="op">=</span> <span class="fu">debounce</span>(handleWindowResize<span class="op">,</span> <span class="dv">250</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Attach</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;resize&#39;</span><span class="op">,</span> debouncedResize)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Detach when destroying the view or component</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">window</span>)<span class="op">.</span><span class="fu">off</span>(<span class="st">&#39;resize&#39;</span><span class="op">,</span> debouncedResize)<span class="op">;</span></span></code></pre></div></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

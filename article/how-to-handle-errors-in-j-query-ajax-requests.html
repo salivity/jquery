@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Handle Errors in jQuery $.ajax() Requests - jquery</title>
+    <meta name="description" content="Handling errors in a jQuery $.ajax() request is essential for building resilient web applications that gracefully inform users when network requests fail, servers return errors, or data parsing issues occur. This guide covers the primary methods for catc">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-handle-errors-in-j-query-ajax-requests">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Handle Errors in jQuery $.ajax() Requests - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-handle-errors-in-j-query-ajax-requests" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Handling errors in a jQuery $.ajax() request is essential for building resilient web applications that gracefully inform users when network requests fail, servers return errors, or data parsing issues occur. This guide covers the primary methods for catc" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-handle-errors-in-jquery-ajax-requests">How to Handle
+Errors in jQuery $.ajax() Requests</h1>
+<p>Handling errors in a jQuery <code>$.ajax()</code> request is
+essential for building resilient web applications that gracefully inform
+users when network requests fail, servers return errors, or data parsing
+issues occur. This guide covers the primary methods for catching and
+managing AJAX failures, including the modern <code>.fail()</code>
+promise callback, the built-in <code>error</code> configuration
+property, the status-code-specific <code>statusCode</code> map, and
+global listeners for application-wide error handling.</p>
+<h2 id="1-using-the-fail-promise-callback-recommended">1. Using the
+<code>.fail()</code> Promise Callback (Recommended)</h2>
+<p>jQuery's <code>$.ajax()</code> returns a <code>jqXHR</code> object,
+which implements the Promise interface. The standard and most flexible
+way to capture errors is by chaining the <code>.fail()</code> method to
+the request:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">url</span><span class="op">:</span> <span class="st">&quot;https://api.example.com/data&quot;</span><span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">&quot;GET&quot;</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">dataType</span><span class="op">:</span> <span class="st">&quot;json&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">done</span>(<span class="kw">function</span>(data) {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Success:&quot;</span><span class="op">,</span> data)<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">fail</span>(<span class="kw">function</span>(jqXHR<span class="op">,</span> textStatus<span class="op">,</span> errorThrown) {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Request failed: &quot;</span> <span class="op">+</span> textStatus)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Error details: &quot;</span> <span class="op">+</span> errorThrown)<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;HTTP Status: &quot;</span> <span class="op">+</span> jqXHR<span class="op">.</span><span class="at">status</span>)<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="understanding-the-callback-parameters">Understanding the
+Callback Parameters</h3>
+<p>The error callback receives three arguments:</p>
+<ul>
+<li><strong><code>jqXHR</code></strong>: The jQuery XMLHttpRequest
+object. It provides response properties such as
+<code>jqXHR.status</code> (HTTP status code like 404 or 500) and
+<code>jqXHR.responseText</code> (the raw response body sent by the
+server).</li>
+<li><strong><code>textStatus</code></strong>: A string categorizing the
+error. Common values include <code>"timeout"</code>,
+<code>"error"</code>, <code>"abort"</code>, and
+<code>"parsererror"</code>.</li>
+<li><strong><code>errorThrown</code></strong>: The textual portion of
+the HTTP status, such as <code>"Not Found"</code> or
+<code>"Internal Server Error"</code>.</li>
+</ul>
+<h2 id="2-using-the-error-option-in-settings">2. Using the
+<code>error</code> Option in Settings</h2>
+<p>You can also define an <code>error</code> function directly within
+the configuration object passed to <code>$.ajax()</code>. This is
+functionally equivalent to <code>.fail()</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">url</span><span class="op">:</span> <span class="st">&quot;https://api.example.com/data&quot;</span><span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">method</span><span class="op">:</span> <span class="st">&quot;POST&quot;</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">data</span><span class="op">:</span> { <span class="dt">name</span><span class="op">:</span> <span class="st">&quot;John&quot;</span> }<span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">success</span><span class="op">:</span> <span class="kw">function</span>(response) {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Success:&quot;</span><span class="op">,</span> response)<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">error</span><span class="op">:</span> <span class="kw">function</span>(jqXHR<span class="op">,</span> textStatus<span class="op">,</span> errorThrown) {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (textStatus <span class="op">===</span> <span class="st">&quot;parsererror&quot;</span>) {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">alert</span>(<span class="st">&quot;Error parsing JSON response.&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">alert</span>(<span class="st">&quot;Request failed: &quot;</span> <span class="op">+</span> errorThrown)<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="3-handling-specific-http-status-codes-with-statuscode">3.
+Handling Specific HTTP Status Codes with <code>statusCode</code></h2>
+<p>If your application needs custom logic depending on the exact HTTP
+status returned by the server (such as redirecting on 401 Unauthorized
+or displaying an alert on 404 Not Found), use the
+<code>statusCode</code> property:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">url</span><span class="op">:</span> <span class="st">&quot;https://api.example.com/profile&quot;</span><span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">statusCode</span><span class="op">:</span> {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="dv">401</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">alert</span>(<span class="st">&quot;Session expired. Please log in again.&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            <span class="bu">window</span><span class="op">.</span><span class="at">location</span><span class="op">.</span><span class="at">href</span> <span class="op">=</span> <span class="st">&quot;/login&quot;</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="dv">404</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">alert</span>(<span class="st">&quot;The requested resource was not found.&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="dv">500</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">alert</span>(<span class="st">&quot;Internal server error. Please try again later.&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>When a status code matches an entry in the map, its corresponding
+function runs in addition to any general <code>.fail()</code> or
+<code>error</code> callbacks.</p>
+<h2 id="4-catching-json-parsing-errors-parsererror">4. Catching JSON
+Parsing Errors (<code>parsererror</code>)</h2>
+<p>A common issue occurs when the server returns an HTTP 200 OK status,
+but the response body is not valid JSON (e.g., an HTML error page or
+empty response). In this scenario, jQuery routes the response to the
+error handler instead of the success handler with
+<code>textStatus</code> set to <code>"parsererror"</code>.</p>
+<p>To handle this, inspect <code>textStatus</code>:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">fail</span>(<span class="kw">function</span>(jqXHR<span class="op">,</span> textStatus<span class="op">,</span> errorThrown) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (textStatus <span class="op">===</span> <span class="st">&quot;parsererror&quot;</span>) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Malformed JSON received from server:&quot;</span><span class="op">,</span> jqXHR<span class="op">.</span><span class="at">responseText</span>)<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="5-setting-up-global-ajax-error-handling">5. Setting Up Global
+AJAX Error Handling</h2>
+<p>To avoid duplicating error-handling code across multiple requests,
+you can bind a global error handler using
+<code>$(document).ajaxError()</code>. This function executes whenever
+any <code>$.ajax()</code> call on the page fails:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">ajaxError</span>(<span class="kw">function</span>(<span class="bu">event</span><span class="op">,</span> jqXHR<span class="op">,</span> ajaxSettings<span class="op">,</span> thrownError) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Global Error Handler:&quot;</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;URL:&quot;</span><span class="op">,</span> ajaxSettings<span class="op">.</span><span class="at">url</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Status:&quot;</span><span class="op">,</span> jqXHR<span class="op">.</span><span class="at">status</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Message:&quot;</span><span class="op">,</span> thrownError)<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Display a global user-facing notification</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;#notification-bar&quot;</span>)<span class="op">.</span><span class="fu">text</span>(<span class="st">&quot;A network error occurred. Please check your connection.&quot;</span>)<span class="op">.</span><span class="fu">show</span>()<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>If you have a specific request that should not trigger the global
+error handler, set <code>global: false</code> in that request's
+options:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">url</span><span class="op">:</span> <span class="st">&quot;https://api.example.com/background-sync&quot;</span><span class="op">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">global</span><span class="op">:</span> <span class="kw">false</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

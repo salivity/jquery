@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Select Elements Without a Specific Class - jquery</title>
+    <meta name="description" content="This article explains how to target and manipulate HTML elements that lack a specific class using jQuery. By utilizing the :not() pseudo-class selector and the .not() traversing method, developers can filter their DOM selections efficiently. Below, you w">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-select-elements-without-a-specific-class">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery Select Elements Without a Specific Class - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-select-elements-without-a-specific-class" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how to target and manipulate HTML elements that lack a specific class using jQuery. By utilizing the :not() pseudo-class selector and the .not() traversing method, developers can filter their DOM selections efficiently. Below, you w" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-select-elements-without-a-specific-class">jQuery Select
+Elements Without a Specific Class</h1>
+<p>This article explains how to target and manipulate HTML elements that
+lack a specific class using jQuery. By utilizing the <code>:not()</code>
+pseudo-class selector and the <code>.not()</code> traversing method,
+developers can filter their DOM selections efficiently. Below, you will
+learn the syntax, practical code examples, and best practices for
+excluding specific classes from your jQuery selectors.</p>
+<h3 id="method-1-using-the-not-selector">Method 1: Using the
+<code>:not()</code> Selector</h3>
+<p>The most direct way to select elements without a specific class is
+using CSS-style negation directly within the jQuery selector string via
+<code>:not()</code>.</p>
+<p><strong>Syntax:</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;element:not(.unwanted-class)&#39;</span>)</span></code></pre></div>
+<p><strong>Example:</strong> To select all <code>&lt;p&gt;</code>
+elements that do not have the class <code>highlight</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;p:not(.highlight)&#39;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;color&#39;</span><span class="op">,</span> <span class="st">&#39;gray&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This query looks at all paragraph tags across the document and
+applies the color gray only to those that do not include the
+<code>highlight</code> class in their <code>class</code> attribute.</p>
+<h3 id="method-2-using-the-not-filtering-method">Method 2: Using the
+<code>.not()</code> Filtering Method</h3>
+<p>Alternatively, jQuery provides a dedicated traversing method called
+<code>.not()</code>. This approach is often more readable, especially
+when chaining methods or working with an already existing jQuery
+object.</p>
+<p><strong>Syntax:</strong></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;element&#39;</span>)<span class="op">.</span><span class="fu">not</span>(<span class="st">&#39;.unwanted-class&#39;</span>)</span></code></pre></div>
+<p><strong>Example:</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;li&#39;</span>)<span class="op">.</span><span class="fu">not</span>(<span class="st">&#39;.active&#39;</span>)<span class="op">.</span><span class="fu">hide</span>()<span class="op">;</span></span></code></pre></div>
+<p>In this example, jQuery selects all <code>&lt;li&gt;</code> elements
+first, filters out any element containing the <code>active</code> class,
+and hides the remaining items.</p>
+<h3 id="excluding-multiple-classes">Excluding Multiple Classes</h3>
+<p>If you need to select elements that do not have <em>any</em> of
+several classes, you can pass comma-separated class names to either
+technique.</p>
+<p><strong>Using <code>:not()</code>:</strong></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;div:not(.header, .footer)&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;content-area&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p><strong>Using <code>.not()</code>:</strong></p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;div&#39;</span>)<span class="op">.</span><span class="fu">not</span>(<span class="st">&#39;.header, .footer&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;content-area&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>Both examples select all <code>&lt;div&gt;</code> elements, excluding
+any that contain either the <code>header</code> or <code>footer</code>
+class.</p>
+<h3 id="which-approach-should-you-use">Which Approach Should You
+Use?</h3>
+<ul>
+<li>Use the <strong><code>:not()</code> selector</strong> when you want
+a concise, single-string query that natively aligns with CSS selector
+syntax.</li>
+<li>Use the <strong><code>.not()</code> method</strong> when dynamically
+filtering a cached selector, when passing functions for complex
+filtering, or when building chains of jQuery operations.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

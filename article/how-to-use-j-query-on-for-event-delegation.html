@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use jQuery on() for Event Delegation - jquery</title>
+    <meta name="description" content="Event delegation in jQuery allows you to attach a single event listener to a parent element that responds to events triggered by its current or future child elements. This article explains how event delegation works with the jQuery on() method, breaks do">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-use-j-query-on-for-event-delegation">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Use jQuery on() for Event Delegation - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-use-j-query-on-for-event-delegation" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Event delegation in jQuery allows you to attach a single event listener to a parent element that responds to events triggered by its current or future child elements. This article explains how event delegation works with the jQuery on() method, breaks do" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-use-jquery-on-for-event-delegation">How to Use jQuery
+on() for Event Delegation</h1>
+<p>Event delegation in jQuery allows you to attach a single event
+listener to a parent element that responds to events triggered by its
+current or future child elements. This article explains how event
+delegation works with the jQuery <code>on()</code> method, breaks down
+the required syntax, and demonstrates practical examples to handle
+dynamically created DOM elements efficiently.</p>
+<h2 id="understanding-event-delegation">Understanding Event
+Delegation</h2>
+<p>In standard event handling, you attach a listener directly to a
+specific DOM element. However, this approach fails when new elements are
+inserted into the page dynamically via JavaScript or AJAX, because the
+listener was only bound to elements existing at the time of code
+execution.</p>
+<p>Event delegation solves this problem by taking advantage of event
+bubbling. When an event occurs on a child element, it bubbles up the DOM
+tree to its parent elements. By placing a listener on a static ancestor
+element, you can intercept the event as it bubbles up and execute a
+handler function specifically for the targeted child.</p>
+<h2 id="the-on-delegation-syntax">The <code>.on()</code> Delegation
+Syntax</h2>
+<p>To configure the <code>on()</code> method for event delegation, you
+pass a selector for the target child elements as the second
+argument:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(parentSelector)<span class="op">.</span><span class="fu">on</span>(eventType<span class="op">,</span> childSelector<span class="op">,</span> handlerFunction)<span class="op">;</span></span></code></pre></div>
+<ul>
+<li><strong><code>parentSelector</code></strong>: A static container
+element that is already present in the DOM when the script runs (e.g.,
+<code>document</code>, <code>body</code>, or a specific wrapper
+<code>div</code>).</li>
+<li><strong><code>eventType</code></strong>: The event to listen for
+(such as <code>'click'</code>, <code>'submit'</code>, or
+<code>'mouseover'</code>).</li>
+<li><strong><code>childSelector</code></strong>: A string containing a
+selector expression to filter the descendant elements that trigger the
+event.</li>
+<li><strong><code>handlerFunction</code></strong>: The function to
+execute when the event triggers on the child element.</li>
+</ul>
+<h2 id="direct-vs-delegated-event-handlers">Direct vs. Delegated Event
+Handlers</h2>
+<h3 id="direct-event-binding-non-delegated">Direct Event Binding
+(Non-Delegated)</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Only attaches to buttons present in the DOM on initial load</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;button.delete-btn&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">closest</span>(<span class="st">&#39;li&#39;</span>)<span class="op">.</span><span class="fu">remove</span>()<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>If a new <code>button.delete-btn</code> is added to the page later,
+clicking it will do nothing because the event listener was never bound
+to it.</p>
+<h3 id="delegated-event-binding">Delegated Event Binding</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Attaches to the static list container, handling clicks for all current and future buttons</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#todo-list&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="st">&#39;button.delete-btn&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">closest</span>(<span class="st">&#39;li&#39;</span>)<span class="op">.</span><span class="fu">remove</span>()<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Within the handler function, <code>this</code> refers to the specific
+child element (<code>button.delete-btn</code>) that triggered the event,
+not the parent container (<code>#todo-list</code>).</p>
+<h2 id="practical-example-handling-dynamic-elements">Practical Example:
+Handling Dynamic Elements</h2>
+<p>Below is a complete implementation showing how event delegation
+allows dynamically added list items to inherit click actions
+automatically:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;item-list&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Item 1 <span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;remove&quot;</span><span class="dt">&gt;</span>Delete<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Item 2 <span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;remove&quot;</span><span class="dt">&gt;</span>Delete<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;add-item&quot;</span><span class="dt">&gt;</span>Add New Item<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">ready</span>(<span class="kw">function</span>() {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Event delegation on the parent &lt;ul&gt; container</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;#item-list&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="st">&#39;.remove&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">parent</span>(<span class="st">&#39;li&#39;</span>)<span class="op">.</span><span class="fu">remove</span>()<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Code to dynamically add new items</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&#39;#add-item&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="st">&#39;#item-list&#39;</span>)<span class="op">.</span><span class="fu">append</span>(<span class="st">&#39;&lt;li&gt;New Item &lt;button class=&quot;remove&quot;&gt;Delete&lt;/button&gt;&lt;/li&gt;&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>When a user clicks "Add New Item", the newly created list item's
+delete button automatically triggers the delegated removal logic without
+requiring any additional event binding.</p>
+<h2 id="best-practices">Best Practices</h2>
+<ul>
+<li><strong>Bind to the Closest Static Parent:</strong> Avoid binding
+delegated events to <code>$(document)</code> or <code>$('body')</code>
+unless necessary. Attaching events to the closest non-dynamic ancestor
+improves performance by minimizing the distance the event needs to
+bubble.</li>
+<li><strong>Conserve Memory:</strong> Using a single delegated handler
+for dozens or hundreds of child elements (like table rows or list items)
+uses significantly less browser memory than attaching distinct event
+handlers to every single element.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

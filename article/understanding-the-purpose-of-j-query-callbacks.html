@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the Purpose of jQuery $.Callbacks() - jquery</title>
+    <meta name="description" content="jQuery $.Callbacks() is a foundational utility designed to manage, organize, and execute lists of callback functions in JavaScript. It provides a robust, standardized mechanism to add, remove, and trigger sets of functions, eliminating the need to manual">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/understanding-the-purpose-of-j-query-callbacks">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding the Purpose of jQuery $.Callbacks() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/understanding-the-purpose-of-j-query-callbacks" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="jQuery $.Callbacks() is a foundational utility designed to manage, organize, and execute lists of callback functions in JavaScript. It provides a robust, standardized mechanism to add, remove, and trigger sets of functions, eliminating the need to manual" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="understanding-the-purpose-of-jquery-callbacks">Understanding the
+Purpose of jQuery $.Callbacks()</h1>
+<p>jQuery <code>$.Callbacks()</code> is a foundational utility designed
+to manage, organize, and execute lists of callback functions in
+JavaScript. It provides a robust, standardized mechanism to add, remove,
+and trigger sets of functions, eliminating the need to manually build
+custom arrays and execution loops for callbacks. While developers
+frequently interact with higher-level abstractions like
+<code>$.Deferred()</code> and <code>$.ajax()</code>,
+<code>$.Callbacks()</code> serves as the underlying engine powering
+those asynchronous operations and offers a versatile tool for building
+custom observer patterns.</p>
+<h3 id="core-purpose-and-functionality">Core Purpose and
+Functionality</h3>
+<p>The primary objective of <code>$.Callbacks()</code> is to decouple
+event emitters from event listeners. Instead of maintaining an ad-hoc
+array of functions and manually iterating through them when a specific
+event occurs, <code>$.Callbacks()</code> packages this behavior into a
+clean API.</p>
+<p>Key methods include:</p>
+<ul>
+<li><strong><code>add(fn)</code></strong>: Appends a function or an
+array of functions to the callback list.</li>
+<li><strong><code>fire(arguments)</code></strong>: Invokes all callbacks
+in the list using the supplied arguments.</li>
+<li><strong><code>remove(fn)</code></strong>: Removes a specific
+callback from the list.</li>
+<li><strong><code>empty()</code></strong>: Removes all callbacks from
+the list.</li>
+<li><strong><code>disable()</code></strong>: Disables the callback list,
+preventing any further additions or executions.</li>
+</ul>
+<h3 id="customization-via-flags">Customization via Flags</h3>
+<p>The behavior of a <code>$.Callbacks()</code> instance can be
+customized by passing optional string flags upon creation:</p>
+<ol type="1">
+<li><strong><code>once</code></strong>: Ensures the callback list can
+only be executed once. Subsequent calls to <code>.fire()</code> are
+ignored.</li>
+<li><strong><code>memory</code></strong>: Keeps track of previous
+arguments. If a new callback is added via <code>.add()</code> after the
+list has already fired, that new callback executes immediately with the
+last recorded arguments.</li>
+<li><strong><code>unique</code></strong>: Prevents the same callback
+function from being added to the list more than once.</li>
+<li><strong><code>stopOnFalse</code></strong>: Stops the execution of
+the remaining callbacks if any callback returns <code>false</code>.</li>
+</ol>
+<p>Flags can be combined using spaces (e.g.,
+<code>$.Callbacks("unique memory")</code>) to construct specialized
+behaviors.</p>
+<h3 id="practical-use-cases">Practical Use Cases</h3>
+<ul>
+<li><strong>Underpinning Deferreds and Promises</strong>: The jQuery
+Promise and Deferred implementations rely directly on
+<code>$.Callbacks("once memory")</code> to ensure asynchronous states
+(resolved or rejected) only resolve once and instantly provide values to
+handlers attached after resolution.</li>
+<li><strong>Publish/Subscribe Systems</strong>: It can serve as a
+lightweight event broker or Pub/Sub hub across different components of
+an application without requiring external libraries.</li>
+<li><strong>Lifecycle Hooks</strong>: Plugin and widget developers use
+<code>$.Callbacks()</code> to expose extensible hooks that consumers can
+bind to during specific stages of a component's lifecycle.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

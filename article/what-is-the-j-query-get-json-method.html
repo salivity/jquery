@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the jQuery $.getJSON() Method? - jquery</title>
+    <meta name="description" content="The jQuery $.getJSON() method is a specialized, shorthand utility designed to fetch JSON-encoded data from a server using an HTTP GET request. This article provides a clear overview of the purpose of $.getJSON(), its syntax, how it simplifies asynchronou">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-is-the-j-query-get-json-method">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the jQuery $.getJSON() Method? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-is-the-j-query-get-json-method" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery $.getJSON() method is a specialized, shorthand utility designed to fetch JSON-encoded data from a server using an HTTP GET request. This article provides a clear overview of the purpose of $.getJSON(), its syntax, how it simplifies asynchronou" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-is-the-jquery-getjson-method">What Is the jQuery
+$.getJSON() Method?</h1>
+<p>The jQuery <code>$.getJSON()</code> method is a specialized,
+shorthand utility designed to fetch JSON-encoded data from a server
+using an HTTP GET request. This article provides a clear overview of the
+purpose of <code>$.getJSON()</code>, its syntax, how it simplifies
+asynchronous data retrieval compared to standard AJAX calls, and
+practical examples of its implementation.</p>
+<h3 id="the-purpose-of-getjson">The Purpose of $.getJSON()</h3>
+<p>In web development, fetching data asynchronously without reloading
+the page is standard practice. While jQuery provides the versatile
+<code>$.ajax()</code> method to handle all types of asynchronous
+requests, it requires verbose configuration.</p>
+<p>The primary purpose of <code>$.getJSON()</code> is convenience. It
+streamlines the process of loading JSON data by pre-configuring an HTTP
+GET request specifically for JSON responses. Under the hood, calling
+<code>$.getJSON()</code> is functionally identical to writing:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">dataType</span><span class="op">:</span> <span class="st">&quot;json&quot;</span><span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span><span class="op">:</span> url<span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">data</span><span class="op">:</span> data<span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">success</span><span class="op">:</span> success</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>By abstracting away these boilerplate options,
+<code>$.getJSON()</code> allows developers to write cleaner, more
+readable code when consuming JSON APIs.</p>
+<h3 id="syntax-and-parameters">Syntax and Parameters</h3>
+<p>The syntax for <code>$.getJSON()</code> is straightforward:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">getJSON</span>( url [<span class="op">,</span> data ] [<span class="op">,</span> success ] )</span></code></pre></div>
+<ul>
+<li><strong><code>url</code></strong> (Required): A string containing
+the URL to which the request is sent.</li>
+<li><strong><code>data</code></strong> (Optional): A plain object or
+string sent to the server alongside the request as a query string.</li>
+<li><strong><code>success</code></strong> (Optional): A callback
+function that executes if the request succeeds. It receives the parsed
+JSON response as its first argument.</li>
+</ul>
+<h3 id="key-features-and-benefits">Key Features and Benefits</h3>
+<ol type="1">
+<li><strong>Automatic JSON Parsing</strong>: Unlike standard
+XMLHttpRequest or the native <code>fetch()</code> API, which often
+require explicitly parsing the response using <code>JSON.parse()</code>,
+<code>$.getJSON()</code> automatically parses the returned JSON string
+into a native JavaScript object or array before passing it to the
+callback.</li>
+<li><strong>Promise Support</strong>: The method returns a
+<code>jqXHR</code> object, which implements the Promise interface. This
+allows developers to chain <code>.done()</code>, <code>.fail()</code>,
+and <code>.always()</code> methods to handle success, network errors,
+and completion routines cleanly.</li>
+<li><strong>JSONP Support</strong>: If the URL includes a callback
+parameter (such as <code>?callback=?</code>), jQuery automatically
+treats the request as a JSONP (JSON with Padding) request, enabling
+cross-domain data fetching even when CORS is not enabled on the target
+server.</li>
+</ol>
+<h3 id="basic-implementation-example">Basic Implementation Example</h3>
+<p>Here is a standard example of fetching user data from a REST endpoint
+using <code>$.getJSON()</code>:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Fetch a list of users and handle the response</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">getJSON</span>(<span class="st">&quot;https://api.example.com/users&quot;</span><span class="op">,</span> { <span class="dt">limit</span><span class="op">:</span> <span class="dv">5</span> })</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">done</span>(<span class="kw">function</span>(data) {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// &#39;data&#39; is already parsed into a JavaScript array or object</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    data<span class="op">.</span><span class="fu">forEach</span>(<span class="kw">function</span>(user) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(user<span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">&quot; - &quot;</span> <span class="op">+</span> user<span class="op">.</span><span class="at">email</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">fail</span>(<span class="kw">function</span>(jqXHR<span class="op">,</span> textStatus<span class="op">,</span> errorThrown) {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Request failed: &quot;</span> <span class="op">+</span> textStatus <span class="op">+</span> <span class="st">&quot;, &quot;</span> <span class="op">+</span> errorThrown)<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span></code></pre></div>
+<h3 id="when-to-use-getjson">When to Use $.getJSON()</h3>
+<p>Use <code>$.getJSON()</code> when you only need to retrieve data via
+a <code>GET</code> request and expect a JSON response. If you need to
+perform other HTTP methods (such as <code>POST</code>, <code>PUT</code>,
+or <code>DELETE</code>), set custom HTTP headers (such as authorization
+tokens), or handle fine-grained network configurations, use the full
+<code>$.ajax()</code> method instead.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

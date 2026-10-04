@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery closest() vs parents(): Key Differences - jquery</title>
+    <meta name="description" content="While both jQuery's closest() and parents() methods are used to traverse up the Document Object Model (DOM) tree to locate ancestor elements, they behave differently in their starting points, traversal logic, and return values. Understanding these differ">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-closest-vs-parents-key-differences">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery closest() vs parents(): Key Differences - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-closest-vs-parents-key-differences" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="While both jQuery's closest() and parents() methods are used to traverse up the Document Object Model (DOM) tree to locate ancestor elements, they behave differently in their starting points, traversal logic, and return values. Understanding these differ" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-closest-vs-parents-key-differences">jQuery closest() vs
+parents(): Key Differences</h1>
+<p>While both jQuery's <code>closest()</code> and <code>parents()</code>
+methods are used to traverse up the Document Object Model (DOM) tree to
+locate ancestor elements, they behave differently in their starting
+points, traversal logic, and return values. Understanding these
+differences is essential for writing efficient DOM traversal scripts,
+handling event delegation properly, and preventing unintended element
+selections.</p>
+<h3 id="1-starting-element-of-traversal">1. Starting Element of
+Traversal</h3>
+<ul>
+<li><strong><code>closest()</code></strong>: Begins its search at the
+<strong>current element</strong>. If the element matching the initial
+selector satisfies the target criteria, <code>closest()</code> stops
+immediately and returns that element without inspecting the parent
+elements.</li>
+<li><strong><code>parents()</code></strong>: Begins its search at the
+<strong>parent element</strong>. It completely ignores the element that
+initiated the method call, regardless of whether that element matches
+the selector.</li>
+</ul>
+<h3 id="2-number-of-elements-returned">2. Number of Elements
+Returned</h3>
+<ul>
+<li><strong><code>closest()</code></strong>: Traverses up the DOM tree
+one level at a time until it finds the <em>first</em> matching ancestor.
+It stops traversal immediately upon finding a match and returns a jQuery
+object containing <strong>at most one element</strong> (0 or 1).</li>
+<li><strong><code>parents()</code></strong>: Traverses all the way up
+the DOM tree to the root element (<code>&lt;html&gt;</code>). It
+collects <strong>all matching ancestor elements</strong>, returning a
+jQuery object with zero, one, or multiple elements.</li>
+</ul>
+<h3 id="3-selector-requirements">3. Selector Requirements</h3>
+<ul>
+<li><strong><code>closest()</code></strong>: Requires a selector
+expression to define what to search for. Because its purpose is to find
+a specific target, calling it without a selector returns an empty jQuery
+object.</li>
+<li><strong><code>parents()</code></strong>: The selector expression is
+optional. If called without arguments (<code>.parents()</code>), it
+returns every ancestor element up to the root. If a selector is
+provided, it filters the ancestors to return only those that match.</li>
+</ul>
+<h3 id="example-comparison">Example Comparison</h3>
+<p>Consider the following HTML structure:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;container level-1&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;container level-2&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;target-btn&quot;</span><span class="dt">&gt;</span>Click Me<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>If you run traversal methods from <code>$('.target-btn')</code>:</p>
+<ul>
+<li><strong><code>$('.target-btn').closest('.container')</code></strong><br />
+Returns only <code>&lt;div class="container level-2"&gt;</code> because
+it stops at the first matching ancestor.</li>
+<li><strong><code>$('.target-btn').parents('.container')</code></strong><br />
+Returns both <code>&lt;div class="container level-2"&gt;</code> and
+<code>&lt;div class="container level-1"&gt;</code> in the
+collection.</li>
+<li><strong><code>$('.target-btn').closest('button')</code></strong><br />
+Returns <code>&lt;button class="target-btn"&gt;</code> because
+<code>closest()</code> checks the current element first.</li>
+<li><strong><code>$('.target-btn').parents('button')</code></strong><br />
+Returns an empty jQuery object because it ignores the current element
+and there are no other <code>&lt;button&gt;</code> tags higher in the
+tree.</li>
+</ul>
+<h3 id="summary-when-to-use-which">Summary: When to Use Which</h3>
+<p>Use <strong><code>closest()</code></strong> when you need to locate
+the nearest single ancestor (or the element itself) matching a selector,
+such as finding a specific form or wrapper during event delegation. Use
+<strong><code>parents()</code></strong> when you need to retrieve or
+iterate over multiple levels of matching ancestors across the
+hierarchy.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

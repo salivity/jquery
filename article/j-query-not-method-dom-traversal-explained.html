@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery not() Method: DOM Traversal Explained - jquery</title>
+    <meta name="description" content="The jQuery not() method is a DOM traversal and filtering tool that removes specific elements from a set of matched elements. This article explains how the not() method operates, its syntax, the different arguments it accepts, and how it simplifies DOM ma">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-not-method-dom-traversal-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery not() Method: DOM Traversal Explained - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-not-method-dom-traversal-explained" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery not() method is a DOM traversal and filtering tool that removes specific elements from a set of matched elements. This article explains how the not() method operates, its syntax, the different arguments it accepts, and how it simplifies DOM ma" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-not-method-dom-traversal-explained">jQuery not() Method:
+DOM Traversal Explained</h1>
+<p>The jQuery <code>not()</code> method is a DOM traversal and filtering
+tool that removes specific elements from a set of matched elements. This
+article explains how the <code>not()</code> method operates, its syntax,
+the different arguments it accepts, and how it simplifies DOM
+manipulation by filtering out unwanted nodes from your selection.</p>
+<h2 id="what-is-the-jquery-not-method">What is the jQuery not()
+Method?</h2>
+<p>The <code>not()</code> method constructs a new jQuery object from a
+subset of the matching elements, excluding any element that matches the
+specified criteria. In essence, it acts as the direct opposite of
+jQuery's <code>.filter()</code> method. Instead of selecting what you
+want to keep, you define what you want to discard.</p>
+<h2 id="basic-syntax">Basic Syntax</h2>
+<p>The basic syntax for the <code>not()</code> method is:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(selector)<span class="op">.</span><span class="fu">not</span>(criteria<span class="op">,</span> <span class="kw">function</span>(index))</span></code></pre></div>
+<p>The method accepts a single argument representing the criteria for
+removal:</p>
+<ul>
+<li><strong>Selector Expression:</strong> A string containing a CSS
+selector (e.g., <code>".highlight"</code>, <code>"#main"</code>, or
+<code>":disabled"</code>).</li>
+<li><strong>DOM Element or Array of Elements:</strong> Direct references
+to one or more DOM elements to remove from the collection.</li>
+<li><strong>jQuery Object:</strong> An existing jQuery object containing
+elements to be excluded.</li>
+<li><strong>Function:</strong> A testing function that runs against each
+element in the set; returning <code>true</code> excludes that
+element.</li>
+</ul>
+<h2 id="how-it-traverses-and-filters-the-dom">How it Traverses and
+Filters the DOM</h2>
+<p>When you run an initial jQuery query, such as <code>$('p')</code>,
+jQuery builds an internal array-like object containing references to all
+matching <code>&lt;p&gt;</code> elements in the document.</p>
+<p>When you chain <code>.not()</code>, jQuery iterates through that
+existing list and evaluates each element against the condition passed
+into <code>not()</code>. Any element that matches the argument is
+excluded from the new collection returned by the method. The original
+DOM structure is completely untouched; only the active jQuery selection
+in memory changes.</p>
+<h3 id="example-filtering-by-class-selector">Example: Filtering by Class
+Selector</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Selects all &lt;li&gt; elements except those with the class &#39;disabled&#39;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;li&#39;</span>)<span class="op">.</span><span class="fu">not</span>(<span class="st">&#39;.disabled&#39;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;color&#39;</span><span class="op">,</span> <span class="st">&#39;blue&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>In this scenario, jQuery finds all <code>&lt;li&gt;</code> tags,
+checks each one for the <code>.disabled</code> class, strips out the
+matches, and applies the CSS rule only to the remaining list items.</p>
+<h3 id="example-filtering-with-a-function">Example: Filtering with a
+Function</h3>
+<p>You can pass a function to create more dynamic or complex exclusion
+logic:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;div&#39;</span>)<span class="op">.</span><span class="fu">not</span>(<span class="kw">function</span>(index) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">children</span>(<span class="st">&#39;span&#39;</span>)<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;no-spans&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>Here, the function checks each <code>&lt;div&gt;</code>. If a
+<code>&lt;div&gt;</code> contains a <code>&lt;span&gt;</code> child, the
+function returns <code>true</code>, and jQuery excludes that
+<code>&lt;div&gt;</code> from the final selection.</p>
+<h2 id="difference-between-not-and-the-not-selector">Difference Between
+.not() and the :not() Selector</h2>
+<p>While <code>.not()</code> and the CSS <code>:not()</code>
+pseudo-class achieve similar outcomes, their usage contexts differ:</p>
+<ul>
+<li><strong><code>:not()</code> Selector:</strong>
+<code>$('li:not(.active)')</code> filters elements during the initial
+query execution.</li>
+<li><strong><code>.not()</code> Method:</strong>
+<code>$('li').not('.active')</code> filters elements after an initial
+selection has already been created.</li>
+</ul>
+<p>Using the <code>.not()</code> method provides greater flexibility
+when you are dealing with pre-existing jQuery objects, passing dynamic
+DOM references, or executing complex exclusion functions that cannot be
+expressed with standard CSS selectors.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

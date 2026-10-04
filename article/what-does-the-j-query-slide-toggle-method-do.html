@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does the jQuery slideToggle Method Do? - jquery</title>
+    <meta name="description" content="The jQuery slideToggle() method is an animation function used to alternate the visibility of selected HTML elements through a sliding vertical motion. This article explains how slideToggle() operates, its standard syntax and parameters, and how it simpli">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-does-the-j-query-slide-toggle-method-do">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does the jQuery slideToggle Method Do? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-does-the-j-query-slide-toggle-method-do" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery slideToggle() method is an animation function used to alternate the visibility of selected HTML elements through a sliding vertical motion. This article explains how slideToggle() operates, its standard syntax and parameters, and how it simpli" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-does-the-jquery-slidetoggle-method-do">What Does the jQuery
+slideToggle Method Do?</h1>
+<p>The jQuery <code>slideToggle()</code> method is an animation function
+used to alternate the visibility of selected HTML elements through a
+sliding vertical motion. This article explains how
+<code>slideToggle()</code> operates, its standard syntax and parameters,
+and how it simplifies building interactive components like dropdown
+menus and expandable FAQ sections.</p>
+<h3 id="core-functionality-of-slidetoggle">Core Functionality of
+slideToggle()</h3>
+<p>The primary purpose of <code>slideToggle()</code> is to toggle
+between displaying and hiding elements by animating their heights.
+Instead of manually writing logic to check whether an element is visible
+or hidden, <code>slideToggle()</code> checks the current visibility
+state of the selected element automatically:</p>
+<ul>
+<li>If the element is currently visible, <code>slideToggle()</code>
+animates its height down to zero (equivalent to <code>.slideUp()</code>)
+and sets its CSS <code>display</code> property to
+<code>none</code>.</li>
+<li>If the element is hidden (i.e., <code>display: none</code>),
+<code>slideToggle()</code> restores its original height with a downward
+sliding motion (equivalent to <code>.slideDown()</code>) and sets the
+<code>display</code> property back to its default value (such as
+<code>block</code> or <code>inline-block</code>).</li>
+</ul>
+<p>During the animation, jQuery also animates the top and bottom padding
+and margins to ensure the transition is smooth.</p>
+<h3 id="syntax-and-parameters">Syntax and Parameters</h3>
+<p>The standard syntax for the method is:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(selector)<span class="op">.</span><span class="fu">slideToggle</span>(speed<span class="op">,</span> easing<span class="op">,</span> callback)<span class="op">;</span></span></code></pre></div>
+<p>All parameters are optional:</p>
+<ul>
+<li><strong>speed (duration):</strong> Specifies the duration of the
+sliding animation. It can be defined in milliseconds (e.g.,
+<code>400</code>, <code>1000</code>) or using predefined strings such as
+<code>"slow"</code> (600ms) or <code>"fast"</code> (200ms). The default
+duration is 400 milliseconds.</li>
+<li><strong>easing:</strong> Determines the speed curve of the
+animation. The default values provided by jQuery core are
+<code>"swing"</code> (slower at the beginning and end) and
+<code>"linear"</code> (constant speed throughout).</li>
+<li><strong>callback:</strong> A function executed immediately after the
+sliding animation completes. This is useful for chaining actions or
+updating UI state after an element finishes expanding or
+collapsing.</li>
+</ul>
+<h3 id="basic-code-example">Basic Code Example</h3>
+<p>Here is a practical example showing how to toggle a content panel on
+a button click:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;toggleBtn&quot;</span><span class="dt">&gt;</span>Toggle Content<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;contentPanel&quot;</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;display: none;&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>This content slides up and down when the button is clicked.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">$</span>(<span class="st">&quot;#toggleBtn&quot;</span>)<span class="op">.</span><span class="fu">click</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;#contentPanel&quot;</span>)<span class="op">.</span><span class="fu">slideToggle</span>(<span class="st">&quot;fast&quot;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Animation complete.&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="common-use-cases">Common Use Cases</h3>
+<p>The <code>slideToggle()</code> method is frequently used in user
+interface design to conserve screen space and improve readability.
+Common applications include:</p>
+<ul>
+<li><strong>Accordion Widgets:</strong> Revealing and hiding answers in
+FAQ lists.</li>
+<li><strong>Mobile Navigation Menus:</strong> Expanding and collapsing
+hamburger menu lists.</li>
+<li><strong>Collapsible Panels:</strong> Allowing users to show or hide
+secondary dashboard widgets or settings panels.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

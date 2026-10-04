@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Set Global AJAX Defaults with jQuery $.ajaxSetup() - jquery</title>
+    <meta name="description" content="This article explains how to configure global AJAX defaults in jQuery using the $.ajaxSetup() method. You will learn the syntax, explore practical code examples for common configurations such as authentication headers, timeouts, and error handling, and d">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-set-global-ajax-defaults-with-j-query-ajax-setup">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Set Global AJAX Defaults with jQuery $.ajaxSetup() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-set-global-ajax-defaults-with-j-query-ajax-setup" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how to configure global AJAX defaults in jQuery using the $.ajaxSetup() method. You will learn the syntax, explore practical code examples for common configurations such as authentication headers, timeouts, and error handling, and d" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-set-global-ajax-defaults-with-jquery-ajaxsetup">How to
+Set Global AJAX Defaults with jQuery $.ajaxSetup()</h1>
+<p>This article explains how to configure global AJAX defaults in jQuery
+using the <code>$.ajaxSetup()</code> method. You will learn the syntax,
+explore practical code examples for common configurations such as
+authentication headers, timeouts, and error handling, and discover best
+practices for managing global settings without unintended side effects
+across your application.</p>
+<hr />
+<h3 id="what-is-ajaxsetup">What is <code>$.ajaxSetup()</code>?</h3>
+<p>The <code>$.ajaxSetup()</code> method allows you to define default
+configuration options for all future jQuery AJAX requests on a page,
+including <code>$.ajax()</code>, <code>$.get()</code>,
+<code>$.post()</code>, and <code>$.getJSON()</code>. Any options passed
+to <code>$.ajaxSetup()</code> serve as the fallback configuration unless
+explicitly overridden in an individual request.</p>
+<h3 id="syntax">Syntax</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajaxSetup</span>(options)<span class="op">;</span></span></code></pre></div>
+<ul>
+<li><strong><code>options</code></strong>: An object containing
+key-value pairs representing the default settings to apply to subsequent
+AJAX calls.</li>
+</ul>
+<hr />
+<h3 id="common-use-cases-and-examples">Common Use Cases and
+Examples</h3>
+<h4 id="1-setting-common-headers-eg-csrf-and-authorization">1. Setting
+Common Headers (e.g., CSRF and Authorization)</h4>
+<p>One of the most frequent uses of <code>$.ajaxSetup()</code> is
+attaching security tokens or authentication headers to every request
+automatically.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajaxSetup</span>({</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">headers</span><span class="op">:</span> {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;X-CSRF-TOKEN&#39;</span><span class="op">:</span> <span class="fu">$</span>(<span class="st">&#39;meta[name=&quot;csrf-token&quot;]&#39;</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">&#39;content&#39;</span>)<span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;Authorization&#39;</span><span class="op">:</span> <span class="st">&#39;Bearer &#39;</span> <span class="op">+</span> localStorage<span class="op">.</span><span class="fu">getItem</span>(<span class="st">&#39;auth_token&#39;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">// Subsequent requests automatically include these headers</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">post</span>(<span class="st">&#39;/api/profile/update&#39;</span><span class="op">,</span> { <span class="dt">name</span><span class="op">:</span> <span class="st">&#39;Jane Doe&#39;</span> })<span class="op">;</span></span></code></pre></div>
+<h4 id="2-configuring-global-timeouts-and-cache-control">2. Configuring
+Global Timeouts and Cache Control</h4>
+<p>You can enforce a universal timeout and disable caching for
+<code>GET</code> requests globally.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajaxSetup</span>({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timeout</span><span class="op">:</span> <span class="dv">5000</span><span class="op">,</span> <span class="co">// Abort requests that take longer than 5 seconds</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">cache</span><span class="op">:</span> <span class="kw">false</span>   <span class="co">// Append a timestamp to GET URLs to bypass browser cache</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h4 id="3-defining-global-callbacks-and-error-handling">3. Defining
+Global Callbacks and Error Handling</h4>
+<p>You can define hooks like <code>beforeSend</code>,
+<code>complete</code>, or <code>error</code> to run during the lifecycle
+of every request.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajaxSetup</span>({</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">beforeSend</span><span class="op">:</span> <span class="kw">function</span>(xhr<span class="op">,</span> settings) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Show a global loading spinner</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="st">&#39;#loading-spinner&#39;</span>)<span class="op">.</span><span class="fu">show</span>()<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">complete</span><span class="op">:</span> <span class="kw">function</span>(xhr<span class="op">,</span> status) {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Hide the global loading spinner</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="st">&#39;#loading-spinner&#39;</span>)<span class="op">.</span><span class="fu">hide</span>()<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">error</span><span class="op">:</span> <span class="kw">function</span>(xhr<span class="op">,</span> status<span class="op">,</span> error) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (xhr<span class="op">.</span><span class="at">status</span> <span class="op">===</span> <span class="dv">401</span>) {</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Redirect to login if unauthorized</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            <span class="bu">window</span><span class="op">.</span><span class="at">location</span><span class="op">.</span><span class="at">href</span> <span class="op">=</span> <span class="st">&#39;/login&#39;</span><span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;AJAX Error:&#39;</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<hr />
+<h3 id="overriding-global-defaults">Overriding Global Defaults</h3>
+<p>Global settings do not lock you into fixed parameters. Any option set
+in <code>$.ajaxSetup()</code> can be overridden by passing a different
+value directly into an individual AJAX call.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// This request will wait up to 15 seconds instead of the global 5-second default</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;/api/generate-report&#39;</span><span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">method</span><span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timeout</span><span class="op">:</span> <span class="dv">15000</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<hr />
+<h3 id="important-considerations">Important Considerations</h3>
+<ol type="1">
+<li><strong>Global Scope:</strong> <code>$.ajaxSetup()</code> alters
+settings globally. If third-party plugins or scripts on your page rely
+on jQuery's default AJAX behavior, modified global defaults may cause
+unexpected behavior in those components.</li>
+<li><strong>Alternative for Global Events:</strong> For tracking global
+application state (such as showing/hiding spinners or centralizing error
+notifications), jQuery provides global event handlers such as
+<code>$(document).ajaxStart()</code>,
+<code>$(document).ajaxStop()</code>, and
+<code>$(document).ajaxError()</code>. These handlers are often safer
+alternatives for UI-related tasks than modifying
+<code>$.ajaxSetup()</code>.</li>
+</ol></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

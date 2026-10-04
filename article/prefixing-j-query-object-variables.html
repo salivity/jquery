@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prefixing jQuery Object Variables - jquery</title>
+    <meta name="description" content="This article provides a clear overview of the industry-standard naming convention for jQuery object variables in JavaScript development. You will learn the specific prefix used by developers worldwide, the technical reasoning behind this practice, and ho">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/prefixing-j-query-object-variables">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Prefixing jQuery Object Variables - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/prefixing-j-query-object-variables" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a clear overview of the industry-standard naming convention for jQuery object variables in JavaScript development. You will learn the specific prefix used by developers worldwide, the technical reasoning behind this practice, and ho" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="prefixing-jquery-object-variables">Prefixing jQuery Object
+Variables</h1>
+<p>This article provides a clear overview of the industry-standard
+naming convention for jQuery object variables in JavaScript development.
+You will learn the specific prefix used by developers worldwide, the
+technical reasoning behind this practice, and how adhering to this
+convention prevents performance bottlenecks and improves code
+readability.</p>
+<h3 id="the-standard-convention-the--prefix">The Standard Convention:
+The <code>$</code> Prefix</h3>
+<p>The universal convention for naming variables that store jQuery
+objects is to prefix the variable name with a dollar sign
+(<code>$</code>).</p>
+<p>When a variable is assigned the result of a jQuery selector or
+constructor, it contains a jQuery wrapper around one or more DOM
+elements, rather than a raw DOM node or a standard JavaScript data
+type.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Recommended: The variable contains a jQuery object</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> $submitButton <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;#submit-btn&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> $navigationLinks <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;nav a&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Non-prefixed: Typically reserved for native DOM elements or plain data</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> submitButton <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;submit-btn&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> buttonText <span class="op">=</span> <span class="st">&#39;Submit&#39;</span><span class="op">;</span></span></code></pre></div>
+<h3 id="why-use-the-dollar-sign-prefix">Why Use the Dollar Sign
+Prefix?</h3>
+<h4 id="1-distinguishing-jquery-objects-from-native-dom-elements">1.
+Distinguishing jQuery Objects from Native DOM Elements</h4>
+<p>A native DOM element and a jQuery-wrapped object have entirely
+different APIs. A native element provides access to properties like
+<code>element.innerHTML</code> or
+<code>element.addEventListener()</code>. A jQuery object provides access
+to jQuery methods like <code>$element.html()</code> or
+<code>$element.on()</code>. Prefixing with <code>$</code> immediately
+clarifies which methods and properties are available without needing to
+trace the variable back to its declaration.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Native DOM element</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> userContainer <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">&#39;.user-container&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>userContainer<span class="op">.</span><span class="at">classList</span><span class="op">.</span><span class="fu">add</span>(<span class="st">&#39;active&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">// jQuery object</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> $userContainer <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;.user-container&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>$userContainer<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;active&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<h4 id="2-preventing-redundant-dom-lookups-caching">2. Preventing
+Redundant DOM Lookups (Caching)</h4>
+<p>Querying the DOM repeatedly with <code>$('#item')</code> creates
+performance overhead because the browser has to traverse the DOM tree on
+every call. Caching the result in a variable solves this issue. The
+<code>$</code> prefix indicates that the selector has already been
+evaluated and cached.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Inefficient: Repeated DOM queries</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#item&#39;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;highlight&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#item&#39;</span>)<span class="op">.</span><span class="fu">text</span>(<span class="st">&#39;Updated&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Efficient: Caching with the prefix convention</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> $item <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;#item&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>$item<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&#39;highlight&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>$item<span class="op">.</span><span class="fu">text</span>(<span class="st">&#39;Updated&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<h4 id="3-avoiding-double-wrapping">3. Avoiding Double-Wrapping</h4>
+<p>Developers often accidentally wrap an existing jQuery object inside
+another jQuery call, such as <code>$($cachedItem)</code>. While jQuery
+handles this without throwing an error, it creates an unnecessary object
+allocation. The prefix makes it obvious that the variable is already a
+jQuery collection:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> $sidebar <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;.sidebar&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Clearly redundant:</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">// $($sidebar).show();</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Correct:</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>$sidebar<span class="op">.</span><span class="fu">show</span>()<span class="op">;</span></span></code></pre></div>
+<h3 id="summary-of-best-practices">Summary of Best Practices</h3>
+<ul>
+<li><strong>Use <code>$</code> for jQuery wrappers:</strong> Prefix any
+variable holding a jQuery object with <code>$</code> (e.g.,
+<code>$header</code>, <code>$modalWindow</code>).</li>
+<li><strong>Omit <code>$</code> for native DOM references:</strong> Keep
+native element variables standard (e.g., <code>headerElement</code>,
+<code>modalWindow</code>).</li>
+<li><strong>Maintain consistency:</strong> Apply camelCase formatting
+after the dollar sign (e.g., <code>$mainContainer</code>, not
+<code>$main_container</code>).</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

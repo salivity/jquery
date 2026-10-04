@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIFE in jQuery Plugin Development - jquery</title>
+    <meta name="description" content="Immediately Invoked Function Expressions (IIFEs) are a foundational pattern in jQuery plugin development, providing a mechanism to execute code as soon as it is defined. This article explores the significance of IIFEs in building plugins, focusing on how">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/iife-in-j-query-plugin-development">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="IIFE in jQuery Plugin Development - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/iife-in-j-query-plugin-development" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Immediately Invoked Function Expressions (IIFEs) are a foundational pattern in jQuery plugin development, providing a mechanism to execute code as soon as it is defined. This article explores the significance of IIFEs in building plugins, focusing on how" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="iife-in-jquery-plugin-development">IIFE in jQuery Plugin
+Development</h1>
+<p>Immediately Invoked Function Expressions (IIFEs) are a foundational
+pattern in jQuery plugin development, providing a mechanism to execute
+code as soon as it is defined. This article explores the significance of
+IIFEs in building plugins, focusing on how they prevent global namespace
+pollution, ensure safe usage of the <code>$</code> shortcut across
+conflicting libraries, and optimize code for minification and
+encapsulation.</p>
+<h2 id="what-is-an-iife-in-jquery">What is an IIFE in jQuery?</h2>
+<p>An IIFE is a JavaScript function that runs immediately upon
+declaration. In jQuery development, it typically follows this
+structure:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">function</span>($) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Plugin code goes here</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>})(jQuery)<span class="op">;</span></span></code></pre></div>
+<p>By wrapping the plugin code within this construct, developers pass
+the global <code>jQuery</code> object as an argument into the function,
+where it is mapped locally to the <code>$</code> parameter.</p>
+<h2 id="preventing-global-namespace-pollution">Preventing Global
+Namespace Pollution</h2>
+<p>JavaScript variables declared without proper scoping risk leaking
+into the global <code>window</code> object. In large applications,
+global collisions can lead to unpredictable bugs and overwrite existing
+variables or functions.</p>
+<p>An IIFE creates a closed, private execution context. Any helper
+functions, configuration constants, or internal state variables defined
+inside the expression remain inaccessible from the outside world. Only
+the methods and properties explicitly attached to <code>jQuery.fn</code>
+are exposed as the public API of the plugin.</p>
+<h2 id="resolving-the--alias-conflict">Resolving the <code>$</code>
+Alias Conflict</h2>
+<p>jQuery commonly uses the <code>$</code> symbol as a shorthand alias.
+However, other popular JavaScript libraries—such as Prototype, MooTools,
+and Backbone—also use or have historically used the <code>$</code>
+identifier.</p>
+<p>When developers use jQuery's <code>noConflict()</code> mode, the
+global <code>$</code> alias is relinquished to prevent library
+collisions. Without an IIFE, writing plugins that rely on <code>$</code>
+would cause runtime errors in such environments.</p>
+<p>Passing <code>jQuery</code> into the IIFE and receiving it as
+<code>$</code> ensures that the alias works reliably inside the plugin's
+local scope, regardless of how <code>$</code> is defined globally.</p>
+<h2 id="safe-minification-and-performance-optimization">Safe
+Minification and Performance Optimization</h2>
+<p>IIFEs often take additional parameters beyond <code>jQuery</code>,
+such as <code>window</code>, <code>document</code>, and sometimes
+<code>undefined</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">function</span>($<span class="op">,</span> <span class="bu">window</span><span class="op">,</span> <span class="bu">document</span><span class="op">,</span> <span class="kw">undefined</span>) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Plugin logic</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>})(jQuery<span class="op">,</span> <span class="bu">window</span><span class="op">,</span> <span class="bu">document</span>)<span class="op">;</span></span></code></pre></div>
+<p>This pattern provides two specific technical advantages:</p>
+<ol type="1">
+<li><strong>Minification:</strong> JavaScript minifiers cannot rename
+global variables like <code>window</code> or <code>document</code>.
+Passing them as local function parameters allows minifiers to reduce
+their names to single-letter variables (e.g., <code>w</code>,
+<code>d</code>), significantly reducing overall file size.</li>
+<li><strong>Protection Against <code>undefined</code> Mutation:</strong>
+In older ECMAScript standards (ES3), <code>undefined</code> was mutable
+and could be reassigned globally. Leaving the final parameter blank
+ensures that the local <code>undefined</code> argument genuinely
+evaluates to <code>undefined</code>.</li>
+</ol>
+<h2 id="clean-plugin-architecture">Clean Plugin Architecture</h2>
+<p>Using an IIFE establishes a clean separation between private
+implementation details and the public jQuery interface. It enables
+developers to structure plugins using standard design patterns, such as
+the Module Pattern, while keeping the extension of <code>$.fn</code>
+isolated and robust against external environmental changes.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

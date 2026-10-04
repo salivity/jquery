@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery :even and :odd Selectors for Index Parity - jquery</title>
+    <meta name="description" content="Selecting elements based on their index parity in jQuery is achieved using the :even and :odd positional pseudo-class selectors. This article covers how these selectors operate on a zero-based index system, how to implement them in your scripts, and how">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-even-and-odd-selectors-for-index-parity">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery :even and :odd Selectors for Index Parity - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-even-and-odd-selectors-for-index-parity" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Selecting elements based on their index parity in jQuery is achieved using the :even and :odd positional pseudo-class selectors. This article covers how these selectors operate on a zero-based index system, how to implement them in your scripts, and how" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-even-and-odd-selectors-for-index-parity">jQuery :even and
+:odd Selectors for Index Parity</h1>
+<p>Selecting elements based on their index parity in jQuery is achieved
+using the <code>:even</code> and <code>:odd</code> positional
+pseudo-class selectors. This article covers how these selectors operate
+on a zero-based index system, how to implement them in your scripts, and
+how to apply them to common use cases such as alternating row styles in
+lists or tables.</p>
+<h3 id="understanding-zero-based-indexing">Understanding Zero-Based
+Indexing</h3>
+<p>jQuery uses a zero-based indexing system for its elements. This means
+the count begins at <code>0</code> rather than <code>1</code>.
+Consequently, the index parity behaves as follows:</p>
+<ul>
+<li><strong>Index 0 (1st DOM element):</strong> Considered
+<strong>even</strong></li>
+<li><strong>Index 1 (2nd DOM element):</strong> Considered
+<strong>odd</strong></li>
+<li><strong>Index 2 (3rd DOM element):</strong> Considered
+<strong>even</strong></li>
+<li><strong>Index 3 (4th DOM element):</strong> Considered
+<strong>odd</strong></li>
+</ul>
+<p>Because the first visible element has an index of <code>0</code>, the
+<code>:even</code> selector targets the 1st, 3rd, 5th, and subsequent
+odd-numbered visual elements. The <code>:odd</code> selector targets the
+2nd, 4th, 6th, and subsequent even-numbered visual elements.</p>
+<h3 id="the-even-selector">The <code>:even</code> Selector</h3>
+<p>The <code>:even</code> selector matches all elements that have an
+even index number within the matched set.</p>
+<p><strong>Syntax:</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;selector:even&quot;</span>)</span></code></pre></div>
+<p><strong>Example:</strong> To select all even-indexed list items and
+apply a background color:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;li:even&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;background-color&quot;</span><span class="op">,</span> <span class="st">&quot;#f2f2f2&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This applies styling to the first, third, fifth, and all subsequent
+alternating list items.</p>
+<h3 id="the-odd-selector">The <code>:odd</code> Selector</h3>
+<p>The <code>:odd</code> selector matches all elements that have an odd
+index number within the matched set.</p>
+<p><strong>Syntax:</strong></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;selector:odd&quot;</span>)</span></code></pre></div>
+<p><strong>Example:</strong> To select all odd-indexed list items and
+apply a background color:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;li:odd&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;background-color&quot;</span><span class="op">,</span> <span class="st">&quot;#ffffff&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This applies styling to the second, fourth, sixth, and all subsequent
+alternating list items.</p>
+<h3 id="practical-implementation-zebra-striped-table">Practical
+Implementation: Zebra-Striped Table</h3>
+<p>A standard use case for index parity selection is creating
+zebra-striped table rows for improved readability.</p>
+<p><strong>HTML:</strong></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">table</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;data-table&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>Row 1 (Index 0)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>Row 2 (Index 1)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>Row 3 (Index 2)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>Row 4 (Index 3)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">table</span><span class="dt">&gt;</span></span></code></pre></div>
+<p><strong>jQuery:</strong></p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">ready</span>(<span class="kw">function</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Apply gray background to the 1st and 3rd rows</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">$</span>(<span class="st">&quot;#data-table tr:even&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;background-color&quot;</span><span class="op">,</span> <span class="st">&quot;#e0e0e0&quot;</span>)<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Apply white background to the 2nd and 4th rows</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">$</span>(<span class="st">&quot;#data-table tr:odd&quot;</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;background-color&quot;</span><span class="op">,</span> <span class="st">&quot;#ffffff&quot;</span>)<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="contextual-filtering-with-filter">Contextual Filtering with
+<code>.filter()</code></h3>
+<p>You can also use <code>.filter()</code> alongside <code>:even</code>
+and <code>:odd</code> to chain methods or refine existing jQuery
+collections:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> $rows <span class="op">=</span> <span class="fu">$</span>(<span class="st">&quot;#data-table tr&quot;</span>)<span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>$rows<span class="op">.</span><span class="fu">filter</span>(<span class="st">&quot;:even&quot;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&quot;row-even&quot;</span>)<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>$rows<span class="op">.</span><span class="fu">filter</span>(<span class="st">&quot;:odd&quot;</span>)<span class="op">.</span><span class="fu">addClass</span>(<span class="st">&quot;row-odd&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<p>This approach allows you to cache the main selector query first,
+improving DOM traversal performance when dealing with large
+datasets.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

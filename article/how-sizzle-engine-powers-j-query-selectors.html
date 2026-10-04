@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Sizzle Engine Powers jQuery Selectors - jquery</title>
+    <meta name="description" content="This article explains how the Sizzle selector engine operates behind the scenes in jQuery to query, filter, and retrieve Document Object Model (DOM) elements. It covers the delegation process from jQuery to Sizzle, native browser optimizations, tokenizat">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-sizzle-engine-powers-j-query-selectors">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Sizzle Engine Powers jQuery Selectors - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-sizzle-engine-powers-j-query-selectors" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how the Sizzle selector engine operates behind the scenes in jQuery to query, filter, and retrieve Document Object Model (DOM) elements. It covers the delegation process from jQuery to Sizzle, native browser optimizations, tokenizat" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-sizzle-engine-powers-jquery-selectors">How Sizzle Engine
+Powers jQuery Selectors</h1>
+<p>This article explains how the Sizzle selector engine operates behind
+the scenes in jQuery to query, filter, and retrieve Document Object
+Model (DOM) elements. It covers the delegation process from jQuery to
+Sizzle, native browser optimizations, tokenization mechanisms,
+right-to-left traversal strategies, and how custom pseudo-selectors are
+handled consistently across different browsers.</p>
+<h2 id="delegation-from-jquery-to-sizzle">Delegation from jQuery to
+Sizzle</h2>
+<p>When you execute a selection query like
+<code>$('div.container &gt; p')</code>, jQuery passes the selector
+string directly to Sizzle. Sizzle is a standalone, pure-JavaScript CSS
+selector engine designed to navigate the DOM tree efficiently. Instead
+of reinventing DOM querying mechanics inside the core jQuery library,
+jQuery uses Sizzle as its dedicated parsing and evaluation engine.</p>
+<h2 id="native-method-fast-paths">Native Method Fast-Paths</h2>
+<p>Before performing complex parsing, Sizzle checks if the query can be
+resolved using high-performance, native browser methods:</p>
+<ul>
+<li><strong>Direct Lookups:</strong> Simple queries using single IDs,
+class names, or tag names are routed immediately to
+<code>document.getElementById</code>,
+<code>document.getElementsByClassName</code>, or
+<code>document.getElementsByTagName</code>.</li>
+<li><strong><code>querySelectorAll</code> Execution:</strong> If the
+selector is standard CSS, Sizzle attempts to delegate the entire query
+to the browser's native <code>document.querySelectorAll</code> (qSA).
+Sizzle tests the browser's qSA implementation on startup to detect known
+bugs, escaping or bypassing native execution only when a query hits an
+engine-specific quirk.</li>
+</ul>
+<h2 id="tokenization-and-parsing">Tokenization and Parsing</h2>
+<p>When a selector cannot be resolved directly via native methods—such
+as when it includes jQuery-specific extensions—Sizzle breaks down the
+selector string through tokenization.</p>
+<p>Using regular expressions, Sizzle splits the selector into atomic
+chunks called tokens. Each token represents an element type, attribute,
+class, ID, pseudo-class, or combinator (such as <code>&gt;</code>,
+<code>+</code>, or <code>~</code>). These tokens are structured into a
+sequence of operations that can be evaluated programmatically.</p>
+<h2 id="right-to-left-traversal">Right-to-Left Traversal</h2>
+<p>Sizzle evaluates selectors from right to left, matching the standard
+optimization strategy used by modern browser rendering engines:</p>
+<ol type="1">
+<li><strong>Seed Set Creation:</strong> Sizzle evaluates the rightmost
+token (the "key selector") first to find an initial collection of
+candidate elements. For example, in <code>div.content ul li a</code>,
+Sizzle first queries all <code>&lt;a&gt;</code> tags.</li>
+<li><strong>Upward Filtering:</strong> Once the initial seed set is
+gathered, Sizzle traverses up the DOM hierarchy for each element,
+checking whether its parent or ancestor nodes satisfy the preceding
+tokens (<code>li</code>, <code>ul</code>, and
+<code>div.content</code>).</li>
+</ol>
+<p>Filtering from the bottom up eliminates non-matching branches
+immediately, substantially reducing the number of DOM node comparisons
+compared to a left-to-right search.</p>
+<h2 id="compilation-and-caching">Compilation and Caching</h2>
+<p>To avoid parsing identical selector strings repeatedly, Sizzle
+includes a selector compiler. It generates a reusable JavaScript closure
+for a given selector pattern:</p>
+<ul>
+<li><strong>Token Caching:</strong> Frequently used selectors are cached
+in memory.</li>
+<li><strong>Matcher Functions:</strong> Sizzle dynamically builds
+matching functions that combine multiple token checks into a single
+streamlined loop, executing condition checks directly against DOM
+elements.</li>
+</ul>
+<h2 id="handling-custom-jquery-extensions">Handling Custom jQuery
+Extensions</h2>
+<p>Standard browser APIs fail when encountering non-standard selectors
+like <code>:animated</code>, <code>:visible</code>, or
+<code>:has()</code>. Sizzle accommodates these by maintaining a registry
+of custom pseudo-selectors.</p>
+<p>When Sizzle identifies a custom jQuery pseudo-class during
+tokenization, it falls back to a JavaScript-driven loop, testing each
+candidate node against the custom function's logic. This design allows
+jQuery to extend CSS selector syntax while maintaining cross-browser
+compatibility and predictable behavior.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

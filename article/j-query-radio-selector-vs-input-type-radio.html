@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Radio Selector vs Input Type Radio - jquery</title>
+    <meta name="description" content="In jQuery, developers can target radio buttons using either the specialized pseudo-selector $(':radio') or the standard CSS attribute selector $('input[type="radio"]'). While both approaches achieve the same functional result of selecting radio inputs on">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-radio-selector-vs-input-type-radio">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery Radio Selector vs Input Type Radio - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-radio-selector-vs-input-type-radio" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In jQuery, developers can target radio buttons using either the specialized pseudo-selector $(':radio') or the standard CSS attribute selector $('input[type="radio"]'). While both approaches achieve the same functional result of selecting radio inputs on" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-radio-selector-vs-input-type-radio">jQuery Radio Selector
+vs Input Type Radio</h1>
+<p>In jQuery, developers can target radio buttons using either the
+specialized pseudo-selector <code>$(':radio')</code> or the standard CSS
+attribute selector <code>$('input[type="radio"]')</code>. While both
+approaches achieve the same functional result of selecting radio inputs
+on a page, they differ significantly in DOM traversal scope, execution
+performance, and compatibility with native browser APIs. Understanding
+these differences is essential for writing efficient, future-proof
+JavaScript.</p>
+<h3 id="selector-scope-and-parsing">Selector Scope and Parsing</h3>
+<p>The primary structural difference lies in how each selector defines
+the search scope:</p>
+<ul>
+<li><strong><code>$(':radio')</code></strong>: This is a custom jQuery
+pseudo-selector. Because it lacks a specified tag name, it is treated as
+an alias for <code>$('*[type="radio"]')</code>. This forces jQuery to
+evaluate every element in the DOM to determine whether it matches the
+criteria, unless explicitly qualified as
+<code>$('input:radio')</code>.</li>
+<li><strong><code>$('input[type="radio"]')</code></strong>: This is a
+standard CSS selector. It explicitly limits the query to
+<code>&lt;input&gt;</code> elements before filtering by the
+<code>type</code> attribute, drastically narrowing down the pool of
+nodes the browser needs to inspect.</li>
+</ul>
+<h3 id="performance-and-the-native-query-engine">Performance and the
+Native Query Engine</h3>
+<p>Modern browsers feature highly optimized native query methods,
+specifically <code>document.querySelectorAll()</code>.</p>
+<p>When you pass a standard selector like
+<code>$('input[type="radio"]')</code>, jQuery can delegate the query
+directly to the browser's native engine. This execution happens in
+compiled C++ code, making it exceptionally fast.</p>
+<p>In contrast, <code>:radio</code> is not a valid CSS selector and
+cannot be processed directly by <code>querySelectorAll()</code>. When
+the browser's native query engine fails to parse it, jQuery must rely on
+its own JavaScript-based selector engine (Sizzle) to traverse and filter
+DOM elements manually. This creates unnecessary JavaScript overhead and
+leads to measurable performance drops, especially in large, complex
+documents.</p>
+<h3 id="modern-standards-and-best-practices">Modern Standards and Best
+Practices</h3>
+<p>jQuery’s custom pseudo-selectors—such as <code>:radio</code>,
+<code>:checkbox</code>, and <code>:button</code>—were introduced before
+modern CSS selectors and <code>querySelectorAll</code> were universally
+supported. Today, relying on non-standard extensions is considered an
+anti-pattern.</p>
+<p>Using standard CSS attribute selectors
+(<code>input[type="radio"]</code>) offers distinct advantages:</p>
+<ul>
+<li><strong>Portability:</strong> The exact same selector string works
+identically in vanilla JavaScript (<code>document.querySelector</code>)
+and other libraries.</li>
+<li><strong>Maintainability:</strong> It aligns with standard CSS
+syntax, making the codebase easier to understand and maintain for
+developers who may not specialize in jQuery.</li>
+<li><strong>Execution Speed:</strong> It consistently outperforms
+jQuery-specific pseudo-classes across all browsers.</li>
+</ul>
+<p>For optimal performance and clean code, always prefer
+<code>$('input[type="radio"]')</code> over <code>$(':radio')</code>.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

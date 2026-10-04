@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use jQuery animate() for CSS Properties - jquery</title>
+    <meta name="description" content="The jQuery animate() method allows you to create custom animations by gradually transitioning an HTML element from one set of CSS styles to another. This article explains the syntax of the animate() method, how to manipulate single and multiple numeric C">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-use-j-query-animate-for-css-properties">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Use jQuery animate() for CSS Properties - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-use-j-query-animate-for-css-properties" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery animate() method allows you to create custom animations by gradually transitioning an HTML element from one set of CSS styles to another. This article explains the syntax of the animate() method, how to manipulate single and multiple numeric C" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-use-jquery-animate-for-css-properties">How to Use jQuery
+animate() for CSS Properties</h1>
+<p>The jQuery <code>animate()</code> method allows you to create custom
+animations by gradually transitioning an HTML element from one set of
+CSS styles to another. This article explains the syntax of the
+<code>animate()</code> method, how to manipulate single and multiple
+numeric CSS properties, use relative and predefined values, and manage
+animation queues with callback functions.</p>
+<h2 id="basic-syntax-of-the-animate-method">Basic Syntax of the
+animate() Method</h2>
+<p>The standard syntax for the <code>animate()</code> method is as
+follows:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(selector)<span class="op">.</span><span class="fu">animate</span>({ params }<span class="op">,</span> speed<span class="op">,</span> easing<span class="op">,</span> callback)<span class="op">;</span></span></code></pre></div>
+<ul>
+<li><strong>params (required):</strong> Defines the CSS properties to be
+animated as a JavaScript object.</li>
+<li><strong>speed (optional):</strong> Specifies the duration of the
+effect. Can be set to <code>'slow'</code>, <code>'fast'</code>, or a
+time in milliseconds (e.g., <code>1000</code>).</li>
+<li><strong>easing (optional):</strong> Specifies the speed of the
+animation at different points. Default values are <code>'swing'</code>
+and <code>'linear'</code>.</li>
+<li><strong>callback (optional):</strong> A function to be executed
+after the animation completes.</li>
+</ul>
+<h2 id="supported-css-properties">Supported CSS Properties</h2>
+<p>The core jQuery <code>animate()</code> method only animates
+properties that accept numeric values. Properties such as
+<code>width</code>, <code>height</code>, <code>margin</code>,
+<code>padding</code>, <code>top</code>, <code>left</code>,
+<code>fontSize</code>, and <code>opacity</code> can be animated.</p>
+<p>Non-numeric properties, such as <code>backgroundColor</code> or
+<code>color</code>, cannot be animated with standard jQuery alone and
+require the jQuery UI library or a dedicated color animation plugin.
+When defining CSS property names with hyphens (like
+<code>font-size</code> or <code>margin-left</code>), use camelCase
+format (<code>fontSize</code>, <code>marginLeft</code>) or wrap the
+property name in quotes.</p>
+<h2 id="animating-multiple-properties">Animating Multiple
+Properties</h2>
+<p>You can animate multiple CSS properties simultaneously by defining
+them within the same object:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;button&quot;</span>)<span class="op">.</span><span class="fu">click</span>(<span class="kw">function</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)<span class="op">.</span><span class="fu">animate</span>({</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">left</span><span class="op">:</span> <span class="st">&quot;250px&quot;</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">opacity</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">height</span><span class="op">:</span> <span class="st">&quot;150px&quot;</span><span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">width</span><span class="op">:</span> <span class="st">&quot;150px&quot;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span> <span class="dv">800</span>)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p><em>Note: For properties like <code>left</code>, <code>top</code>,
+<code>right</code>, or <code>bottom</code> to take effect, ensure the
+target element has its CSS <code>position</code> set to
+<code>relative</code>, <code>absolute</code>, or
+<code>fixed</code>.</em></p>
+<h2 id="using-relative-values">Using Relative Values</h2>
+<p>You can specify values relative to the element's current value by
+prefixing the target value with <code>+=</code> (increment) or
+<code>-=</code> (decrement):</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)<span class="op">.</span><span class="fu">animate</span>({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">left</span><span class="op">:</span> <span class="st">&quot;+=50px&quot;</span><span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">height</span><span class="op">:</span> <span class="st">&quot;-=20px&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> <span class="st">&quot;fast&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<h2 id="using-pre-defined-values">Using Pre-defined Values</h2>
+<p>jQuery supports pre-defined animation values, such as
+<code>"show"</code>, <code>"hide"</code>, or <code>"toggle"</code>,
+allowing you to animate dimensions to reveal or collapse elements:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)<span class="op">.</span><span class="fu">animate</span>({</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">height</span><span class="op">:</span> <span class="st">&quot;toggle&quot;</span><span class="op">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">opacity</span><span class="op">:</span> <span class="st">&quot;toggle&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="queueing-animations-and-callbacks">Queueing Animations and
+Callbacks</h2>
+<p>By default, if you write multiple <code>animate()</code> calls in
+succession, jQuery queues them and executes them one after another. If
+you need a specific action to occur immediately after an animation
+finishes, pass a callback function:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)<span class="op">.</span><span class="fu">animate</span>({ <span class="dt">height</span><span class="op">:</span> <span class="st">&quot;300px&quot;</span> }<span class="op">,</span> <span class="st">&quot;slow&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>         <span class="op">.</span><span class="fu">animate</span>({ <span class="dt">width</span><span class="op">:</span> <span class="st">&quot;300px&quot;</span> }<span class="op">,</span> <span class="st">&quot;slow&quot;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>             <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Animation sequence complete.&quot;</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>         })<span class="op">;</span></span></code></pre></div></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Animate Width to Auto Using jQuery - jquery</title>
+    <meta name="description" content="Animating an element’s width from 0 to 'auto' cannot be achieved natively with jQuery’s .animate() method because it requires numeric values to calculate frame-by-frame interpolation. The safest and most robust solution is to temporarily calculate th">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-animate-width-to-auto-using-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Animate Width to Auto Using jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-animate-width-to-auto-using-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Animating an element’s width from 0 to 'auto' cannot be achieved natively with jQuery’s .animate() method because it requires numeric values to calculate frame-by-frame interpolation. The safest and most robust solution is to temporarily calculate th" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-animate-width-to-auto-using-jquery">How to Animate Width
+to Auto Using jQuery</h1>
+<p>Animating an element’s width from <code>0</code> to
+<code>'auto'</code> cannot be achieved natively with jQuery’s
+<code>.animate()</code> method because it requires numeric values to
+calculate frame-by-frame interpolation. The safest and most robust
+solution is to temporarily calculate the element's rendered pixel width
+at <code>'auto'</code>, instantly restore it to <code>0</code>, animate
+to the measured pixel value, and finally set the CSS width back to
+<code>'auto'</code> upon completion to preserve responsive behavior.</p>
+<h2 id="the-core-problem">The Core Problem</h2>
+<p>Passing <code>{ width: 'auto' }</code> directly into jQuery's
+<code>.animate()</code> fails silently or causes an abrupt jump:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// This does NOT work</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#target&#39;</span>)<span class="op">.</span><span class="fu">animate</span>({ <span class="dt">width</span><span class="op">:</span> <span class="st">&#39;auto&#39;</span> }<span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span></code></pre></div>
+<p>Because <code>'auto'</code> is a keyword rather than a fixed scalar
+value, jQuery cannot compute intermediate states.</p>
+<h2 id="the-solution-measure-animate-and-reset">The Solution: Measure,
+Animate, and Reset</h2>
+<p>Browsers do not repaint the screen between synchronous JavaScript
+execution lines. This allows you to set the element to
+<code>width: 'auto'</code>, measure its computed width, revert it back
+to <code>0</code>, and start the animation without any visual
+glitching.</p>
+<p>Here is the standard implementation:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">animateWidthToAuto</span>(selector<span class="op">,</span> duration) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> $el <span class="op">=</span> <span class="fu">$</span>(selector)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 1. Temporarily apply &#39;auto&#39; and read the computed width</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> targetWidth <span class="op">=</span> $el<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;width&#39;</span><span class="op">,</span> <span class="st">&#39;auto&#39;</span>)<span class="op">.</span><span class="fu">width</span>()<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 2. Revert instantly back to 0</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    $el<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;width&#39;</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 3. Animate to the measured numerical value</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    $el<span class="op">.</span><span class="fu">stop</span>()<span class="op">.</span><span class="fu">animate</span>({ <span class="dt">width</span><span class="op">:</span> targetWidth }<span class="op">,</span> duration<span class="op">,</span> <span class="kw">function</span> () {</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 4. Reset to &#39;auto&#39; so content remains responsive</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;width&#39;</span><span class="op">,</span> <span class="st">&#39;auto&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="handling-invisible-or-hidden-elements">Handling Invisible or
+Hidden Elements</h2>
+<p>If the element starts with <code>display: none</code>,
+<code>.width()</code> returns <code>0</code>. To accurately measure its
+width, temporarily force layout visibility without causing a visual
+flash:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">animateHiddenWidthToAuto</span>(selector<span class="op">,</span> duration) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> $el <span class="op">=</span> <span class="fu">$</span>(selector)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Measure while element is invisibly rendered</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    $el<span class="op">.</span><span class="fu">css</span>({</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">position</span><span class="op">:</span> <span class="st">&#39;absolute&#39;</span><span class="op">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">visibility</span><span class="op">:</span> <span class="st">&#39;hidden&#39;</span><span class="op">,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">display</span><span class="op">:</span> <span class="st">&#39;block&#39;</span><span class="op">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">width</span><span class="op">:</span> <span class="st">&#39;auto&#39;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> targetWidth <span class="op">=</span> $el<span class="op">.</span><span class="fu">width</span>()<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Restore original positioning and initialize starting width</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    $el<span class="op">.</span><span class="fu">css</span>({</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">position</span><span class="op">:</span> <span class="st">&#39;&#39;</span><span class="op">,</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="dt">visibility</span><span class="op">:</span> <span class="st">&#39;&#39;</span><span class="op">,</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">display</span><span class="op">:</span> <span class="st">&#39;block&#39;</span><span class="op">,</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">width</span><span class="op">:</span> <span class="dv">0</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Run the animation</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    $el<span class="op">.</span><span class="fu">stop</span>()<span class="op">.</span><span class="fu">animate</span>({ <span class="dt">width</span><span class="op">:</span> targetWidth }<span class="op">,</span> duration<span class="op">,</span> <span class="kw">function</span> () {</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&#39;width&#39;</span><span class="op">,</span> <span class="st">&#39;auto&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="essential-considerations">Essential Considerations</h2>
+<ul>
+<li><strong><code>overflow: hidden</code></strong>: Always apply
+<code>overflow: hidden</code> via CSS to the animating container to
+prevent its internal text or children from wrapping unexpectedly or
+spilling outside during the transition.</li>
+<li><strong><code>box-sizing</code></strong>: Ensure the element uses
+<code>box-sizing: border-box</code> to avoid width recalculation errors
+if padding or borders are present.</li>
+<li><strong>Responsive Cleanup</strong>: Step 4 (setting
+<code>width: 'auto'</code> in the complete callback) is critical.
+Leaving a fixed pixel width will prevent the element from adapting to
+future layout changes, font size updates, or window resizes.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

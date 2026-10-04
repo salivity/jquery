@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Global Selector Performance Implications - jquery</title>
+    <meta name="description" content="Using the jQuery universal selector $('') retrieves every single DOM element present on an HTML page, which introduces severe performance bottlenecks. This article examines the computational and rendering costs associated with this selector—including m">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-global-selector-performance-implications">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery Global Selector Performance Implications - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-global-selector-performance-implications" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Using the jQuery universal selector $('') retrieves every single DOM element present on an HTML page, which introduces severe performance bottlenecks. This article examines the computational and rendering costs associated with this selector—including m" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-global-selector-performance-implications">jQuery Global
+Selector Performance Implications</h1>
+<p>Using the jQuery universal selector <code>$('*')</code> retrieves
+every single DOM element present on an HTML page, which introduces
+severe performance bottlenecks. This article examines the computational
+and rendering costs associated with this selector—including massive DOM
+traversal overhead, excessive memory allocation, and UI thread
+blocking—while providing efficient alternatives to maintain responsive
+web applications.</p>
+<h3 id="massive-dom-traversal-overhead">Massive DOM Traversal
+Overhead</h3>
+<p>When <code>$('*')</code> executes, jQuery delegates the query to the
+native <code>document.querySelectorAll('*')</code> method under modern
+browser environments. This forces the browser engine to traverse the
+entire DOM tree from top to bottom. In modern web applications where DOM
+sizes often exceed thousands of nodes, scanning every element incurs
+significant CPU usage. The execution time scales directly with the depth
+and complexity of the document tree, making operations noticeably slow
+on complex pages.</p>
+<h3 id="excessive-memory-allocation-and-garbage-collection">Excessive
+Memory Allocation and Garbage Collection</h3>
+<p>jQuery wraps raw DOM nodes in its own internal object structure to
+provide utility methods and chaining capabilities. Selecting all
+elements forces jQuery to instantiate a wrapper containing references to
+every single node on the page. This causes:</p>
+<ul>
+<li><strong>High Memory Consumption:</strong> Creating thousands of
+jQuery object references rapidly consumes browser heap memory.</li>
+<li><strong>Garbage Collection Pauses:</strong> Once the selection goes
+out of scope, the JavaScript engine's garbage collector must sweep
+through thousands of dereferenced objects, leading to intermittent frame
+drops and stuttering ("jank").</li>
+</ul>
+<h3 id="ui-thread-blocking-and-degradation">UI Thread Blocking and
+Degradation</h3>
+<p>JavaScript runs on a single main thread alongside style
+recalculations, layout rendering, and user input handling. Executing a
+universal selector blocks this main thread while the query processes and
+builds the element collection. Consequently:</p>
+<ul>
+<li>User interactions, such as scrolling, clicking, or typing, become
+unresponsive until the operation completes.</li>
+<li>Animations and transitions stutter or freeze.</li>
+<li>On mobile devices with slower processors and limited memory, this
+delay can easily cause noticeable freezes lasting hundreds of
+milliseconds.</li>
+</ul>
+<h3 id="severe-costs-of-subsequent-operations">Severe Costs of
+Subsequent Operations</h3>
+<p>The performance hit worsens significantly when <code>$('*')</code> is
+chained with methods that modify styles or read layout metrics:</p>
+<ul>
+<li><strong>Layout Thrashing and Reflows:</strong> Chaining visual
+modifications (such as <code>.css()</code>, <code>.addClass()</code>, or
+<code>.show()</code>) to all elements forces the browser to recalculate
+styles and re-render the layout across the entire tree. Reading layout
+properties (such as <code>.width()</code> or <code>.offset()</code>)
+inside a loop over the universal selection causes continuous reflow
+thrashing.</li>
+<li><strong>Event Listener Overhead:</strong> Using
+<code>$('*').on('click', ...)</code> binds an independent event listener
+to every DOM node individually, wasting substantial memory and severely
+impacting performance.</li>
+</ul>
+<h3 id="efficient-alternatives">Efficient Alternatives</h3>
+<p>To prevent performance degradation, avoid the universal selector
+entirely and apply targeted DOM querying strategies:</p>
+<ol type="1">
+<li><strong>Target by Class, ID, or Tag:</strong> Scope queries to
+specific identifiers rather than matching everything (e.g.,
+<code>$('.target-class')</code> instead of <code>$('*')</code>).</li>
+<li><strong>Context-Restricted Scoping:</strong> If a broad search is
+genuinely required, restrict the context to an isolated container rather
+than the entire document (e.g.,
+<code>$('#sub-tree').find('.items')</code>).</li>
+<li><strong>Event Delegation:</strong> Rather than selecting all child
+elements to attach listeners, attach a single listener to a common
+ancestor using jQuery event delegation:
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&#39;#container&#39;</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="st">&#39;.target-class&#39;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Event handled here</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div></li>
+<li><strong>CSS-Driven Updates:</strong> Apply a single class to a
+parent container (such as the <code>&lt;body&gt;</code> or a primary
+wrapper) and use CSS descendant rules to adjust child styles, allowing
+the browser's optimized rendering engine to handle updates rather than
+JavaScript.</li>
+</ol></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

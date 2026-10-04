@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the jQuery Migrate Plugin Used For? - jquery</title>
+    <meta name="description" content="The jQuery Migrate plugin is a JavaScript library designed to help developers transition legacy code to modern versions of jQuery smoothly. It acts as a bridge by restoring deprecated APIs and logging diagnostic warnings in the browser console. This arti">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-is-the-j-query-migrate-plugin-used-for">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the jQuery Migrate Plugin Used For? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-is-the-j-query-migrate-plugin-used-for" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery Migrate plugin is a JavaScript library designed to help developers transition legacy code to modern versions of jQuery smoothly. It acts as a bridge by restoring deprecated APIs and logging diagnostic warnings in the browser console. This arti" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-is-the-jquery-migrate-plugin-used-for">What Is the jQuery
+Migrate Plugin Used For?</h1>
+<p>The jQuery Migrate plugin is a JavaScript library designed to help
+developers transition legacy code to modern versions of jQuery smoothly.
+It acts as a bridge by restoring deprecated APIs and logging diagnostic
+warnings in the browser console. This article explains the primary
+purposes of jQuery Migrate, how it aids the upgrade process, and how
+developers should implement and eventually phase it out.</p>
+<h3 id="restoring-deprecated-and-removed-apis">Restoring Deprecated and
+Removed APIs</h3>
+<p>As jQuery evolved—particularly across major releases like jQuery 1.9
+and jQuery 3.0—many outdated, inefficient, or redundant methods and
+properties were removed from the core library. Examples include methods
+like <code>.live()</code>, <code>.toggle()</code>,
+<code>.browser</code>, and certain event shorthand functions like
+<code>.load()</code>.</p>
+<p>When a project upgrades its core jQuery library, existing scripts,
+older plugins, or third-party themes that rely on these removed features
+will immediately throw errors and fail. The jQuery Migrate plugin
+restores these removed behaviors and features temporarily, allowing the
+website or application to continue functioning normally even if parts of
+the codebase are using outdated syntax.</p>
+<h3 id="providing-debugging-and-migration-warnings">Providing Debugging
+and Migration Warnings</h3>
+<p>Beyond maintaining backward compatibility, the uncompressed
+development version of jQuery Migrate serves as a diagnostic tool. When
+an outdated function is executed, jQuery Migrate intercepts the call and
+outputs a specific warning to the browser’s developer console.</p>
+<p>Each warning message details:</p>
+<ul>
+<li>Which specific property or method is deprecated or removed.</li>
+<li>Recommendations for modern replacement methods.</li>
+<li>The stack trace or line number in the source code where the call
+originated.</li>
+</ul>
+<p>This allows developers to locate obsolete code precisely within their
+custom scripts or third-party dependencies, making it much easier to
+rewrite legacy code to match modern jQuery standards.</p>
+<h3 id="versions-and-implementation">Versions and Implementation</h3>
+<p>jQuery Migrate is distributed in two primary branches to match
+different upgrade paths:</p>
+<ul>
+<li><strong>jQuery Migrate 1.x:</strong> Designed for upgrading from
+older 1.x versions to jQuery 1.9 through 1.12, or jQuery 2.x.</li>
+<li><strong>jQuery Migrate 3.x:</strong> Designed for upgrading to
+jQuery 3.0 and newer versions.</li>
+</ul>
+<p>To use it, the plugin script tag must be loaded immediately after the
+main jQuery library script tag in the HTML document.</p>
+<h3 id="best-practices-temporary-vs-permanent-use">Best Practices:
+Temporary vs. Permanent Use</h3>
+<p>While jQuery Migrate can be loaded in production via a minified file
+(which restores functionality without flooding the console with
+warnings), it is designed primarily as a temporary development aid, not
+a permanent dependency. Relying on it permanently increases page weight
+and masks underlying technical debt.</p>
+<p>The ideal workflow involves:</p>
+<ol type="1">
+<li>Upgrading the core jQuery version and loading the development build
+of jQuery Migrate.</li>
+<li>Reviewing the browser console to identify all deprecated features
+currently in use.</li>
+<li>Updating the custom code or upgrading third-party plugins to resolve
+all listed warnings.</li>
+<li>Removing the jQuery Migrate plugin completely once all warnings have
+been cleared.</li>
+</ol></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

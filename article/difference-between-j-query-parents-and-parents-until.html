@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Difference Between jQuery parents() and parentsUntil() - jquery</title>
+    <meta name="description" content="Understanding the difference between the jQuery parents() and parentsUntil() methods is essential for efficient DOM traversal in web development. While both methods traverse upward through an element's ancestors to retrieve matching nodes, they differ pr">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/difference-between-j-query-parents-and-parents-until">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Difference Between jQuery parents() and parentsUntil() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/difference-between-j-query-parents-and-parents-until" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Understanding the difference between the jQuery parents() and parentsUntil() methods is essential for efficient DOM traversal in web development. While both methods traverse upward through an element's ancestors to retrieve matching nodes, they differ pr" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="difference-between-jquery-parents-and-parentsuntil">Difference
+Between jQuery parents() and parentsUntil()</h1>
+<p>Understanding the difference between the jQuery
+<code>parents()</code> and <code>parentsUntil()</code> methods is
+essential for efficient DOM traversal in web development. While both
+methods traverse upward through an element's ancestors to retrieve
+matching nodes, they differ primarily in how far up the DOM tree they
+search: <code>parents()</code> retrieves all ancestors all the way up to
+the document root (optionally filtered by a selector), whereas
+<code>parentsUntil()</code> retrieves ancestors only up to, but not
+including, a specified boundary element.</p>
+<h3 id="the-jquery-parents-method">The jQuery <code>parents()</code>
+Method</h3>
+<p>The <code>parents()</code> method traverses up through every ancestor
+of the selected element, continuing all the way to the root
+<code>&lt;html&gt;</code> element.</p>
+<ul>
+<li><strong>Syntax:</strong>
+<code>$(selector).parents([filter])</code></li>
+<li><strong>Behavior:</strong> It returns a jQuery collection containing
+every parent, grandparent, and higher ancestor.</li>
+<li><strong>Filtering:</strong> You can pass an optional selector to
+filter the results. Even with a filter, it will still scan all the way
+up to the root, returning only the ancestors that match that
+filter.</li>
+</ul>
+<p>For example, <code>$("span").parents("div")</code> will return every
+<code>&lt;div&gt;</code> ancestor wrapping that
+<code>&lt;span&gt;</code>, regardless of how deeply nested they are.</p>
+<h3 id="the-jquery-parentsuntil-method">The jQuery
+<code>parentsUntil()</code> Method</h3>
+<p>The <code>parentsUntil()</code> method traverses up through the
+ancestors, but stops once it reaches a defined target.</p>
+<ul>
+<li><strong>Syntax:</strong>
+<code>$(selector).parentsUntil([stopSelector], [filter])</code></li>
+<li><strong>Behavior:</strong> It retrieves all ancestor elements
+between the selected element and the stop target.</li>
+<li><strong>Exclusion:</strong> The stop element itself is
+<strong>not</strong> included in the returned set.</li>
+<li><strong>Secondary Filter:</strong> An optional second parameter
+allows you to filter the elements found within that bounded range.</li>
+</ul>
+<p>For example, <code>$("span").parentsUntil(".container")</code>
+retrieves all ancestors between the <code>&lt;span&gt;</code> and the
+element with the class <code>.container</code>, but leaves out
+<code>.container</code> itself. If no stop element is provided, it
+behaves identically to <code>parents()</code>.</p>
+<h3 id="key-differences-at-a-glance">Key Differences at a Glance</h3>
+<ul>
+<li><strong>Boundary:</strong> <code>parents()</code> has no upper
+boundary and goes to the root; <code>parentsUntil()</code> stops at a
+specified element.</li>
+<li><strong>Result Inclusivity:</strong> If a selector is matched in
+<code>parents()</code>, that element is included; in
+<code>parentsUntil()</code>, the matching stop element is explicitly
+excluded.</li>
+<li><strong>Use Case:</strong> Use <code>parents()</code> when you need
+to find all matching ancestors or a specific ancestor across the entire
+document hierarchy. Use <code>parentsUntil()</code> when you want to
+manipulate a specific slice of the ancestor tree contained within a
+component or section.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

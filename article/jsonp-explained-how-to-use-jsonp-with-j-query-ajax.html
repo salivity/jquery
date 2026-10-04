@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONP Explained: How to Use JSONP with jQuery $.ajax() - jquery</title>
+    <meta name="description" content="This article provides an overview of JSON with Padding (JSONP), explaining its origins as a technique to overcome cross-domain restrictions in web browsers. It explores how JSONP functions under the hood, demonstrates how the jQuery $.ajax() method abstr">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/jsonp-explained-how-to-use-jsonp-with-j-query-ajax">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="JSONP Explained: How to Use JSONP with jQuery $.ajax() - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/jsonp-explained-how-to-use-jsonp-with-j-query-ajax" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of JSON with Padding (JSONP), explaining its origins as a technique to overcome cross-domain restrictions in web browsers. It explores how JSONP functions under the hood, demonstrates how the jQuery $.ajax() method abstr" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jsonp-explained-how-to-use-jsonp-with-jquery-ajax">JSONP
+Explained: How to Use JSONP with jQuery $.ajax()</h1>
+<p>This article provides an overview of JSON with Padding (JSONP),
+explaining its origins as a technique to overcome cross-domain
+restrictions in web browsers. It explores how JSONP functions under the
+hood, demonstrates how the jQuery <code>$.ajax()</code> method abstracts
+and automates this process for developers, and highlights the practical
+configuration options, limitations, and security implications associated
+with the technique.</p>
+<h2 id="what-is-jsonp">What is JSONP?</h2>
+<p>JSONP (JSON with Padding) is a historical workaround designed to
+bypass the Same-Origin Policy (SOP) enforced by web browsers. The
+Same-Origin Policy restricts a web page from making traditional
+<code>XMLHttpRequest</code> or <code>fetch</code> calls to a domain,
+protocol, or port different from the one that served the page.</p>
+<p>While browsers block standard cross-origin HTTP requests, they permit
+the loading of external resources via HTML tags such as
+<code>&lt;script src="..."&gt;</code>. JSONP exploits this exception by
+loading data disguised as executable JavaScript rather than raw
+JSON.</p>
+<h3 id="how-jsonp-works">How JSONP Works</h3>
+<ol type="1">
+<li><strong>The Request:</strong> The client creates a dynamic
+<code>&lt;script&gt;</code> tag pointing to an external endpoint,
+appending a query parameter specifying a callback function name (e.g.,
+<code>https://api.example.com/data?callback=handleResponse</code>).</li>
+<li><strong>The Response:</strong> The server reads the callback
+parameter and wraps the requested JSON payload inside a JavaScript
+function call:
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">handleResponse</span>({<span class="st">&quot;status&quot;</span><span class="op">:</span> <span class="st">&quot;success&quot;</span><span class="op">,</span> <span class="st">&quot;id&quot;</span><span class="op">:</span> <span class="dv">101</span>})<span class="op">;</span></span></code></pre></div></li>
+<li><strong>Execution:</strong> When the browser downloads the script,
+it immediately executes <code>handleResponse()</code>, passing the JSON
+data directly into the client-side function defined in the
+application.</li>
+</ol>
+<h2 id="how-jquery-ajax-supports-jsonp">How jQuery $.ajax() Supports
+JSONP</h2>
+<p>Prior to modern standards, manually managing script tags and global
+callback functions was tedious. jQuery integrates JSONP directly into
+its <code>$.ajax()</code> utility, abstracting the process so that it
+behaves syntactically like a standard AJAX request.</p>
+<p>To initiate a JSONP request, specify <code>'jsonp'</code> as the
+<code>dataType</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;https://api.example.com/data&#39;</span><span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">dataType</span><span class="op">:</span> <span class="st">&#39;jsonp&#39;</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">success</span><span class="op">:</span> <span class="kw">function</span>(response) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Data received:&#39;</span><span class="op">,</span> response)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">error</span><span class="op">:</span> <span class="kw">function</span>(xhr<span class="op">,</span> status<span class="op">,</span> error) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Request failed:&#39;</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="what-jquery-does-behind-the-scenes">What jQuery Does Behind the
+Scenes</h3>
+<p>When <code>dataType: 'jsonp'</code> is declared:</p>
+<ul>
+<li>jQuery detects that a normal <code>XMLHttpRequest</code> cannot be
+used.</li>
+<li>It automatically generates a unique, temporary global callback
+function (e.g., <code>jQuery3600123456789_1600000000000</code>).</li>
+<li>It appends <code>?callback=jQuery3600...</code> to the target
+URL.</li>
+<li>It dynamically creates a <code>&lt;script&gt;</code> tag with the
+target URL as the <code>src</code> and appends it to the document's
+<code>&lt;head&gt;</code>.</li>
+<li>Once the script loads and executes the callback, jQuery routes the
+data into the defined <code>success</code> handler.</li>
+<li>Finally, jQuery automatically cleans up by deleting the temporary
+global function and removing the injected <code>&lt;script&gt;</code>
+element from the DOM.</li>
+</ul>
+<h3 id="customizing-jsonp-parameters-in-jquery">Customizing JSONP
+Parameters in jQuery</h3>
+<p>jQuery allows customization of the query string and callback naming
+conventions using two main properties:</p>
+<ul>
+<li><code>jsonp</code>: Overrides the callback query parameter name sent
+to the server. The default is <code>'callback'</code>. Setting
+<code>jsonp: 'cb'</code> alters the request to
+<code>?cb=...</code>.</li>
+<li><code>jsonpCallback</code>: Overrides the automatically generated
+callback function name with a static or custom identifier instead of the
+random jQuery string.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;https://api.example.com/data&#39;</span><span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">dataType</span><span class="op">:</span> <span class="st">&#39;jsonp&#39;</span><span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">jsonp</span><span class="op">:</span> <span class="st">&#39;jsonp_callback&#39;</span><span class="op">,</span> <span class="co">// Generates: ?jsonp_callback=myCustomHandler</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">jsonpCallback</span><span class="op">:</span> <span class="st">&#39;myCustomHandler&#39;</span><span class="op">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">success</span><span class="op">:</span> <span class="kw">function</span>(data) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Handle data</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="limitations-and-modern-alternatives">Limitations and Modern
+Alternatives</h2>
+<p>While JSONP was essential in the early web, it has significant
+technical limitations:</p>
+<ul>
+<li><strong>HTTP GET Only:</strong> Because requests rely on the
+<code>src</code> attribute of a <code>&lt;script&gt;</code> tag, JSONP
+only supports the <code>GET</code> method. It cannot perform
+<code>POST</code>, <code>PUT</code>, or <code>DELETE</code>
+requests.</li>
+<li><strong>Limited Error Handling:</strong> Standard HTTP status codes
+(like 404 or 500) cannot be reliably caught by the browser through a
+<code>&lt;script&gt;</code> tag, making robust error handling
+difficult.</li>
+<li><strong>Security Risks:</strong> Executing untrusted third-party
+JavaScript creates substantial Cross-Site Scripting (XSS) risks. If the
+remote server is compromised, it can execute arbitrary code within the
+user's session.</li>
+</ul>
+<p>Due to these constraints, modern web development relies on
+<strong>Cross-Origin Resource Sharing (CORS)</strong>, a W3C standard
+that enables secure, robust, and full-featured cross-origin HTTP
+requests using standard <code>fetch</code> or
+<code>XMLHttpRequest</code>.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

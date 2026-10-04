@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery attr vs prop: Key Differences Explained - jquery</title>
+    <meta name="description" content="In jQuery, both .attr() and .prop() are used to inspect and manipulate element values, but they target two fundamentally different concepts: HTML attributes and DOM properties. While attributes represent the initial values written in the HTML document, p">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-attr-vs-prop-key-differences-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery attr vs prop: Key Differences Explained - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-attr-vs-prop-key-differences-explained" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In jQuery, both .attr() and .prop() are used to inspect and manipulate element values, but they target two fundamentally different concepts: HTML attributes and DOM properties. While attributes represent the initial values written in the HTML document, p" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-attr-vs-prop-key-differences-explained">jQuery attr vs
+prop: Key Differences Explained</h1>
+<p>In jQuery, both <code>.attr()</code> and <code>.prop()</code> are
+used to inspect and manipulate element values, but they target two
+fundamentally different concepts: HTML attributes and DOM properties.
+While attributes represent the initial values written in the HTML
+document, properties reflect the current, dynamic state of the DOM node
+in memory. Understanding this distinction is essential for handling form
+elements, dynamic states, and custom markup correctly.</p>
+<h3 id="attributes-vs-properties">Attributes vs. Properties</h3>
+<ul>
+<li><strong>Attribute (<code>attr</code>)</strong>: Attributes are
+defined in the HTML markup text. When the browser parses the HTML, it
+uses these attributes to initialize the corresponding DOM properties.
+Values retrieved using <code>.attr()</code> generally represent the
+default or initial state defined in the HTML source code and are always
+returned as strings (or <code>undefined</code>).</li>
+<li><strong>Property (<code>prop</code>)</strong>: Properties are native
+JavaScript variables belonging to the DOM element object. These values
+change dynamically as the user interacts with the page (e.g., clicking a
+checkbox or typing into an input field). Values retrieved using
+<code>.prop()</code> return their native JavaScript types, such as
+booleans, objects, or numbers.</li>
+</ul>
+<h3 id="the-checkbox-example">The Checkbox Example</h3>
+<p>The most common way to illustrate the difference is with a standard
+checkbox:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">input</span><span class="ot"> type</span><span class="op">=</span><span class="st">&quot;checkbox&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;newsletter&quot;</span><span class="ot"> checked</span><span class="op">=</span><span class="st">&quot;checked&quot;</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>When the page loads:</p>
+<ul>
+<li><code>$('#newsletter').attr('checked')</code> returns
+<code>"checked"</code>.</li>
+<li><code>$('#newsletter').prop('checked')</code> returns
+<code>true</code>.</li>
+</ul>
+<p>If a user unchecks the box:</p>
+<ul>
+<li><code>$('#newsletter').attr('checked')</code> still returns
+<code>"checked"</code> because the underlying HTML attribute has not
+changed.</li>
+<li><code>$('#newsletter').prop('checked')</code> returns
+<code>false</code> because the actual DOM state has been updated.</li>
+</ul>
+<h3 id="when-to-use-prop">When to Use <code>.prop()</code></h3>
+<p>Use <code>.prop()</code> for any dynamic state or boolean attribute
+where the value changes based on user action or where a JavaScript
+boolean (<code>true</code>/<code>false</code>) is required.</p>
+<p>Key use cases include:</p>
+<ul>
+<li><strong>Boolean states</strong>: <code>checked</code>,
+<code>selected</code>, <code>disabled</code>, <code>readOnly</code></li>
+<li><strong>Dynamic element properties</strong>:
+<code>selectedIndex</code>, <code>nodeName</code>,
+<code>nodeType</code></li>
+<li><strong>Checking resolved URLs</strong>: Calling
+<code>.prop('href')</code> returns the full, resolved URL (e.g.,
+<code>https://example.com/about</code>), whereas
+<code>.attr('href')</code> returns the exact text written in the HTML
+tag (e.g., <code>/about</code>).</li>
+</ul>
+<h3 id="when-to-use-attr">When to Use <code>.attr()</code></h3>
+<p>Use <code>.attr()</code> when you need to read or write the literal
+HTML markup as it was declared in the document.</p>
+<p>Key use cases include:</p>
+<ul>
+<li><strong>Custom attributes</strong>: Non-standard attributes or
+metadata that do not map to native DOM properties.</li>
+<li><strong>Default values</strong>: Retrieving the initial HTML values
+rather than current interactive states.</li>
+<li><strong>HTML document structure</strong>: Attributes like
+<code>colspan</code>, <code>rowspan</code>, <code>for</code>,
+<code>contenteditable</code>, and <code>title</code>.</li>
+</ul>
+<h3 id="quick-reference">Quick Reference</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>.attr()</code></th>
+<th style="text-align: left;"><code>.prop()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Target</strong></td>
+<td style="text-align: left;">HTML element attribute</td>
+<td style="text-align: left;">DOM node property</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Return Type</strong></td>
+<td style="text-align: left;">String or <code>undefined</code></td>
+<td style="text-align: left;">Native type (Boolean, String, Object,
+etc.)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Tracks Dynamic State</strong></td>
+<td style="text-align: left;">No (reflects initial HTML)</td>
+<td style="text-align: left;">Yes (reflects current state)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Best Used For</strong></td>
+<td style="text-align: left;">Custom attributes, initial markup
+values</td>
+<td style="text-align: left;">Form states (<code>disabled</code>,
+<code>checked</code>), live properties</td>
+</tr>
+</tbody>
+</table></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

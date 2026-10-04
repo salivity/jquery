@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does the jQuery $.map() Function Do? - jquery</title>
+    <meta name="description" content="The jQuery $.map() utility function translates all items in an array or object into a new array by passing each element through a specified callback function. This article explains how $.map() works, its syntax, how it handles item transformation, filter">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-does-the-j-query-map-function-do">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does the jQuery $.map() Function Do? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-does-the-j-query-map-function-do" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery $.map() utility function translates all items in an array or object into a new array by passing each element through a specified callback function. This article explains how $.map() works, its syntax, how it handles item transformation, filter" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-does-the-jquery-map-function-do">What Does the jQuery
+$.map() Function Do?</h1>
+<p>The jQuery <code>$.map()</code> utility function translates all items
+in an array or object into a new array by passing each element through a
+specified callback function. This article explains how
+<code>$.map()</code> works, its syntax, how it handles item
+transformation, filtering, and flattening, and how it differs from
+standard iteration methods.</p>
+<h3 id="syntax-and-parameters">Syntax and Parameters</h3>
+<p>The basic syntax for <code>$.map()</code> is:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$<span class="op">.</span><span class="fu">map</span>(collection<span class="op">,</span> <span class="fu">callback</span>(element<span class="op">,</span> indexOrKey))</span></code></pre></div>
+<ul>
+<li><strong><code>collection</code></strong>: The array or plain
+JavaScript object you want to iterate over.</li>
+<li><strong><code>callback</code></strong>: The function to execute on
+each item.
+<ul>
+<li>The first argument is the current <code>element</code> (value).</li>
+<li>The second argument is the <code>index</code> (for arrays) or
+<code>key</code> (for objects).</li>
+</ul></li>
+</ul>
+<p>The method returns a newly created array containing the transformed
+values; it does not modify the original collection.</p>
+<h3 id="key-capabilities-of-map">Key Capabilities of
+<code>$.map()</code></h3>
+<p>Unlike a basic loop, <code>$.map()</code> offers specific behaviors
+based on the return value of its callback:</p>
+<ol type="1">
+<li><strong>Value Transformation</strong>: Returning a new value places
+that value in the resulting array.</li>
+<li><strong>Filtering (Removing Items)</strong>: Returning
+<code>null</code> or <code>undefined</code> removes the item entirely
+from the resulting array, making <code>$.map()</code> useful for both
+mapping and filtering in a single pass.</li>
+<li><strong>Array Flattening</strong>: If the callback returns an array,
+the returned array's elements are flattened into the final result rather
+than creating a nested array.</li>
+</ol>
+<h3 id="practical-example">Practical Example</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> numbers <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> result <span class="op">=</span> $<span class="op">.</span><span class="fu">map</span>(numbers<span class="op">,</span> <span class="kw">function</span>(val<span class="op">,</span> index) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (val <span class="op">%</span> <span class="dv">2</span> <span class="op">===</span> <span class="dv">0</span>) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Return null to exclude even numbers</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Return the odd number doubled</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> val <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">// result is [2, 6, 10]</span></span></code></pre></div>
+<h3 id="differences-from-each-and-native-arrayprototypemap">Differences
+from <code>$.each()</code> and Native
+<code>Array.prototype.map()</code></h3>
+<ul>
+<li><strong>Versus <code>$.each()</code></strong>: <code>$.each()</code>
+is an iterator meant for executing side effects and returns the original
+object unchanged. Its callback parameter order is
+<code>(index, element)</code>. In contrast, <code>$.map()</code>
+constructs and returns a new transformed array, and its callback order
+is <code>(element, index)</code>.</li>
+<li><strong>Versus Native <code>Array.prototype.map()</code></strong>:
+Native JavaScript <code>map()</code> keeps the array's original length
+(returning <code>undefined</code> leaves <code>undefined</code> in that
+slot) and only operates on native arrays. jQuery's <code>$.map()</code>
+can iterate over plain objects, automatically strips out
+<code>null</code> and <code>undefined</code>, and flattens returned
+arrays.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

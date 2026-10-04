@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Select All Animated Elements in jQuery - jquery</title>
+    <meta name="description" content="Targeting actively animating elements in jQuery is essential for managing dynamic user interfaces and preventing animation build-up. This article explains how to select running animations using jQuery's built-in :animated pseudo-selector, demonstrates pr">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-select-all-animated-elements-in-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Select All Animated Elements in jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-select-all-animated-elements-in-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Targeting actively animating elements in jQuery is essential for managing dynamic user interfaces and preventing animation build-up. This article explains how to select running animations using jQuery's built-in :animated pseudo-selector, demonstrates pr" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-select-all-animated-elements-in-jquery">How to Select All
+Animated Elements in jQuery</h1>
+<p>Targeting actively animating elements in jQuery is essential for
+managing dynamic user interfaces and preventing animation build-up. This
+article explains how to select running animations using jQuery's
+built-in <code>:animated</code> pseudo-selector, demonstrates practical
+code implementations, and covers key performance best practices.</p>
+<h3 id="the-animated-selector">The <code>:animated</code> Selector</h3>
+<p>jQuery provides a dedicated selector, <code>:animated</code>,
+specifically designed to match all elements currently undergoing a
+transition or animation managed by jQuery (such as
+<code>.animate()</code>, <code>.slideDown()</code>, or
+<code>.fadeIn()</code>).</p>
+<p>To select every animated element on the page, use:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;:animated&quot;</span>)</span></code></pre></div>
+<h3 id="common-usage-examples">Common Usage Examples</h3>
+<h4 id="1-selecting-specific-animated-elements">1. Selecting Specific
+Animated Elements</h4>
+<p>You can combine <code>:animated</code> with tag names, classes, or
+IDs to limit the scope of the selection:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Select all animated &lt;div&gt; elements</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;div:animated&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Select animated elements with a specific class</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;.notification:animated&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<h4 id="2-stopping-active-animations">2. Stopping Active Animations</h4>
+<p>A frequent use case is halting animations that are currently in
+progress to prevent queue buildup caused by rapid user events:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Stop all active animations immediately</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;:animated&quot;</span>)<span class="op">.</span><span class="fu">stop</span>()<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Stop animations on a specific container&#39;s children</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#carousel&quot;</span>)<span class="op">.</span><span class="fu">find</span>(<span class="st">&quot;:animated&quot;</span>)<span class="op">.</span><span class="fu">stop</span>(<span class="kw">true</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span></span></code></pre></div>
+<h4 id="3-checking-if-an-element-is-currently-animating">3. Checking If
+an Element Is Currently Animating</h4>
+<p>To determine if a specific element is mid-animation before triggering
+a new action, use the <code>.is()</code> method:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">$</span>(<span class="st">&quot;#menu&quot;</span>)<span class="op">.</span><span class="fu">is</span>(<span class="st">&quot;:animated&quot;</span>)) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;The menu animation is currently running.&quot;</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;#menu&quot;</span>)<span class="op">.</span><span class="fu">slideToggle</span>()<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="performance-considerations">Performance Considerations</h3>
+<p>Because <code>:animated</code> is a custom jQuery selector rather
+than a standard CSS specification, browsers cannot optimize it using the
+native <code>querySelectorAll</code> API.</p>
+<p>To maintain optimal DOM performance:</p>
+<ul>
+<li><strong>Narrow the scope:</strong> Avoid running
+<code>$(":animated")</code> across the entire document. Instead, scope
+it down using a parent element, such as
+<code>$("#wrapper").find(":animated")</code>.</li>
+<li><strong>Use <code>.filter()</code>:</strong> Query standard elements
+first using native-friendly selectors before filtering:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;.slider-item&quot;</span>)<span class="op">.</span><span class="fu">filter</span>(<span class="st">&quot;:animated&quot;</span>)<span class="op">;</span></span></code></pre></div></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

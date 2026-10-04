@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery's Impact on Modern JavaScript APIs - jquery</title>
+    <meta name="description" content="jQuery fundamentally transformed web development by resolving severe browser fragmentation and introducing an intuitive, chainable syntax for DOM manipulation, event handling, and asynchronous requests. While modern front-end frameworks and native featur">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-s-impact-on-modern-java-script-ap-is">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery's Impact on Modern JavaScript APIs - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-s-impact-on-modern-java-script-ap-is" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="jQuery fundamentally transformed web development by resolving severe browser fragmentation and introducing an intuitive, chainable syntax for DOM manipulation, event handling, and asynchronous requests. While modern front-end frameworks and native featur" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquerys-impact-on-modern-javascript-apis">jQuery's Impact on
+Modern JavaScript APIs</h1>
+<p>jQuery fundamentally transformed web development by resolving severe
+browser fragmentation and introducing an intuitive, chainable syntax for
+DOM manipulation, event handling, and asynchronous requests. While
+modern front-end frameworks and native features have largely diminished
+the need for jQuery in new projects, its true legacy lies in how its
+design patterns directly inspired and accelerated modern browser
+standards. This article explores how jQuery's most popular utilities
+served as blueprints for the native JavaScript and Web APIs used
+today.</p>
+<h3 id="the-selectors-api-from--to-queryselector">The Selectors API:
+From <code>$</code> to <code>querySelector</code></h3>
+<p>Before jQuery was released in 2006, selecting DOM elements across
+browsers was cumbersome, relying primarily on
+<code>document.getElementById()</code>,
+<code>document.getElementsByTagName()</code>, and inconsistent
+proprietary methods. jQuery introduced the <code>$</code> function,
+allowing developers to query the DOM using familiar CSS selector
+syntax.</p>
+<p>The widespread adoption of this pattern directly prompted the W3C to
+standardize the Selectors API. Today,
+<code>document.querySelector()</code> and
+<code>document.querySelectorAll()</code> provide native,
+high-performance CSS selector queries natively inside the browser,
+eliminating the need for an external selector engine like Sizzle.</p>
+<h3
+id="asynchronous-requests-from-ajax-to-promises-and-fetch">Asynchronous
+Requests: From <code>$.ajax()</code> to Promises and
+<code>fetch()</code></h3>
+<p>Handling <code>XMLHttpRequest</code> (XHR) in the mid-2000s required
+extensive boilerplate code and browser-specific fallbacks, particularly
+between Internet Explorer and standard-compliant browsers. jQuery’s
+<code>$.ajax()</code>, <code>$.get()</code>, and <code>$.post()</code>
+simplified remote data fetching into clean configuration objects and
+callbacks.</p>
+<p>Furthermore, jQuery introduced its own implementation of Deferreds
+and Promises long before they existed natively in JavaScript. Although
+jQuery's early promise implementation did not strictly comply with the
+eventual Promises/A+ specification, it popularized the concept of
+chainable asynchronous control flow. This pattern directly influenced
+ECMAScript 2015 (ES6) Promises and the modern
+<code>window.fetch()</code> API, which modern developers use as the
+standard way to handle HTTP requests.</p>
+<h3 id="streamlined-dom-manipulation-and-traversal">Streamlined DOM
+Manipulation and Traversal</h3>
+<p>Manipulating the DOM with standard JavaScript once required
+repetitive tasks, such as manually splitting and joining strings to
+alter classes, or using complicated loops to insert elements. jQuery
+simplified these tasks with declarative methods like
+<code>.addClass()</code>, <code>.removeClass()</code>,
+<code>.toggleClass()</code>, <code>.append()</code>, and
+<code>.remove()</code>.</p>
+<p>Standard bodies incorporated these conveniences directly into the DOM
+specification:</p>
+<ul>
+<li>The <code>Element.classList</code> API (<code>add</code>,
+<code>remove</code>, <code>toggle</code>, <code>contains</code>)
+directly replaced the need for jQuery class-manipulation helpers.</li>
+<li>Methods like <code>Element.append()</code>,
+<code>Element.prepend()</code>, <code>Element.before()</code>,
+<code>Element.after()</code>, and <code>ChildNode.remove()</code> were
+standardized to provide the same ease of element manipulation
+natively.</li>
+<li>Modern traversal properties and methods, such as
+<code>Element.closest()</code>, mirror jQuery's <code>.closest()</code>
+utility for traversing up the DOM tree to match a selector.</li>
+</ul>
+<h3 id="event-handling-and-event-delegation">Event Handling and Event
+Delegation</h3>
+<p>Early web development suffered from divergent event models between
+Internet Explorer's <code>attachEvent</code> and the W3C's
+<code>addEventListener</code>. jQuery normalized the event object,
+standardizing event propagation, default prevention, and cross-browser
+mouse and keyboard coordinates through its <code>.on()</code> and
+<code>.off()</code> methods.</p>
+<p>jQuery also popularized the pattern of event delegation—listening for
+events on a parent element to handle interactions on dynamically added
+child elements. While <code>addEventListener</code> remains the
+underlying standard, modern native patterns commonly utilize
+<code>event.target.closest()</code> to achieve the exact same delegated
+event architecture jQuery pioneered.</p>
+<h3 id="a-legacy-of-obsolescence-by-success">A Legacy of Obsolescence by
+Success</h3>
+<p>jQuery achieved the ultimate goal for any open-source utility
+library: it made itself obsolete by convincing the web platform to adopt
+its best ideas. Rather than disappearing due to failure, jQuery declined
+in popularity because standard JavaScript incorporated its
+paradigm-shifting conveniences natively. Its legacy remains visible in
+almost every interaction modern developers have with the DOM and native
+Web APIs.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

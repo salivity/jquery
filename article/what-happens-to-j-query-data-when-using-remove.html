@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Happens to jQuery .data() When Using .remove()? - jquery</title>
+    <meta name="description" content="When you remove a DOM element using jQuery's .remove() method, jQuery automatically cleans up and deletes all associated .data() and event listeners bound to that element and its descendants. This article covers the internal cleanup process jQuery execut">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-happens-to-j-query-data-when-using-remove">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Happens to jQuery .data() When Using .remove()? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-happens-to-j-query-data-when-using-remove" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When you remove a DOM element using jQuery's .remove() method, jQuery automatically cleans up and deletes all associated .data() and event listeners bound to that element and its descendants. This article covers the internal cleanup process jQuery execut" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-happens-to-jquery-data-when-using-remove">What Happens to
+jQuery .data() When Using .remove()?</h1>
+<p>When you remove a DOM element using jQuery's <code>.remove()</code>
+method, jQuery automatically cleans up and deletes all associated
+<code>.data()</code> and event listeners bound to that element and its
+descendants. This article covers the internal cleanup process jQuery
+executes during <code>.remove()</code>, why this prevents memory leaks,
+and how it differs from alternative removal methods like
+<code>.detach()</code> and native JavaScript operations.</p>
+<h3 id="automatic-data-cleanup">Automatic Data Cleanup</h3>
+<p>jQuery stores information set via the <code>.data()</code> method in
+an internal memory cache rather than directly on the DOM element itself.
+When you call <code>.remove()</code> on a jQuery selection:</p>
+<ol type="1">
+<li>jQuery traverses the selected elements and all of their child
+nodes.</li>
+<li>It calls an internal function named <code>cleanData</code>.</li>
+<li><code>cleanData</code> explicitly deletes all custom data, cache
+entries, and event listeners associated with those elements.</li>
+<li>The element is removed from the DOM tree.</li>
+</ol>
+<p>Once <code>.remove()</code> is executed, any subsequent attempt to
+reinsert the removed element into the DOM will reveal that its previous
+<code>.data()</code> values are gone. Calling <code>.data("key")</code>
+on a reinserted element will return <code>undefined</code> unless the
+data is re-initialized.</p>
+<h3 id="preventing-memory-leaks">Preventing Memory Leaks</h3>
+<p>The primary reason jQuery destroys <code>.data()</code> during
+<code>.remove()</code> is memory management. Because JavaScript objects
+and closures can easily remain referenced in internal caches, removing a
+node from the DOM without clearing its associated data would create a
+detached DOM node memory leak. By automatically purging data and events,
+jQuery ensures garbage collection can reclaim that memory.</p>
+<h3 id="jquery-remove-vs-detach">jQuery <code>.remove()</code> vs.
+<code>.detach()</code></h3>
+<p>If your application requires keeping the stored data and event
+handlers intact for later use, you should use <code>.detach()</code>
+instead of <code>.remove()</code>.</p>
+<ul>
+<li><strong><code>.remove()</code></strong>: Deletes the element from
+the DOM and permanently wipes all <code>.data()</code> and event
+handlers.</li>
+<li><strong><code>.detach()</code></strong>: Removes the element from
+the DOM but preserves all <code>.data()</code> and event handlers,
+allowing the element to be reinserted later without losing its
+state.</li>
+</ul>
+<h3 id="contrast-with-native-javascript-methods">Contrast with Native
+JavaScript Methods</h3>
+<p>If you use native JavaScript methods—such as
+<code>element.remove()</code> or
+<code>parentNode.removeChild(element)</code>—instead of jQuery’s
+<code>.remove()</code>, jQuery will not be notified of the removal.
+Consequently, the internal <code>.data()</code> cache will retain the
+values and event handlers in memory, leading to memory leaks. To safely
+clean up jQuery data when using native DOM methods, you must manually
+invoke <code>$(element).remove()</code> or call
+<code>jQuery.cleanData([element])</code>.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

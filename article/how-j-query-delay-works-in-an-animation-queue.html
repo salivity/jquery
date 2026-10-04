@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How jQuery delay() Works in an Animation Queue - jquery</title>
+    <meta name="description" content="This article provides an overview of how the jQuery delay() method operates within the animation queue system. You will learn the mechanics behind queued execution, how delay() pauses subsequent queue actions without blocking the JavaScript runtime, and">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-j-query-delay-works-in-an-animation-queue">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How jQuery delay() Works in an Animation Queue - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-j-query-delay-works-in-an-animation-queue" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how the jQuery delay() method operates within the animation queue system. You will learn the mechanics behind queued execution, how delay() pauses subsequent queue actions without blocking the JavaScript runtime, and" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-jquery-delay-works-in-an-animation-queue">How jQuery delay()
+Works in an Animation Queue</h1>
+<p>This article provides an overview of how the jQuery
+<code>delay()</code> method operates within the animation queue system.
+You will learn the mechanics behind queued execution, how
+<code>delay()</code> pauses subsequent queue actions without blocking
+the JavaScript runtime, and the distinction between queued animation
+methods and standard non-queued jQuery operations.</p>
+<h3 id="the-animation-queue-mechanism">The Animation Queue
+Mechanism</h3>
+<p>jQuery manages animations using an internal queue, which operates on
+a First-In, First-Out (FIFO) basis. By default, every animation
+method—such as <code>fadeIn()</code>, <code>slideUp()</code>, and
+<code>animate()</code>—is automatically added to the standard animation
+queue named <code>fx</code>. When an animation begins, the queue
+processes each operation one by one, executing the next task only after
+the current task finishes.</p>
+<h3 id="how-delay-operates">How <code>delay()</code> Operates</h3>
+<p>The <code>delay()</code> method is a queue-manipulation function
+designed specifically to pause the execution of items within a queue.
+When you call <code>.delay(duration)</code>, jQuery inserts a timer
+function directly into the queue at that specific point in the
+chain.</p>
+<p>When the queue runner reaches the <code>delay()</code> entry:</p>
+<ol type="1">
+<li>It reads the specified duration in milliseconds.</li>
+<li>It pauses the queue by setting an internal <code>setTimeout</code>
+timer.</li>
+<li>The browser's main JavaScript thread remains unblocked, allowing
+user interactions, page rendering, and other scripts to execute
+normally.</li>
+<li>Once the timer expires, the queue automatically calls its internal
+<code>dequeue()</code> method, triggering the execution of the next
+queued animation.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Example of delay in an animation queue</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">slideDown</span>(<span class="dv">500</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">delay</span>(<span class="dv">1000</span>) <span class="co">// Pauses the &#39;fx&#39; queue for 1 second</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">fadeOut</span>(<span class="dv">500</span>)<span class="op">;</span> <span class="co">// Runs only after the 1-second delay completes</span></span></code></pre></div>
+<h3 id="queued-methods-vs-non-queued-methods">Queued Methods vs.
+Non-Queued Methods</h3>
+<p>A common point of confusion is using <code>delay()</code> with
+standard, non-animation jQuery methods. Operations like
+<code>.css()</code>, <code>.addClass()</code>, or <code>.text()</code>
+do not use the <code>fx</code> queue; they execute instantaneously when
+the script runs.</p>
+<p>If you place <code>.css()</code> after a <code>.delay()</code>, the
+style applies immediately, ignoring the pause:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Incorrect usage: .css() is not queued</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">delay</span>(<span class="dv">1000</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;color&quot;</span><span class="op">,</span> <span class="st">&quot;red&quot;</span>)<span class="op">;</span> <span class="co">// Executes immediately, not after 1000ms</span></span></code></pre></div>
+<p>To delay non-animation methods, they must be manually inserted into
+the queue using <code>.queue()</code>:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Correct usage for non-queued methods</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#box&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">delay</span>(<span class="dv">1000</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">queue</span>(<span class="kw">function</span>(next) {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">css</span>(<span class="st">&quot;color&quot;</span><span class="op">,</span> <span class="st">&quot;red&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">next</span>()<span class="op">;</span> <span class="co">// Calls the next item in the queue</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span></code></pre></div>
+<h3 id="queue-control-and-cancellation">Queue Control and
+Cancellation</h3>
+<p>Because <code>delay()</code> creates a scheduled queue step, it
+respects jQuery's queue control methods:</p>
+<ul>
+<li><strong><code>.stop()</code></strong>: Calling <code>.stop()</code>
+without arguments halts the current animation, but if called during a
+delay, it may not immediately clear future delays depending on
+parameters.</li>
+<li><strong><code>.stop(true, false)</code></strong>: Clears the queue,
+canceling both the running timer and any subsequent queued
+animations.</li>
+<li><strong><code>.clearQueue()</code></strong>: Removes all unexecuted
+functions from the queue, including scheduled <code>delay()</code>
+timers that have not yet triggered.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

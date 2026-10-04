@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Div with Attributes Using jQuery - jquery</title>
+    <meta name="description" content="Creating dynamic DOM elements with custom attributes is a fundamental task in JavaScript development. This article provides the correct, standard syntax for using jQuery’s $() factory function to create a new <div> element and assign attributes, styles">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/create-a-div-with-attributes-using-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Create a Div with Attributes Using jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/create-a-div-with-attributes-using-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Creating dynamic DOM elements with custom attributes is a fundamental task in JavaScript development. This article provides the correct, standard syntax for using jQuery’s $() factory function to create a new <div> element and assign attributes, styles" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="create-a-div-with-attributes-using-jquery">Create a Div with
+Attributes Using jQuery</h1>
+<p>Creating dynamic DOM elements with custom attributes is a fundamental
+task in JavaScript development. This article provides the correct,
+standard syntax for using jQuery’s <code>$()</code> factory function to
+create a new <code>&lt;div&gt;</code> element and assign attributes,
+styles, and event handlers to it in a single, readable statement.</p>
+<h2 id="the-recommended-syntax-the-object-literal-pattern">The
+Recommended Syntax: The Object Literal Pattern</h2>
+<p>The most robust and readable way to create an element with attributes
+in jQuery is by passing the element tag as the first argument, followed
+by a plain JavaScript object containing the attributes as the second
+argument:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> $newDiv <span class="op">=</span> <span class="fu">$</span>(<span class="st">&quot;&lt;div&gt;&quot;</span><span class="op">,</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">id</span><span class="op">:</span> <span class="st">&quot;user-profile&quot;</span><span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;class&quot;</span><span class="op">:</span> <span class="st">&quot;card profile-box&quot;</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">text</span><span class="op">:</span> <span class="st">&quot;User profile details go here.&quot;</span><span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">title</span><span class="op">:</span> <span class="st">&quot;User Profile&quot;</span><span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;data-role&quot;</span><span class="op">:</span> <span class="st">&quot;admin&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Append the new div to the DOM</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#container&quot;</span>)<span class="op">.</span><span class="fu">append</span>($newDiv)<span class="op">;</span></span></code></pre></div>
+<h3 id="supported-properties-in-the-attribute-object">Supported
+Properties in the Attribute Object</h3>
+<p>When using this method, jQuery handles standard HTML attributes,
+special jQuery methods, and event handlers:</p>
+<ul>
+<li><strong>Standard HTML Attributes:</strong> Properties like
+<code>id</code>, <code>title</code>, <code>href</code>,
+<code>src</code>, and custom <code>data-*</code> attributes are set
+directly on the element. Note that multi-word attributes or reserved
+keywords (like <code>"class"</code> and <code>"data-id"</code>) should
+be enclosed in quotes.</li>
+<li><strong>jQuery Helper Methods:</strong> Certain keys correspond
+directly to jQuery methods rather than plain attributes. Common examples
+include:
+<ul>
+<li><code>text</code>: Sets the text content via
+<code>.text()</code>.</li>
+<li><code>html</code>: Sets the inner HTML via
+<code>.html()</code>.</li>
+<li><code>css</code>: Accepts an object of CSS properties to apply
+inline styles via <code>.css()</code>.</li>
+</ul></li>
+<li><strong>Event Handlers:</strong> You can attach events directly
+within the same object (such as <code>click</code>,
+<code>mouseenter</code>, or <code>change</code>):</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> $clickableDiv <span class="op">=</span> <span class="fu">$</span>(<span class="st">&quot;&lt;div&gt;&quot;</span><span class="op">,</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">id</span><span class="op">:</span> <span class="st">&quot;alert-box&quot;</span><span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">class</span><span class="op">:</span> <span class="st">&quot;notification&quot;</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">text</span><span class="op">:</span> <span class="st">&quot;Click me to dismiss&quot;</span><span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">css</span><span class="op">:</span> {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">backgroundColor</span><span class="op">:</span> <span class="st">&quot;#ffeb3b&quot;</span><span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">padding</span><span class="op">:</span> <span class="st">&quot;10px&quot;</span><span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">cursor</span><span class="op">:</span> <span class="st">&quot;pointer&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">click</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">fadeOut</span>()<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;body&quot;</span>)<span class="op">.</span><span class="fu">append</span>($clickableDiv)<span class="op">;</span></span></code></pre></div>
+<h2 id="alternative-syntax-methods">Alternative Syntax Methods</h2>
+<h3 id="1-direct-html-string">1. Direct HTML String</h3>
+<p>You can define the entire element as a raw HTML string. While
+functional, it is more prone to formatting errors and concatenation
+issues when dealing with dynamic values:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> $newDiv <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;&lt;div id=&quot;my-div&quot; class=&quot;box&quot;&gt;Content&lt;/div&gt;&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="2-method-chaining">2. Method Chaining</h3>
+<p>You can instantiate the element first and chain jQuery manipulation
+methods. While clear, it is more verbose than the object literal
+approach:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> $newDiv <span class="op">=</span> <span class="fu">$</span>(<span class="st">&quot;&lt;div&gt;&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">&quot;id&quot;</span><span class="op">,</span> <span class="st">&quot;my-div&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">addClass</span>(<span class="st">&quot;box&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">&quot;Content&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<h2 id="summary">Summary</h2>
+<p>The <code>$("&lt;tag&gt;", { ... })</code> syntax is the cleanest and
+most performant standard for creating elements in jQuery. It centralizes
+element creation, attribute assignment, inline styling, and event
+binding into a single declarative structure.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

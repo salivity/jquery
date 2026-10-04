@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does the jQuery height() Method Calculate? - jquery</title>
+    <meta name="description" content="The jQuery height() method is an essential dimension tool used to retrieve or set the vertical size of elements in a web page. This article explains exactly what the height() method measures, how it interacts with the CSS box model, and how it compares t">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/what-does-the-j-query-height-method-calculate">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does the jQuery height() Method Calculate? - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/what-does-the-j-query-height-method-calculate" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The jQuery height() method is an essential dimension tool used to retrieve or set the vertical size of elements in a web page. This article explains exactly what the height() method measures, how it interacts with the CSS box model, and how it compares t" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-does-the-jquery-height-method-calculate">What Does the
+jQuery height() Method Calculate?</h1>
+<p>The jQuery <code>height()</code> method is an essential dimension
+tool used to retrieve or set the vertical size of elements in a web
+page. This article explains exactly what the <code>height()</code>
+method measures, how it interacts with the CSS box model, and how it
+compares to other dimension-related methods in the jQuery library.</p>
+<h3 id="what-jquery-height-measures">What jQuery <code>height()</code>
+Measures</h3>
+<p>When used as a getter, <code>$(selector).height()</code> calculates
+the computed height of the element's <strong>content area only</strong>.
+It returns this value as a unitless mathematical number representing
+pixels (e.g., <code>300</code> instead of <code>300px</code>).</p>
+<p>The calculation strictly excludes:</p>
+<ul>
+<li><strong>Padding:</strong> Any vertical padding applied via CSS.</li>
+<li><strong>Borders:</strong> Any top or bottom borders.</li>
+<li><strong>Margins:</strong> Any vertical margins surrounding the
+element.</li>
+<li><strong>Scrollbars:</strong> Any horizontal scrollbar rendered
+inside the element.</li>
+</ul>
+<p>Regardless of whether an element uses
+<code>box-sizing: content-box</code> or
+<code>box-sizing: border-box</code>, jQuery's <code>height()</code>
+method will normalize the result and return only the height of the
+content area.</p>
+<h3 id="comparison-with-related-jquery-methods">Comparison with Related
+jQuery Methods</h3>
+<p>To better understand what <code>height()</code> calculates, it helps
+to see how it fits within jQuery's suite of vertical measurement
+methods:</p>
+<ul>
+<li><strong><code>height()</code></strong>: Content height only.</li>
+<li><strong><code>innerHeight()</code></strong>: Content height + top
+and bottom padding.</li>
+<li><strong><code>outerHeight()</code></strong>: Content height +
+padding + top and bottom border.</li>
+<li><strong><code>outerHeight(true)</code></strong>: Content height +
+padding + border + top and bottom margin.</li>
+</ul>
+<h3 id="special-targets-window-and-document">Special Targets: Window and
+Document</h3>
+<p>The <code>height()</code> method can also measure non-element objects
+such as the browser window and the entire HTML document:</p>
+<ul>
+<li><strong><code>$(window).height()</code></strong>: Calculates the
+height of the browser's visible viewport. This changes dynamically as
+the browser window is resized.</li>
+<li><strong><code>$(document).height()</code></strong>: Calculates the
+total height of the full HTML document, which accounts for content
+extending beyond the current viewport.</li>
+</ul>
+<h3 id="using-height-as-a-setter">Using <code>height()</code> as a
+Setter</h3>
+<p>When passed an argument—such as <code>$(selector).height(200)</code>
+or <code>$(selector).height("200px")</code>—the method sets the content
+height of all matched elements. If the element uses
+<code>box-sizing: border-box</code>, jQuery automatically handles the
+math so the element's actual rendered content adjusts appropriately.</p></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

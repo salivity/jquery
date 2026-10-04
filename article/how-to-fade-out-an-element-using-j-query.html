@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Fade Out an Element Using jQuery - jquery</title>
+    <meta name="description" content="In web development, dynamically hiding elements with smooth transitions enhances the overall user experience. This article explains how to use jQuery's built-in .fadeOut() method to transition an element from visible to hidden by animating its opacity. Y">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/how-to-fade-out-an-element-using-j-query">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Fade Out an Element Using jQuery - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/how-to-fade-out-an-element-using-j-query" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In web development, dynamically hiding elements with smooth transitions enhances the overall user experience. This article explains how to use jQuery's built-in .fadeOut() method to transition an element from visible to hidden by animating its opacity. Y" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-fade-out-an-element-using-jquery">How to Fade Out an
+Element Using jQuery</h1>
+<p>In web development, dynamically hiding elements with smooth
+transitions enhances the overall user experience. This article explains
+how to use jQuery's built-in <code>.fadeOut()</code> method to
+transition an element from visible to hidden by animating its opacity.
+You will learn the correct syntax, understand the available parameters
+such as duration and callback functions, and see practical code examples
+demonstrating its implementation.</p>
+<h2 id="the-fadeout-method">The <code>.fadeOut()</code> Method</h2>
+<p>The primary jQuery method used to fade an element out of visibility
+is <code>.fadeOut()</code>. This method animates the opacity of the
+matched elements. Once the opacity reaches <code>0</code>, the
+<code>display</code> style property is automatically set to
+<code>none</code>, ensuring the element no longer affects the layout of
+the page.</p>
+<h3 id="basic-syntax">Basic Syntax</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(selector)<span class="op">.</span><span class="fu">fadeOut</span>(duration<span class="op">,</span> easing<span class="op">,</span> complete)<span class="op">;</span></span></code></pre></div>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><strong><code>duration</code> (optional):</strong> A string or
+number determining how long the animation will run. Common string values
+are <code>"slow"</code> (600 milliseconds) and <code>"fast"</code> (200
+milliseconds). You can also provide a number in milliseconds (e.g.,
+<code>1000</code> for 1 second). The default value is <code>400</code>
+milliseconds.</li>
+<li><strong><code>easing</code> (optional):</strong> A string indicating
+which easing function to use for the transition. jQuery provides
+<code>"swing"</code> (default) and <code>"linear"</code>.</li>
+<li><strong><code>complete</code> (optional):</strong> A callback
+function that executes once the fade-out animation is entirely finished
+for each matched element.</li>
+</ul>
+<h2 id="code-examples">Code Examples</h2>
+<h3 id="1-basic-fade-out">1. Basic Fade Out</h3>
+<p>To hide an element with the ID <code>target</code> using the default
+speed:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#target&quot;</span>)<span class="op">.</span><span class="fu">fadeOut</span>()<span class="op">;</span></span></code></pre></div>
+<h3 id="2-custom-duration">2. Custom Duration</h3>
+<p>To hide an element over the course of 1.5 seconds (1500
+milliseconds):</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;.box&quot;</span>)<span class="op">.</span><span class="fu">fadeOut</span>(<span class="dv">1500</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="3-using-a-callback-function">3. Using a Callback Function</h3>
+<p>If you need to execute code after the element has completely
+disappeared—such as removing it from the DOM—you can pass a callback
+function:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="st">&quot;#notification&quot;</span>)<span class="op">.</span><span class="fu">fadeOut</span>(<span class="st">&quot;slow&quot;</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">remove</span>()<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="related-fading-methods">Related Fading Methods</h2>
+<p>jQuery also provides related methods for other fading effects:</p>
+<ul>
+<li><strong><code>.fadeIn()</code>:</strong> Fades an element into
+visibility by changing its opacity from 0 to 1 and setting
+<code>display</code> to its default state.</li>
+<li><strong><code>.fadeToggle()</code>:</strong> Toggles between
+<code>.fadeIn()</code> and <code>.fadeOut()</code> depending on the
+element's current visibility.</li>
+<li><strong><code>.fadeTo()</code>:</strong> Fades an element's opacity
+to a specific target value without setting
+<code>display: none</code>.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

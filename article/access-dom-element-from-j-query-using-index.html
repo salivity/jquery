@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access DOM Element from jQuery Using Index - jquery</title>
+    <meta name="description" content="This guide explains how to extract native DOM elements from a jQuery selection using zero-based indexing. A jQuery object acts as an array-like wrapper around one or more native HTML DOM nodes. To utilize native JavaScript properties and methods that jQu">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/access-dom-element-from-j-query-using-index">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Access DOM Element from jQuery Using Index - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/access-dom-element-from-j-query-using-index" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This guide explains how to extract native DOM elements from a jQuery selection using zero-based indexing. A jQuery object acts as an array-like wrapper around one or more native HTML DOM nodes. To utilize native JavaScript properties and methods that jQu" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="access-dom-element-from-jquery-using-index">Access DOM Element
+from jQuery Using Index</h1>
+<p>This guide explains how to extract native DOM elements from a jQuery
+selection using zero-based indexing. A jQuery object acts as an
+array-like wrapper around one or more native HTML DOM nodes. To utilize
+native JavaScript properties and methods that jQuery does not support,
+you must unwrap the element by referencing its position in the
+collection.</p>
+<h3 id="method-1-using-square-bracket-notation">Method 1: Using Square
+Bracket Notation</h3>
+<p>The simplest and fastest way to retrieve the raw DOM element is by
+using standard JavaScript array indexing notation
+(<code>[index]</code>).</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Select the element and get the first native DOM node</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> nativeElement <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;.my-class&#39;</span>)[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Use a native DOM property or method</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>nativeElement<span class="op">.</span><span class="fu">focus</span>()<span class="op">;</span></span></code></pre></div>
+<p>Because jQuery objects are array-like structures containing the
+matched DOM nodes, passing index <code>0</code> accesses the first node,
+index <code>1</code> accesses the second, and so on. If the selector
+finds no matches, accessing an index will return
+<code>undefined</code>.</p>
+<h3 id="method-2-using-the-get-method">Method 2: Using the
+<code>.get()</code> Method</h3>
+<p>jQuery provides a built-in method called <code>.get()</code>
+specifically designed to access the underlying DOM elements.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Retrieve the first matched DOM element</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> nativeElement <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;.my-class&#39;</span>)<span class="op">.</span><span class="fu">get</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Call a native method, such as playing media</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>nativeElement<span class="op">.</span><span class="fu">play</span>()<span class="op">;</span></span></code></pre></div>
+<p>While both methods return the exact same native DOM node,
+<code>.get()</code> provides the added benefit of supporting negative
+integers. Passing a negative index counts backward from the end of the
+collection:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Retrieve the last native element in the matched set</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> lastElement <span class="op">=</span> <span class="fu">$</span>(<span class="st">&#39;.my-class&#39;</span>)<span class="op">.</span><span class="fu">get</span>(<span class="op">-</span><span class="dv">1</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="when-to-access-the-native-element">When to Access the Native
+Element</h3>
+<p>Extracting the native DOM element is necessary whenever you need to
+interact with native HTML5 APIs or properties that jQuery does not wrap,
+such as:</p>
+<ul>
+<li>Accessing native media controls on <code>&lt;video&gt;</code> or
+<code>&lt;audio&gt;</code> elements (e.g., <code>.play()</code>,
+<code>.pause()</code>).</li>
+<li>Reading native form validation properties (e.g.,
+<code>.checkValidity()</code>).</li>
+<li>Accessing canvas drawing contexts
+(<code>canvas.getContext('2d')</code>).</li>
+<li>Interacting with third-party libraries that require raw DOM nodes
+rather than jQuery instances.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

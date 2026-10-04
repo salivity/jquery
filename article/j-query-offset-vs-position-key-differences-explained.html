@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery offset() vs position(): Key Differences Explained - jquery</title>
+    <meta name="description" content="In jQuery, both offset() and position() are used to retrieve the pixel coordinates of an HTML element, but they calculate these coordinates from different reference points. The offset() method returns the coordinates of an element relative to the entire">
+    <link rel="canonical" href="https://salivity.github.io/jquery/article/j-query-offset-vs-position-key-differences-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="jquery" href="/jquery/opensearch.xml">
+    <link rel="icon" href="/jquery/favicon.ico">
+    <link rel="stylesheet" href="/jquery/css/style.css">
+    <link media="print" rel="stylesheet" href="/jquery/css/print.css">
+    <script src="/jquery/js/fuse.min.js"></script>
+    <script src="/jquery/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="jQuery offset() vs position(): Key Differences Explained - jquery" />
+    <meta property="og:url" content="https://salivity.github.io/jquery/article/j-query-offset-vs-position-key-differences-explained" />
+    <meta property="og:image" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/jquery/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In jQuery, both offset() and position() are used to retrieve the pixel coordinates of an HTML element, but they calculate these coordinates from different reference points. The offset() method returns the coordinates of an element relative to the entire" />
+    <link rel="manifest" href="/jquery/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/jquery/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>jquery</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/jquery/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="jquery-offset-vs-position-key-differences-explained">jQuery
+offset() vs position(): Key Differences Explained</h1>
+<p>In jQuery, both <code>offset()</code> and <code>position()</code> are
+used to retrieve the pixel coordinates of an HTML element, but they
+calculate these coordinates from different reference points. The
+<code>offset()</code> method returns the coordinates of an element
+relative to the entire document, whereas the <code>position()</code>
+method returns the coordinates relative to the element's closest
+positioned ancestor. Understanding this fundamental distinction is
+essential for accurately positioning dynamic elements, animating UI
+components, and managing complex DOM layouts.</p>
+<h3 id="what-is-jquery-offset">What is jQuery
+<code>offset()</code>?</h3>
+<p>The <code>offset()</code> method measures the distance from the
+top-left corner of the document to the top-left corner of the target
+element.</p>
+<ul>
+<li><strong>Reference Point:</strong> The document (page).</li>
+<li><strong>Return Value:</strong> An object containing two properties:
+<code>{ top: value, left: value }</code>.</li>
+<li><strong>Read/Write:</strong> Unlike <code>position()</code>,
+<code>offset()</code> is both a getter and a setter. You can pass
+coordinate values to it (e.g.,
+<code>$(element).offset({ top: 100, left: 50 })</code>) to move the
+element to a specific spot on the page.</li>
+<li><strong>Common Use Cases:</strong> Displaying floating menus,
+tooltips, drag-and-drop mechanics, or scrolling smoothly to a specific
+section on the page.</li>
+</ul>
+<h3 id="what-is-jquery-position">What is jQuery
+<code>position()</code>?</h3>
+<p>The <code>position()</code> method measures the distance from the
+target element to its closest "offset parent." An offset parent is the
+nearest ancestor that has a CSS <code>position</code> property set to
+<code>relative</code>, <code>absolute</code>, or <code>fixed</code>. If
+no positioned ancestor exists, it defaults to the document body.</p>
+<ul>
+<li><strong>Reference Point:</strong> The closest positioned ancestor
+(offset parent).</li>
+<li><strong>Return Value:</strong> An object containing
+<code>{ top: value, left: value }</code>.</li>
+<li><strong>Read/Write:</strong> Getter only. You cannot pass values to
+<code>position()</code> to set an element's placement.</li>
+<li><strong>Margin Handling:</strong> The coordinates returned include
+the element's top and left margins.</li>
+<li><strong>Common Use Cases:</strong> Adjusting or checking the
+position of elements nested inside parent containers (such as slides
+inside a carousel or items within an absolute-positioned modal).</li>
+</ul>
+<h3 id="summary-of-differences">Summary of Differences</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>offset()</code></th>
+<th style="text-align: left;"><code>position()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Reference Point</strong></td>
+<td style="text-align: left;">Entire Document</td>
+<td style="text-align: left;">Closest positioned ancestor</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Getter / Setter</strong></td>
+<td style="text-align: left;">Getter and Setter</td>
+<td style="text-align: left;">Getter only</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CSS Impact</strong></td>
+<td style="text-align: left;">Ignores parent positioning contexts</td>
+<td style="text-align: left;">Dependent on parent's
+<code>position</code> style</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Primary Use</strong></td>
+<td style="text-align: left;">Global screen/page positioning</td>
+<td style="text-align: left;">Local, container-relative positioning</td>
+</tr>
+</tbody>
+</table>
+<h3 id="practical-example">Practical Example</h3>
+<p>Consider a child <code>&lt;div&gt;</code> positioned inside a
+container with <code>position: relative</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;parent&quot;</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;position: relative; margin-top: 100px;&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;child&quot;</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;position: absolute; top: 20px; left: 10px;&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<ul>
+<li>Calling <code>$("#child").position()</code> will return
+<code>{ top: 20, left: 10 }</code>, because it measures directly against
+<code>#parent</code>.</li>
+<li>Calling <code>$("#child").offset()</code> will return
+<code>{ top: 120, left: 10 }</code> (assuming no other body margins),
+because it measures the total distance from the top of the entire
+document.</li>
+</ul></article>
+        <div id="comments-container"></div>
+        <script>
+            const utterancesScript = document.createElement('script');
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/jquery'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/jquery/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/jquery/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>
